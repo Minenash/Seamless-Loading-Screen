@@ -1,4 +1,4 @@
-package com.minenash.visual_connect;
+package com.minenash.seamless_loading_screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;

@@ -1,6 +1,6 @@
-package com.minenash.visual_connect.mixin;
+package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.visual_connect.ScreenshotLoader;
+import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;

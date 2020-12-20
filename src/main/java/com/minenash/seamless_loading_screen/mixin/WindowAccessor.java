@@ -1,4 +1,4 @@
-package com.minenash.visual_connect.mixin;
+package com.minenash.seamless_loading_screen.mixin;
 
 
 import net.minecraft.client.util.Window;

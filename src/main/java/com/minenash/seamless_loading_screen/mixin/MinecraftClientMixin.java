@@ -1,6 +1,6 @@
-package com.minenash.visual_connect.mixin;
+package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.visual_connect.ScreenshotWithTextScreen;
+import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.text.LiteralText;

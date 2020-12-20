@@ -1,4 +1,4 @@
-package com.minenash.visual_connect;
+package com.minenash.seamless_loading_screen;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;

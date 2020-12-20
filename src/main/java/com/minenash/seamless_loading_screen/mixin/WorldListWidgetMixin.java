@@ -1,7 +1,7 @@
-package com.minenash.visual_connect.mixin;
+package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.visual_connect.ScreenshotLoader;
-import com.minenash.visual_connect.ScreenshotWithTextScreen;
+import com.minenash.seamless_loading_screen.ScreenshotLoader;
+import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
 import net.minecraft.text.TranslatableText;

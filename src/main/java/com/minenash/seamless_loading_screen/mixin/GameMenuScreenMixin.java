@@ -1,6 +1,6 @@
-package com.minenash.visual_connect.mixin;
+package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.visual_connect.FinishQuit;
+import com.minenash.seamless_loading_screen.FinishQuit;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import org.spongepowered.asm.mixin.Mixin;

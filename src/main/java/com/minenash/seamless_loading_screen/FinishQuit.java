@@ -1,6 +1,6 @@
-package com.minenash.visual_connect;
+package com.minenash.seamless_loading_screen;
 
-import com.minenash.visual_connect.mixin.WindowAccessor;
+import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;

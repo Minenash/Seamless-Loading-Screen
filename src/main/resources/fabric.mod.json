@@ -19,7 +19,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.minenash.visual_connect.SeamlessLoadingScreen"
+      "com.minenash.seamless_loading_screen.SeamlessLoadingScreen"
     ]
   },
   "mixins": [

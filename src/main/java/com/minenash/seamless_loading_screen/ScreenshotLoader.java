@@ -1,4 +1,4 @@
-package com.minenash.visual_connect;
+package com.minenash.seamless_loading_screen;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
