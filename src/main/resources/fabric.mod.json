@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Seamless Loading Screen",
-  "description": "Takes a screenshot of the game when you leave a world or server, and displays it when you rejoin it ",
+  "description": "Takes a screenshot of the game when you leave a world or server, and displays it when you rejoin it",
   "authors": [
     "Minenash"
   ],
