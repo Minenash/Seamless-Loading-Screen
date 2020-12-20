@@ -24,7 +24,7 @@ public class ScreenshotLoader {
     }
 
 	public static void setScreenshot(String address, int port) {
-        fileName = "worlds/servers/" + address + ":" + port + ".png";
+        fileName = "worlds/servers/" + address + "_" + port + ".png";
         setScreenshot();
     }
 
