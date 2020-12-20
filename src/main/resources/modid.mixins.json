@@ -9,9 +9,13 @@
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "WindowAccessor",
-    "WorldListWidgetMixin"
+    "WorldListWidgetMixin",
+    "CreateWorldScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+
+  ]
 }
