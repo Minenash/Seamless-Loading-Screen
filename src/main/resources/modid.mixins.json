@@ -1,12 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "com.minenash.visual_connect.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-  ],
   "client": [
-    "ExampleMixin"
+    "ConnectScreenMixin",
+    "GameMenuScreenMixin",
+    "LevelLoadingScreenMixin",
+    "MinecraftClientMixin",
+    "WindowAccessor",
+    "WorldListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
