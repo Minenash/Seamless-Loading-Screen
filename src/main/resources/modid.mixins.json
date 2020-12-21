@@ -5,17 +5,17 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "ConnectScreenMixin",
+    "CreateWorldScreenMixin",
     "GameMenuScreenMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "WindowAccessor",
-    "WorldListWidgetMixin",
-    "CreateWorldScreenMixin"
+    "WorldListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-
+    "ClientPlayNetworkHandlerMixin"
   ]
 }

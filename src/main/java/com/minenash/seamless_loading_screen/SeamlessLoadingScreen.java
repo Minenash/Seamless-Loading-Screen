@@ -7,6 +7,8 @@ import java.io.File;
 
 public class SeamlessLoadingScreen implements ClientModInitializer {
 
+    public static boolean changeWorldJoinScreen = false;
+
     @Override
     public void onInitializeClient() {
         File file = new File(MinecraftClient.getInstance().runDirectory, "screenshots/worlds");
