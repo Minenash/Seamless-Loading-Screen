@@ -33,6 +33,10 @@ public abstract class MinecraftClientMixin {
 		client.disconnect(new ScreenshotWithTextScreen());
 	}
 
+	@Redirect(method = "method_29970", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
+	private void changeScreen2(MinecraftClient client, Screen screen) {
+		client.openScreen(new ScreenshotWithTextScreen(screen.getTitle()));
+	}
 //	@Inject(method = "openScreen", at = @At("HEAD"))
 //	public void openScreen(Screen screen, CallbackInfo _info) {
 //		if (screen != null)

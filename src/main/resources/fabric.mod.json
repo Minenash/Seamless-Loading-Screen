@@ -18,9 +18,8 @@
 
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "com.minenash.seamless_loading_screen.SeamlessLoadingScreen"
-    ]
+    "client": [ "com.minenash.seamless_loading_screen.SeamlessLoadingScreen" ],
+    "modmenu": [ "com.minenash.seamless_loading_screen.config.ModMenuEntryPoint" ]
   },
   "mixins": [
     "modid.mixins.json"
