@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
+import com.minenash.seamless_loading_screen.config.ConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,8 +16,13 @@ import java.io.InputStream;
 public class ScreenshotLoader {
 
     public static Identifier SCREENSHOT = new Identifier("visualconnect", "screenshot");
-    private static double imageRatio = 1;
-    private static boolean loaded = false;
+    public static double imageRatio = 1;
+    public static boolean loaded = false;
+
+    public static boolean inFade = false;
+    public static int time;
+    public static float timeDelta;
+
     private static String fileName = "";
 
     public static String getFileName() {
@@ -40,6 +46,8 @@ public class ScreenshotLoader {
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
             loaded = true;
+            time = ConfigManager.time;
+            timeDelta = 1F / ConfigManager.fade;
         } catch (IOException ignored) {}
     }
 

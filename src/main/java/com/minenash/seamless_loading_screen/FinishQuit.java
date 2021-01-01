@@ -29,7 +29,7 @@ public class FinishQuit extends Screen {
 
         width = client.getWindow().getWidth();
         height = client.getWindow().getHeight();
-        resizeScreen(client, 3440, 1440);
+        resizeScreen(client, 4000, 1600);
 
         client.openScreen(new FinishQuit());
     }

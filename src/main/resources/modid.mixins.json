@@ -16,6 +16,9 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "ClientPlayNetworkHandlerMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "GameRendererMixin",
+    "KeyboardMixin",
+    "MouseMixin"
   ]
 }

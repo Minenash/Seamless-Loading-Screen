@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen.mixin;
 
+import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.minecraft.client.MinecraftClient;
@@ -23,12 +24,13 @@ public abstract class MinecraftClientMixin {
 		if (SeamlessLoadingScreen.changeWorldJoinScreen) {
 			reset(new ScreenshotWithTextScreen(new TranslatableText("connect.joining")));
 			SeamlessLoadingScreen.changeWorldJoinScreen = false;
+			ScreenshotLoader.inFade = true;
 		}
 	}
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;disconnect()V"), method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/DynamicRegistryManager$Impl;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V")
 	private void changeScreen(MinecraftClient client) {
-		client.disconnect(new ScreenshotWithTextScreen(new LiteralText("")));
+		client.disconnect(new ScreenshotWithTextScreen());
 	}
 
 //	@Inject(method = "openScreen", at = @At("HEAD"))
