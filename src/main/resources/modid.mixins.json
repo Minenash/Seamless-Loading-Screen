@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "ConnectScreenMixin",
-    "CreateWorldScreenMixin",
     "GameMenuScreenMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
