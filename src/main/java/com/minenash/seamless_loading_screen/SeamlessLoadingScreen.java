@@ -1,7 +1,9 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.ConfigManager;
+import com.minenash.seamless_loading_screen.config.ConfigScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -28,5 +30,10 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (OPEN_SETTINGS.wasPressed())
+                client.openScreen(new ConfigScreen(null));
+        });
     }
 }

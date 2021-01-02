@@ -17,7 +17,6 @@
   "mixins": [
     "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
-    "KeyboardMixin",
     "LevelStorageMixin",
     "MouseMixin"
   ]
