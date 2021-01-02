@@ -20,6 +20,8 @@ public class ConfigScreen extends Screen {
 
     private boolean disableCamera = ConfigManager.disableCamera;
 
+    private boolean disableHRImage = ConfigManager.disableHRImage;
+
     public ConfigScreen(Screen parent) {
         super(new TranslatableText("sml.config.screen.title"));
         this.parent = parent;
@@ -44,9 +46,15 @@ public class ConfigScreen extends Screen {
         children.add(this.fadeField);
 
         this.addButton(new ButtonWidget(buttonX,getY(2), buttonWidth, buttonHeight,
-                getDisableCameraLabel(), (button) -> {
+                                        getDisableCameraLabel(), (button) -> {
             disableCamera = !disableCamera;
             button.setMessage( getDisableCameraLabel() );
+        }));
+
+        this.addButton(new ButtonWidget(buttonX,getY(3), buttonWidth, buttonHeight,
+                                        getDisableHRShotLabel(), (button) -> {
+            disableHRImage = !disableHRImage;
+            button.setMessage( getDisableHRShotLabel() );
         }));
 
         this.addButton(new ButtonWidget(this.width/2 - 100,this.height - 28,200,20,
@@ -57,6 +65,9 @@ public class ConfigScreen extends Screen {
     private Text getDisableCameraLabel() {
         return new TranslatableText("seamless_loading_screen.config.boolean." + (disableCamera ? "true" : "false"));
     }
+    private Text getDisableHRShotLabel() {
+        return new TranslatableText("seamless_loading_screen.config.boolean." + (disableHRImage ? "true" : "false"));
+    }
 
     @Override
     public void onClose() {
@@ -64,6 +75,7 @@ public class ConfigScreen extends Screen {
         ConfigManager.time = Integer.parseInt(timeField.getText());
         ConfigManager.fade = Integer.parseInt(fadeField.getText());
         ConfigManager.disableCamera = disableCamera;
+        ConfigManager.disableHRImage = disableHRImage;
         ConfigManager.saveConfig();
         client.openScreen(parent);
     }
@@ -79,6 +91,7 @@ public class ConfigScreen extends Screen {
         drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.delay"), x, getY(0) + 5, 0xFFFFFF);
         drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.fade_duration"), x, getY(1) + 5, 0xFFFFFF);
         drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.disable_camera"), x, getY(2) + 5, 0xFFFFFF);
+        drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.disable_hr_image"), x, getY(3) + 5, 0xFFFFFF);
 
         timeField.render(matrices, mouseX, mouseY, delta);
         fadeField.render(matrices, mouseX, mouseY, delta);
