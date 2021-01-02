@@ -15,7 +15,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
 
     public static boolean changeWorldJoinScreen = false;
 
-    public static final KeyBinding OPEN_SETTINGS = new KeyBinding("Open Seamless Loading Screen Config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "key.categories.misc");
+    public static final KeyBinding OPEN_SETTINGS = new KeyBinding("seamless_loading_screen.keybind.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "key.categories.misc");
 
     @Override
     public void onInitializeClient() {

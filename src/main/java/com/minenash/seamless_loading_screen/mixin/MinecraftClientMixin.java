@@ -5,14 +5,11 @@ import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.*;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
@@ -37,6 +34,7 @@ public abstract class MinecraftClientMixin {
 	private void changeScreen2(MinecraftClient client, Screen screen) {
 		client.openScreen(new ScreenshotWithTextScreen(screen.getTitle()));
 	}
+
 //	@Inject(method = "openScreen", at = @At("HEAD"))
 //	public void openScreen(Screen screen, CallbackInfo _info) {
 //		if (screen != null)

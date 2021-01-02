@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -34,12 +33,12 @@ public class ConfigScreen extends Screen {
         int buttonHeight = 20;
         int buttonX = this.width - buttonWidth - 10;
 
-        timeField = new TextFieldWidget(textRenderer, buttonX, getY(0), buttonWidth, buttonHeight, new LiteralText("Time"));
+        timeField = new TextFieldWidget(textRenderer, buttonX, getY(0), buttonWidth, buttonHeight, null);
         timeField.setMaxLength(3);
         timeField.setText(Integer.toString(ConfigManager.time));
         children.add(this.timeField);
 
-        fadeField = new TextFieldWidget(this.textRenderer, buttonX, getY(1), buttonWidth, buttonHeight, new LiteralText("Fade"));
+        fadeField = new TextFieldWidget(this.textRenderer, buttonX, getY(1), buttonWidth, buttonHeight, null);
         timeField.setMaxLength(3);
         fadeField.setText(Integer.toString(ConfigManager.fade));
         children.add(this.fadeField);
@@ -56,7 +55,7 @@ public class ConfigScreen extends Screen {
     }
 
     private Text getDisableCameraLabel() {
-        return new LiteralText(disableCamera ? "True" : "False");
+        return new TranslatableText("seamless_loading_screen.config.boolean." + (disableCamera ? "true" : "false"));
     }
 
     @Override
@@ -76,10 +75,10 @@ public class ConfigScreen extends Screen {
         int x = 20;
 
 
-        drawCenteredText(matrices, textRenderer, new LiteralText("Options"), this.width / 2, 13, 0xFFFFFF);
-        drawTextWithShadow(matrices, textRenderer, new LiteralText("Delay for loading chunks"), x, getY(0), 0xFFFFFF);
-        drawTextWithShadow(matrices, textRenderer, new LiteralText("Fade Duration"), x, getY(1), 0xFFFFFF);
-        drawTextWithShadow(matrices, textRenderer, new LiteralText("Disable Camera Movement until the fade is done"), x, getY(2), 0xFFFFFF);
+        drawCenteredText(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.title"), this.width / 2, 13, 0xFFFFFF);
+        drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.delay"), x, getY(0) + 5, 0xFFFFFF);
+        drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.fade_duration"), x, getY(1) + 5, 0xFFFFFF);
+        drawTextWithShadow(matrices, textRenderer, new TranslatableText("seamless_loading_screen.config.disable_camera"), x, getY(2) + 5, 0xFFFFFF);
 
         timeField.render(matrices, mouseX, mouseY, delta);
         fadeField.render(matrices, mouseX, mouseY, delta);
@@ -88,7 +87,7 @@ public class ConfigScreen extends Screen {
     }
 
     private int getY(int offset) {
-        return OPTION_START + OPTION_BUFFER * offset + 5;
+        return OPTION_START + OPTION_BUFFER * offset;
     }
 
 

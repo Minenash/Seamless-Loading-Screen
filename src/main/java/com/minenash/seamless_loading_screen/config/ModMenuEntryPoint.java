@@ -7,7 +7,7 @@ public class ModMenuEntryPoint implements ModMenuApi {
 
     @Override
     public String getModId() {
-        return "servermodlist";
+        return "seamless_loading_screen";
     }
 
     @Override
