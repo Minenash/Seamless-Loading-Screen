@@ -6,5 +6,6 @@
   "seamless_loading_screen.config.fade_duration": "淡入效果时长",
   "seamless_loading_screen.config.disable_camera": "淡入效果结束前禁用摄像机运动",
   "seamless_loading_screen.config.boolean.true": "是",
-  "seamless_loading_screen.config.boolean.false": "否"
+  "seamless_loading_screen.config.boolean.false": "否",
+  "seamless_loading_screen.config.disable_hr_image": "禁用高分辨率截图（Optifine TAA 兼容性）"
 }
