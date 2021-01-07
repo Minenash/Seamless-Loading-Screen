@@ -28,9 +28,9 @@ public class FinishQuit extends Screen {
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
 
-        width = client.getWindow().getWidth();
-        height = client.getWindow().getHeight();
         if(!ConfigManager.disableHRImage) {
+            width = client.getWindow().getWidth();
+            height = client.getWindow().getHeight();
             resizeScreen(client, 4000, 1600);
         }
         client.openScreen(new FinishQuit());
@@ -44,7 +44,8 @@ public class FinishQuit extends Screen {
             client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
 
         client.options.hudHidden = hudHidden;
-        resizeScreen(client, width, height);
+        if(!ConfigManager.disableHRImage)
+            resizeScreen(client, width, height);
 
         quit(client);
 
