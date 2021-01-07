@@ -22,7 +22,7 @@
     "modmenu": [ "com.minenash.seamless_loading_screen.config.ModMenuEntryPoint" ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "seamless_loading_screen.mixins.json"
   ],
 
   "depends": {
