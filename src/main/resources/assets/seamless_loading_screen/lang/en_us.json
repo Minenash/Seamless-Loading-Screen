@@ -5,6 +5,7 @@
   "seamless_loading_screen.config.delay": "Delay for Loading Chunks",
   "seamless_loading_screen.config.fade_duration": "Fade Duration",
   "seamless_loading_screen.config.disable_camera": "Disable Camera Movement until the Fade is Done",
+  "seamless_loading_screen.config.disable_hr_image": "Disable HR screen shot (Optifine TAA compatibility)",
   "seamless_loading_screen.config.boolean.true": "True",
   "seamless_loading_screen.config.boolean.false": "False"
 }

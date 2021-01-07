@@ -21,6 +21,7 @@ public class ConfigManager {
     public static int time = 80;
     public static int fade = 20;
     public static boolean disableCamera = true;
+    public static boolean disableHRImage = false;
 
     public static void load() {
         try {
@@ -32,10 +33,12 @@ public class ConfigManager {
                 JsonElement time = config.get("time");
                 JsonElement fade = config.get("fade");
                 JsonElement disableCamera = config.get("disable_camera");
+                JsonElement disableHR = config.get("disable_hr");
 
                 if (time != null) ConfigManager.time = time.getAsInt();
                 if (fade != null) ConfigManager.fade = fade.getAsInt();
                 if (disableCamera != null && !disableCamera.getAsBoolean()) ConfigManager.disableCamera = false;
+                if (disableHR != null) ConfigManager.disableHRImage = disableHR.getAsBoolean();
 
             }
         }
@@ -53,6 +56,7 @@ public class ConfigManager {
         config.addProperty("time", time);
         config.addProperty("fade", fade);
         config.addProperty("disable_camera", disableCamera);
+        config.addProperty("disable_hr", disableHRImage);
 
         try (FileWriter fileWriter = new FileWriter(configFile)) {
             fileWriter.write(gson.toJson(config));

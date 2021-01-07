@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
+import com.minenash.seamless_loading_screen.config.ConfigManager;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
@@ -29,8 +30,9 @@ public class FinishQuit extends Screen {
 
         width = client.getWindow().getWidth();
         height = client.getWindow().getHeight();
-        resizeScreen(client, 4000, 1600);
-
+        if(!ConfigManager.disableHRImage) {
+            resizeScreen(client, 4000, 1600);
+        }
         client.openScreen(new FinishQuit());
     }
 
