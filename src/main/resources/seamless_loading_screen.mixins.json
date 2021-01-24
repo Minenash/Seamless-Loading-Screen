@@ -18,6 +18,7 @@
     "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
     "LevelStorageMixin",
-    "MouseMixin"
+    "MouseMixin",
+    "mod_compat.BedrockifyMixin"
   ]
 }
