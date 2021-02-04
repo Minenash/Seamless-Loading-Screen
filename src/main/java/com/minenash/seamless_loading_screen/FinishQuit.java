@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.ConfigManager;
+import com.minenash.seamless_loading_screen.config.Config;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
@@ -28,7 +28,7 @@ public class FinishQuit extends Screen {
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
 
-        if(!ConfigManager.disableHRImage) {
+        if(!Config.disableHRImage) {
             width = client.getWindow().getWidth();
             height = client.getWindow().getHeight();
             resizeScreen(client, 4000, 1600);
@@ -44,7 +44,7 @@ public class FinishQuit extends Screen {
             client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
 
         client.options.hudHidden = hudHidden;
-        if(!ConfigManager.disableHRImage)
+        if(!Config.disableHRImage)
             resizeScreen(client, width, height);
 
         quit(client);

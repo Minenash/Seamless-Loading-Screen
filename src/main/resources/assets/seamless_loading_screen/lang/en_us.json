@@ -1,11 +1,11 @@
 {
   "seamless_loading_screen.screen.generating_chunks": "Generating Chunks",
   "seamless_loading_screen.keybind.config": "Open Seamless Loading Screen Config",
-  "seamless_loading_screen.config.title": "Seamless Loading Screen Options",
-  "seamless_loading_screen.config.delay": "Delay for Loading Chunks",
-  "seamless_loading_screen.config.fade_duration": "Fade Duration",
-  "seamless_loading_screen.config.disable_camera": "Disable Camera Movement until the Fade is Done",
-  "seamless_loading_screen.config.disable_hr_image": "Disable HR Screenshot (Optifine TAA compatibility)",
-  "seamless_loading_screen.config.boolean.true": "True",
-  "seamless_loading_screen.config.boolean.false": "False"
+  "seamless_loading_screen.tinyconfig.title": "Seamless Loading Screen Options",
+  "seamless_loading_screen.tinyconfig.delay": "Delay for Loading Chunks",
+  "seamless_loading_screen.tinyconfig.fadeDuration": "Fade Duration",
+  "seamless_loading_screen.tinyconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
+  "seamless_loading_screen.tinyconfig.disableHRImage": "Disable HR Screenshot (Optifine TAA compatibility)",
+  "seamless_loading_screen.tinyconfig.boolean.true": "True",
+  "seamless_loading_screen.tinyconfig.boolean.false": "False"
 }

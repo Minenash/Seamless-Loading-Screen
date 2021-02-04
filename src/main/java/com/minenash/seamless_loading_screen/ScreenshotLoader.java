@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.ConfigManager;
+import com.minenash.seamless_loading_screen.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -46,8 +46,8 @@ public class ScreenshotLoader {
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
             loaded = true;
-            time = ConfigManager.time;
-            timeDelta = 1F / ConfigManager.fade;
+            time = Config.time;
+            timeDelta = 1F / Config.fade;
         } catch (IOException ignored) {}
     }
 

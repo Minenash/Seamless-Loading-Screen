@@ -1,7 +1,7 @@
 package com.minenash.seamless_loading_screen.mixin;
 
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
-import com.minenash.seamless_loading_screen.config.ConfigManager;
+import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -36,7 +36,7 @@ public class GameRendererMixin {
             int height = client.getWindow().getScaledHeight();
             int width = client.getWindow().getScaledWidth();
             int w = (int) (ScreenshotLoader.imageRatio * height);
-            boolean doFade = ScreenshotLoader.time <= ConfigManager.fade;
+            boolean doFade = ScreenshotLoader.time <= Config.fade;
 
             if (doFade)
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
@@ -50,7 +50,7 @@ public class GameRendererMixin {
         else if (ScreenshotLoader.loaded && ScreenshotLoader.time == 0) {
             ScreenshotLoader.loaded = false;
             ScreenshotLoader.inFade = false;
-            ScreenshotLoader.time = ConfigManager.time;
+            ScreenshotLoader.time = Config.time;
         }
     }
 

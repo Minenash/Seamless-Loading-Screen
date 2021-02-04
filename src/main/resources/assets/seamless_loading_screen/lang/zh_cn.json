@@ -1,11 +1,11 @@
 {
   "seamless_loading_screen.screen.generating_chunks": "生成区块中",
   "seamless_loading_screen.keybind.config": "打开无缝加载页配置",
-  "seamless_loading_screen.config.title": "无缝加载页选项",
-  "seamless_loading_screen.config.delay": "区块加载延迟",
-  "seamless_loading_screen.config.fade_duration": "淡入效果时长",
-  "seamless_loading_screen.config.disable_camera": "淡入效果结束前禁用摄像机运动",
-  "seamless_loading_screen.config.boolean.true": "是",
-  "seamless_loading_screen.config.boolean.false": "否",
-  "seamless_loading_screen.config.disable_hr_image": "禁用高分辨率截图（Optifine TAA 兼容性）"
+  "seamless_loading_screen.tinyconfig.title": "无缝加载页选项",
+  "seamless_loading_screen.tinyconfig.delay": "区块加载延迟",
+  "seamless_loading_screen.tinyconfig.fadeDuration": "淡入效果时长",
+  "seamless_loading_screen.tinyconfig.disableCamera": "淡入效果结束前禁用摄像机运动",
+  "seamless_loading_screen.tinyconfig.boolean.true": "是",
+  "seamless_loading_screen.tinyconfig.boolean.false": "否",
+  "seamless_loading_screen.tinyconfig.disableHRImage": "禁用高分辨率截图（Optifine TAA 兼容性）"
 }

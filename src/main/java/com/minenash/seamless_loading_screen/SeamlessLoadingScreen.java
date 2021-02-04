@@ -1,7 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.ConfigManager;
-import com.minenash.seamless_loading_screen.config.ConfigScreen;
+import com.minenash.seamless_loading_screen.config.Config;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -25,7 +24,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ConfigManager.load();
+        Config.init("seamless_loading_screen", Config.class);
 
         try {
             Path path = FabricLoader.getInstance().getGameDir().resolve("screenshots/worlds");
@@ -37,7 +36,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (OPEN_SETTINGS.wasPressed())
-                client.openScreen(new ConfigScreen(null));
+                client.openScreen(Config.getScreen(client.currentScreen));
         });
     }
 }
