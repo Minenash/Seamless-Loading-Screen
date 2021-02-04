@@ -19,6 +19,6 @@
     "GameRendererMixin",
     "LevelStorageMixin",
     "MouseMixin",
-    "mod_compat.BedrockifyMixin"
+    "mod_compat.fapi_0_30_0.ScreenEventsMixin"
   ]
 }

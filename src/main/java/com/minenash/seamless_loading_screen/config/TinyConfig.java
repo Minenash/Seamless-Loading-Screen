@@ -136,8 +136,6 @@ public class TinyConfig {
 
             Number value = 0;
             boolean inLimits = false;
-            System.out.println(((isNumber ^ s.isEmpty())));
-            System.out.println(!s.equals("-") && !s.equals("."));
             info.error = null;
             if (!(isNumber && s.isEmpty()) && !s.equals("-") && !s.equals(".")) {
                 value = f.apply(s);

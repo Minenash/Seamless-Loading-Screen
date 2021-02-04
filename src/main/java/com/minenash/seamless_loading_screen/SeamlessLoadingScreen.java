@@ -16,6 +16,7 @@ import java.nio.file.Path;
 public class SeamlessLoadingScreen implements ClientModInitializer {
 
     public static boolean changeWorldJoinScreen = false;
+    public static boolean isDisconnecting = false; //Fapi 0.30.0 Compat
 
     public static final KeyBinding OPEN_SETTINGS = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "seamless_loading_screen.keybind.config",

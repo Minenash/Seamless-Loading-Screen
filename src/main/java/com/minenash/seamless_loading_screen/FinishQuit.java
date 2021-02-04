@@ -68,12 +68,12 @@ public class FinishQuit extends Screen {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
+        SeamlessLoadingScreen.isDisconnecting = true; //Fapi 0.30.0 Compat
         client.world.disconnect();
         if (isSinglePlayer)
             client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
         else
             client.disconnect();
-
 
         if (isRealms) {
             RealmsBridgeScreen realmsBridgeScreen = new RealmsBridgeScreen();
