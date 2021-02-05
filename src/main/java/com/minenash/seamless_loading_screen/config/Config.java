@@ -8,6 +8,20 @@ public class Config extends TinyConfig {
     @Entry(min = 0)
     public static int fade = 20;
 
+    @Entry public static ScreenshotResolution resolution = ScreenshotResolution.Normal;
     @Entry public static boolean disableCamera = true;
-    @Entry public static boolean disableHRImage = false;
+    @Entry public static boolean archiveScreenshots = false;
+
+    public enum ScreenshotResolution {
+        Native(0,0),
+        Normal(4000,1600),
+        r4K(4000, 2160),
+        r8K(7900,4320);
+
+        public int width, height;
+        ScreenshotResolution(int width_in, int height_in) {
+            width = width_in;
+            height = height_in;
+        }
+    }
 }

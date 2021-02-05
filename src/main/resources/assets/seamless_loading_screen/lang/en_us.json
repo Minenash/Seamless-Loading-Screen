@@ -2,10 +2,16 @@
   "seamless_loading_screen.screen.generating_chunks": "Generating Chunks",
   "seamless_loading_screen.keybind.config": "Open Seamless Loading Screen Config",
   "seamless_loading_screen.tinyconfig.title": "Seamless Loading Screen Options",
-  "seamless_loading_screen.tinyconfig.delay": "Delay for Loading Chunks",
-  "seamless_loading_screen.tinyconfig.fadeDuration": "Fade Duration",
+  "seamless_loading_screen.tinyconfig.time": "Delay for Loading Chunks",
+  "seamless_loading_screen.tinyconfig.fade": "Fade Duration",
   "seamless_loading_screen.tinyconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
-  "seamless_loading_screen.tinyconfig.disableHRImage": "Disable HR Screenshot (Optifine TAA compatibility)",
+  "seamless_loading_screen.tinyconfig.archiveScreenshots": "Archive Screenshots",
   "seamless_loading_screen.tinyconfig.boolean.true": "True",
-  "seamless_loading_screen.tinyconfig.boolean.false": "False"
+  "seamless_loading_screen.tinyconfig.boolean.false": "False",
+  "seamless_loading_screen.tinyconfig.resolution": "Screenshot Resolution",
+  "seamless_loading_screen.tinyconfig.resolution.tooltip": "Native - Optifine TAA compatibility, game's resolution\nNormal - Supports up to 21:9 ultrawide monitors\n4K - For 4K monitors\n8K - For 8K monitors",
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Native": "Native",
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Normal": "Normal",
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r4K": "4K",
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r8K": "8K"
 }

@@ -12,6 +12,9 @@ import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class FinishQuit extends Screen {
 
     public FinishQuit() {
@@ -28,10 +31,10 @@ public class FinishQuit extends Screen {
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
 
-        if(!Config.disableHRImage) {
+        if(Config.resolution != Config.ScreenshotResolution.Native) {
             width = client.getWindow().getWidth();
             height = client.getWindow().getHeight();
-            resizeScreen(client, 4000, 1600);
+            resizeScreen(client, Config.resolution.width, Config.resolution.height);
         }
         client.openScreen(new FinishQuit());
     }
@@ -40,11 +43,21 @@ public class FinishQuit extends Screen {
     public void render(MatrixStack matrices, int _mouseX, int _mouseY, float _delta) {
         assert client != null;
 
-        ScreenshotUtils.saveScreenshot(client.runDirectory, ScreenshotLoader.getFileName(),
-            client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
+        String name = ScreenshotLoader.getFileName();
+        ScreenshotUtils.saveScreenshot(client.runDirectory, name,
+                client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
+
+        //Why not just copy the file? Because I tried and the string manipulation was just... oof
+        if (Config.archiveScreenshots) {
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date());
+            ScreenshotUtils.saveScreenshot(client.runDirectory, "worlds/archive/" + name.substring(name.lastIndexOf("/"), name.lastIndexOf(".")) + "_" + timestamp + ".png",
+                    client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
+        }
+
+
 
         client.options.hudHidden = hudHidden;
-        if(!Config.disableHRImage)
+        if(Config.resolution != Config.ScreenshotResolution.Native)
             resizeScreen(client, width, height);
 
         quit(client);
