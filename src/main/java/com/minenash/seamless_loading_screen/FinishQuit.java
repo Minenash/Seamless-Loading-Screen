@@ -2,6 +2,7 @@ package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -81,7 +82,6 @@ public class FinishQuit extends Screen {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
-        SeamlessLoadingScreen.isDisconnecting = true; //Fapi 0.30.0 Compat
         client.world.disconnect();
         if (isSinglePlayer)
             client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
@@ -96,5 +96,6 @@ public class FinishQuit extends Screen {
             client.openScreen(new TitleScreen());
         else
             client.openScreen(new MultiplayerScreen(new TitleScreen()));
+        ScreenEvents.beforeRender(client.currentScreen);
     }
 }
