@@ -19,6 +19,7 @@
     "GameRendererMixin",
     "LevelStorageMixin",
     "MouseMixin",
+    "mod_compat.bedrockify.LoadingScreenWidgetMixin",
     "mod_compat.fapi_0_30_0.ScreenEventsMixin"
   ]
 }
