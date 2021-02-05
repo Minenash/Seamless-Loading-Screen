@@ -41,6 +41,7 @@ public class GameRendererMixin {
             if (doFade)
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
             DrawableHelper.drawTexture(stack, width/2 - w/2, 0, 0.0F, 0.0F, w, height, w, height);
+            //ScreenshotLoader.renderVignette();
 
             if (!doFade)
                 DrawableHelper.drawCenteredText(stack, client.textRenderer, new TranslatableText("seamless_loading_screen.screen.generating_chunks"), width / 2, 70, 16777215);
