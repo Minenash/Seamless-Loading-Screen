@@ -82,6 +82,7 @@ public class FinishQuit extends Screen {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
+        SeamlessLoadingScreen.isDisconnecting = true;
         client.world.disconnect();
         if (isSinglePlayer)
             client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
@@ -96,6 +97,5 @@ public class FinishQuit extends Screen {
             client.openScreen(new TitleScreen());
         else
             client.openScreen(new MultiplayerScreen(new TitleScreen()));
-        ScreenEvents.beforeRender(client.currentScreen);
     }
 }
