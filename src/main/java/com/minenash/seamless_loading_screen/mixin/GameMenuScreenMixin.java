@@ -13,7 +13,7 @@ public class GameMenuScreenMixin {
 
     @Inject(method = "method_19836", at = @At(value = "HEAD"), cancellable = true)
     public void takeScreenshotBeforeDisconnect(ButtonWidget button, CallbackInfo info) {
-        FinishQuit.run();
+        FinishQuit.run(false);
         info.cancel();
     }
 

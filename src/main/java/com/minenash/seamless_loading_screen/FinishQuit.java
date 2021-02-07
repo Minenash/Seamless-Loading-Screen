@@ -24,13 +24,15 @@ public class FinishQuit extends Screen {
 
     private static boolean hudHidden = false;
     private static int width, height = 0;
+    private static boolean stop = false;
 
 
-    public static void run() {
+    public static void run(boolean stop) {
         MinecraftClient client = MinecraftClient.getInstance();
 
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
+        FinishQuit.stop = stop;
 
         if(Config.resolution != Config.ScreenshotResolution.Native) {
             width = client.getWindow().getWidth();
@@ -61,7 +63,10 @@ public class FinishQuit extends Screen {
         if(Config.resolution != Config.ScreenshotResolution.Native)
             resizeScreen(client, width, height);
 
-        quit(client);
+        if (stop)
+            client.scheduleStop();
+        else
+            quit(client);
 
     }
 
@@ -82,7 +87,7 @@ public class FinishQuit extends Screen {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
-        SeamlessLoadingScreen.isDisconnecting = true;
+        SeamlessLoadingScreen.isDisconnecting = true;  //Fapi 0.30.0 compat
         client.world.disconnect();
         if (isSinglePlayer)
             client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));

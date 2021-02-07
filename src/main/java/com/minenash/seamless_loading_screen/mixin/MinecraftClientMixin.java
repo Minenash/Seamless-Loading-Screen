@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen.mixin;
 
+import com.minenash.seamless_loading_screen.FinishQuit;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
@@ -9,12 +10,16 @@ import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
 
 	@Shadow protected abstract void reset(Screen screen);
+
+	@Shadow private static MinecraftClient instance;
 
 	@Redirect(method = "joinWorld", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/MinecraftClient;reset(Lnet/minecraft/client/gui/screen/Screen;)V"))
 	private void changeScreen(MinecraftClient _client, Screen _screen) {
@@ -33,6 +38,18 @@ public abstract class MinecraftClientMixin {
 	@Redirect(method = "method_29970", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;openScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
 	private void changeScreen2(MinecraftClient client, Screen screen) {
 		client.openScreen(new ScreenshotWithTextScreen(screen.getTitle()));
+	}
+
+	boolean first = true;
+	@Inject(method = "scheduleStop", at = @At("HEAD"), cancellable = true)
+	private void onWindowClose(CallbackInfo info) {
+		if (!first || instance.player == null) return;
+
+		FinishQuit.run(true);
+		first = false;
+		System.out.println("Yeah");
+		info.cancel();
+
 	}
 
 //	@Inject(method = "openScreen", at = @At("HEAD"))
