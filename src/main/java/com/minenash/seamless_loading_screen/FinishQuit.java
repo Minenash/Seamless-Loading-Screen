@@ -1,6 +1,7 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.mixin.GameRendererAccessor;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
@@ -9,10 +10,15 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
+import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,6 +35,14 @@ public class FinishQuit extends Screen {
 
     public static void run(boolean stop) {
         MinecraftClient client = MinecraftClient.getInstance();
+
+        if (ScreenshotLoader.allowCustomScreenshot) {
+            if (stop)
+                client.scheduleStop();
+            else
+                quit(client);
+            return;
+        }
 
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
@@ -47,16 +61,19 @@ public class FinishQuit extends Screen {
         assert client != null;
 
         String name = ScreenshotLoader.getFileName();
-        ScreenshotUtils.saveScreenshot(client.runDirectory, name,
-                client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
 
-        //Why not just copy the file? Because I tried and the string manipulation was just... oof
-        if (Config.archiveScreenshots) {
-            String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date());
-            ScreenshotUtils.saveScreenshot(client.runDirectory, "worlds/archive/" + name.substring(name.lastIndexOf("/"), name.lastIndexOf(".")) + "_" + timestamp + ".png",
-                    client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer(), (text) -> {});
+        NativeImage nativeImage = ScreenshotUtils.takeScreenshot(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer());
+
+        try {
+            nativeImage.writeFile(new File(name));
+            if (Config.archiveScreenshots)
+                nativeImage.writeFile(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length()-4) + "_" +  new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        if (Config.updateWorldIcon)
+            updateIcon(client.getServer().getIconFile(), nativeImage);
 
 
         client.options.hudHidden = hudHidden;
@@ -83,7 +100,7 @@ public class FinishQuit extends Screen {
         client.onResolutionChanged();
     }
 
-    private void quit(MinecraftClient client) {
+    private static void quit(MinecraftClient client) {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
@@ -102,5 +119,32 @@ public class FinishQuit extends Screen {
             client.openScreen(new TitleScreen());
         else
             client.openScreen(new MultiplayerScreen(new TitleScreen()));
+    }
+
+    private static void updateIcon(File iconFile, NativeImage nativeImage) {
+        Util.getIoWorkerExecutor().execute(() -> {
+            int i = nativeImage.getWidth();
+            int j = nativeImage.getHeight();
+            int k = 0;
+            int l = 0;
+            if (i > j) {
+                k = (i - j) / 2;
+                i = j;
+            } else {
+                l = (j - i) / 2;
+                j = i;
+            }
+
+            try(NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
+                nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
+                nativeImage2.writeFile(iconFile);
+            } catch (IOException var27) {
+                System.out.println("Couldn't save auto screenshot: ");
+                var27.printStackTrace();
+            } finally {
+                nativeImage.close();
+            }
+
+        });
     }
 }

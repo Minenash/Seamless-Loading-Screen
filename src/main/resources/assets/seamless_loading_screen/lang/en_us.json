@@ -6,6 +6,7 @@
   "seamless_loading_screen.tinyconfig.fade": "Fade Duration",
   "seamless_loading_screen.tinyconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
   "seamless_loading_screen.tinyconfig.archiveScreenshots": "Archive Screenshots",
+  "seamless_loading_screen.tinyconfig.updateWorldIcon": "Update World Icon",
   "seamless_loading_screen.tinyconfig.boolean.true": "True",
   "seamless_loading_screen.tinyconfig.boolean.false": "False",
   "seamless_loading_screen.tinyconfig.resolution": "Screenshot Resolution",
@@ -13,5 +14,6 @@
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Native": "Native",
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Normal": "Normal",
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r4K": "4K",
-  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r8K": "8K"
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r8K": "8K",
+  "seamless_loading_screen.server.allowCustomScreenshot": "Use Custom Screenshot"
 }

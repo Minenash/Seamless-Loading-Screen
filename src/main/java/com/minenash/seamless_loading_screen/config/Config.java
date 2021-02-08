@@ -11,6 +11,7 @@ public class Config extends TinyConfig {
     @Entry public static ScreenshotResolution resolution = ScreenshotResolution.Normal;
     @Entry public static boolean disableCamera = true;
     @Entry public static boolean archiveScreenshots = false;
+    @Entry public static boolean updateWorldIcon = false;
 
     public enum ScreenshotResolution {
         Native(0,0),

@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +30,7 @@ public class GameRendererMixin {
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V"), cancellable = true)
-    public void fade(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
+    private void fade(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
         if (ScreenshotLoader.loaded && ScreenshotLoader.time > 0) {
             client.getTextureManager().bindTexture(ScreenshotLoader.SCREENSHOT);
 
@@ -53,6 +54,16 @@ public class GameRendererMixin {
             ScreenshotLoader.inFade = false;
             ScreenshotLoader.time = Config.time;
         }
+    }
+
+    @Redirect(method = "updateWorldIcon", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;hasIconFile()Z"))
+    private boolean allowsUpdatingIcon(IntegratedServer _server) {
+        return false;
+    }
+
+    @Inject(method = "updateWorldIcon", at = @At(value = "HEAD"))
+    private void test(CallbackInfo info) {
+        System.out.println("TEST");
     }
 
 }

@@ -23,6 +23,7 @@ public class ScreenshotLoader {
     public static Identifier SCREENSHOT = new Identifier("visualconnect", "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
+    public static boolean allowCustomScreenshot = false;
 
     public static boolean inFade = false;
     public static int time;
@@ -35,18 +36,18 @@ public class ScreenshotLoader {
     }
 
 	public static void setScreenshot(String address, int port) {
-        fileName = "worlds/servers/" + address + "_" + port + ".png";
+        fileName = "screenshots/worlds/servers/" + address + "_" + port + ".png";
         setScreenshot();
     }
 
     public static void setScreenshot(String worldName) {
-        fileName = "worlds/singleplayer/" + worldName + ".png";
+        fileName = "screenshots/worlds/singleplayer/" + worldName + ".png";
         setScreenshot();
     }
 
     private static void setScreenshot() {
         loaded = false;
-        try (InputStream in = new FileInputStream("screenshots/" + ScreenshotLoader.fileName)) {
+        try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
             NativeImageBackedTexture image = new NativeImageBackedTexture(NativeImage.read(in));
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();

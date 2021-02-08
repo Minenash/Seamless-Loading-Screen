@@ -9,17 +9,20 @@
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "WindowAccessor",
-    "WorldListWidgetMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixins": [
+    "WorldListWidgetMixin",
     "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
     "LevelStorageMixin",
     "MouseMixin",
+    "GameRendererAccessor",
+    "customScreenshots.ServerInfoMixin",
+    "customScreenshots.AddServerScreenMixin",
+    "customScreenshots.MultiplayerScreenMixin",
     "mod_compat.bedrockify.LoadingScreenWidgetMixin",
     "mod_compat.fapi_0_30_0.ScreenEventsMixin"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "plugin": "com.minenash.seamless_loading_screen.mixin.mod_compat.ModCompatMixinPlugin"
 }
