@@ -22,12 +22,14 @@ public abstract class MinecraftClientMixin {
 	@Shadow private static MinecraftClient instance;
 
 	@Redirect(method = "joinWorld", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/MinecraftClient;reset(Lnet/minecraft/client/gui/screen/Screen;)V"))
-	private void changeScreen(MinecraftClient _client, Screen _screen) {
+	private void changeScreen(MinecraftClient _client, Screen screen) {
 		if (SeamlessLoadingScreen.changeWorldJoinScreen) {
 			reset(new ScreenshotWithTextScreen(new TranslatableText("connect.joining")));
 			SeamlessLoadingScreen.changeWorldJoinScreen = false;
 			ScreenshotLoader.inFade = true;
 		}
+		else
+			reset(screen);
 	}
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;disconnect()V"), method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/DynamicRegistryManager$Impl;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V")
@@ -47,7 +49,6 @@ public abstract class MinecraftClientMixin {
 
 		FinishQuit.run(true);
 		first = false;
-		System.out.println("Yeah");
 		info.cancel();
 
 	}

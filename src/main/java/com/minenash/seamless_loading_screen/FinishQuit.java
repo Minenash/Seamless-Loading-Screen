@@ -1,9 +1,7 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
-import com.minenash.seamless_loading_screen.mixin.GameRendererAccessor;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,7 +13,6 @@ import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,14 +85,10 @@ public class FinishQuit extends Screen {
     }
 
     private static void resizeScreen(MinecraftClient client, int width, int height) {
-        client.getFramebuffer().resize(width, height, true);
+        WindowAccessor window = (WindowAccessor) (Object) client.getWindow();
 
-        WindowAccessor accessor = (WindowAccessor) (Object) client.getWindow();
-
-        accessor.setWidth(width);
-        accessor.setHeight(height);
-        accessor.setFramebufferWidth(width);
-        accessor.setFramebufferHeight(height);
+        window.setFramebufferWidth(width);
+        window.setFramebufferHeight(height);
 
         client.onResolutionChanged();
     }
