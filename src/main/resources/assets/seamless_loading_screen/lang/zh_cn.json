@@ -5,6 +5,7 @@
   "seamless_loading_screen.tinyconfig.time": "区块加载缓冲时长",
   "seamless_loading_screen.tinyconfig.fade": "淡入效果时长",
   "seamless_loading_screen.tinyconfig.disableCamera": "淡入效果结束前禁用镜头运动",
+  "seamless_loading_screen.tinyconfig.updateWorldIcon": "更新世界图标",
   "seamless_loading_screen.tinyconfig.boolean.true": "是",
   "seamless_loading_screen.tinyconfig.boolean.false": "否",
   "seamless_loading_screen.tinyconfig.archiveScreenshots": "保存截屏",
@@ -13,5 +14,6 @@
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Native": "原生",
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.Normal": "正常",
   "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r4K": "4K",
-  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r8K": "8K"
+  "seamless_loading_screen.tinyconfig.enum.ScreenshotResolution.r8K": "8K",
+  "seamless_loading_screen.server.allowCustomScreenshot": "使用自定义截屏"
 }
