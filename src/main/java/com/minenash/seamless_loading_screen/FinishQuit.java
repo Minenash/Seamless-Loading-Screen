@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
+import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.client.util.math.MatrixStack;
@@ -26,7 +27,6 @@ public class FinishQuit extends Screen {
     }
 
     private static boolean hudHidden = false;
-    private static int width, height = 0;
     private static boolean stop = false;
 
 
@@ -46,8 +46,6 @@ public class FinishQuit extends Screen {
         FinishQuit.stop = stop;
 
         if(Config.resolution != Config.ScreenshotResolution.Native) {
-            width = client.getWindow().getWidth();
-            height = client.getWindow().getHeight();
             resizeScreen(client, Config.resolution.width, Config.resolution.height);
         }
         client.openScreen(new FinishQuit());
@@ -59,7 +57,7 @@ public class FinishQuit extends Screen {
 
         String name = ScreenshotLoader.getFileName();
 
-        NativeImage nativeImage = ScreenshotUtils.takeScreenshot(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight(), client.getFramebuffer());
+        NativeImage nativeImage = ScreenshotUtils.takeScreenshot(0, 0, client.getFramebuffer()); //width and height args do nothing
 
         try {
             nativeImage.writeFile(new File(name));
@@ -75,7 +73,7 @@ public class FinishQuit extends Screen {
 
         client.options.hudHidden = hudHidden;
         if(Config.resolution != Config.ScreenshotResolution.Native)
-            resizeScreen(client, width, height);
+            resizeScreen(client, client.getWindow().getWidth(), client.getWindow().getHeight());
 
         if (stop)
             client.scheduleStop();
@@ -104,10 +102,8 @@ public class FinishQuit extends Screen {
         else
             client.disconnect();
 
-        if (isRealms) {
-            RealmsBridgeScreen realmsBridgeScreen = new RealmsBridgeScreen();
-            realmsBridgeScreen.switchToRealms(new TitleScreen());
-        }
+        if (isRealms)
+            client.openScreen(new RealmsMainScreen(new TitleScreen()));
         else if (isSinglePlayer)
             client.openScreen(new TitleScreen());
         else
@@ -131,9 +127,8 @@ public class FinishQuit extends Screen {
             try(NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
                 nativeImage2.writeFile(iconFile);
-            } catch (IOException var27) {
-                System.out.println("Couldn't save auto screenshot: ");
-                var27.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 nativeImage.close();
             }

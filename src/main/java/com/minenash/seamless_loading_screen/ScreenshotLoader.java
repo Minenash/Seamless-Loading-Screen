@@ -45,6 +45,11 @@ public class ScreenshotLoader {
         setScreenshot();
     }
 
+    public static void setRealmScreenshot(String realmName) {
+        fileName = "screenshots/worlds/realms/" + realmName + ".png";
+        setScreenshot();
+    }
+
     private static void setScreenshot() {
         loaded = false;
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {

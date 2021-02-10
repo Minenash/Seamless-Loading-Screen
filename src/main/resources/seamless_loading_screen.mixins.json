@@ -4,24 +4,29 @@
   "package": "com.minenash.seamless_loading_screen.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
     "GameMenuScreenMixin",
+    "GameRendererMixin",
     "LevelLoadingScreenMixin",
+    "LevelStorageMixin",
     "MinecraftClientMixin",
+    "MouseMixin",
     "WindowAccessor",
     "WorldListWidgetMixin",
-    "ClientPlayNetworkHandlerMixin",
-    "GameRendererMixin",
-    "LevelStorageMixin",
-    "MouseMixin",
-    "customScreenshots.ServerInfoMixin",
-    "customScreenshots.AddServerScreenMixin",
-    "customScreenshots.MultiplayerScreenMixin",
+    "custom_screenshots.AddServerScreenMixin",
+    "custom_screenshots.MultiplayerScreenMixin",
+    "custom_screenshots.ServerInfoMixin",
     "mod_compat.bedrockify.LoadingScreenWidgetMixin",
     "mod_compat.fapi_0_30_0.ScreenEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "com.minenash.seamless_loading_screen.mixin.mod_compat.ModCompatMixinPlugin"
+  "plugin": "com.minenash.seamless_loading_screen.mixin.mod_compat.ModCompatMixinPlugin",
+  "mixins": [
+    "realm.RealmsLongConfirmationScreenMixin",
+    "realm.RealmsLongRunningMcoTaskScreenMixin",
+    "realm.RealmsMainScreenMixin"
+  ]
 }

@@ -31,6 +31,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
             Path path = FabricLoader.getInstance().getGameDir().resolve("screenshots/worlds");
             Files.createDirectories(path.resolve("singleplayer"));
             Files.createDirectories(path.resolve("servers"));
+            Files.createDirectories(path.resolve("realms"));
             Files.createDirectories(path.resolve("archive"));
         } catch (IOException e) {
             e.printStackTrace();

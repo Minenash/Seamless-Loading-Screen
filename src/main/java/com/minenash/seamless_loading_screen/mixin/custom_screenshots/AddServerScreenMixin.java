@@ -1,4 +1,4 @@
-package com.minenash.seamless_loading_screen.mixin.customScreenshots;
+package com.minenash.seamless_loading_screen.mixin.custom_screenshots;
 
 import com.minenash.seamless_loading_screen.ServerInfoExtras;
 import net.minecraft.client.gui.screen.AddServerScreen;
