@@ -67,7 +67,7 @@ public class FinishQuit extends Screen {
             e.printStackTrace();
         }
 
-        if (Config.updateWorldIcon)
+        if (Config.updateWorldIcon && client.isInSingleplayer())
             updateIcon(client.getServer().getIconFile(), nativeImage);
 
 
