@@ -25,6 +25,12 @@
     "seamless_loading_screen.mixins.json"
   ],
 
+  "custom": {
+    "sodium:options": {
+      "mixin.features.gui.fast_loading_screen": false
+    }
+  },
+
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
