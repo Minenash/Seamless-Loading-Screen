@@ -7,11 +7,13 @@ import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 
@@ -28,7 +30,14 @@ public class FinishQuit extends Screen {
 
     private static boolean hudHidden = false;
     private static boolean stop = false;
+    private static ClientPlayNetworkHandler serverOrderedDisconnectHandler = null;
+    private static Text serverOrderedDisconnectReason = null;
 
+    public static void run(ClientPlayNetworkHandler screen, Text reason) {
+        FinishQuit.serverOrderedDisconnectHandler = screen;
+        FinishQuit.serverOrderedDisconnectReason = reason;
+        run(false);
+    }
 
     public static void run(boolean stop) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -37,6 +46,8 @@ public class FinishQuit extends Screen {
             ScreenshotLoader.allowCustomScreenshot = false;
             if (stop)
                 client.scheduleStop();
+            else if (serverOrderedDisconnectHandler != null)
+                serverOrderedDisconnectHandler.onDisconnected(serverOrderedDisconnectReason);
             else
                 quit(client);
             return;
@@ -77,8 +88,12 @@ public class FinishQuit extends Screen {
         if(Config.resolution != Config.ScreenshotResolution.Native)
             resizeScreen(client, client.getWindow().getWidth(), client.getWindow().getHeight());
 
+        SeamlessLoadingScreen.isDisconnecting = true;  //Fapi 0.30.0 compat
+
         if (stop)
             client.scheduleStop();
+        else if (serverOrderedDisconnectHandler != null)
+            serverOrderedDisconnectHandler.onDisconnected(serverOrderedDisconnectReason);
         else
             quit(client);
 
@@ -97,7 +112,6 @@ public class FinishQuit extends Screen {
         boolean isSinglePlayer = client.isInSingleplayer();
         boolean isRealms = client.isConnectedToRealms();
 
-        SeamlessLoadingScreen.isDisconnecting = true;  //Fapi 0.30.0 compat
         client.world.disconnect();
         if (isSinglePlayer)
             client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
