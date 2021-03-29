@@ -44,6 +44,7 @@ public class FinishQuit extends Screen {
 
         hudHidden = client.options.hudHidden;
         client.options.hudHidden = true;
+        client.options.debugEnabled = false;
         FinishQuit.stop = stop;
 
         if(Config.resolution != Config.ScreenshotResolution.Native) {
