@@ -34,6 +34,7 @@ public class FinishQuit extends Screen {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (ScreenshotLoader.allowCustomScreenshot) {
+            ScreenshotLoader.allowCustomScreenshot = false;
             if (stop)
                 client.scheduleStop();
             else
