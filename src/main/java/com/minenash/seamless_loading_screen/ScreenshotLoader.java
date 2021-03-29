@@ -3,6 +3,7 @@ package com.minenash.seamless_loading_screen;
 import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -17,6 +18,7 @@ import net.minecraft.util.Identifier;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 public class ScreenshotLoader {
 
@@ -46,7 +48,7 @@ public class ScreenshotLoader {
     }
 
     public static void setRealmScreenshot(String realmName) {
-        fileName = "screenshots/worlds/realms/" + realmName + ".png";
+        fileName = "screenshots/worlds/realms/" + cleanFileName(realmName) + ".png";
         setScreenshot();
     }
 
@@ -60,6 +62,20 @@ public class ScreenshotLoader {
             time = Config.time;
             timeDelta = 1F / Config.fade;
         } catch (IOException ignored) {}
+    }
+
+    private static final Pattern RESERVED_FILENAMES_PATTERN = Pattern.compile(".*\\.|(?:COM|CLOCK\\$|CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?", Pattern.CASE_INSENSITIVE);
+    private static String cleanFileName(String fileName) {
+        for (char c : SharedConstants.INVALID_CHARS_LEVEL_NAME)
+            fileName = fileName.replace(c, '_');
+
+        if (RESERVED_FILENAMES_PATTERN.matcher(fileName).matches())
+            fileName = "_" + fileName + "_";
+
+        if (fileName.length() > 255 - 4)
+            fileName = fileName.substring(0, 255 - 4);
+
+        return fileName;
     }
 
     public static void render(Screen screen, MatrixStack stack) {
