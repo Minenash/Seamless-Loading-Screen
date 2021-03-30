@@ -7,10 +7,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Pseudo
 @Mixin(targets = "net.fabricmc.fabric.api.client.screen.v1.ScreenEvents", remap = false)
 public class ScreenEventsMixin {
 
