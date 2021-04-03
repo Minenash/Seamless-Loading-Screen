@@ -8,10 +8,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -24,18 +24,20 @@ import java.util.Date;
 
 public class FinishQuit extends Screen {
 
-    public FinishQuit() {
-        super(new TranslatableText("connect.joining"));
-    }
-
     private static boolean hudHidden = false;
     private static boolean stop = false;
     private static ClientPlayNetworkHandler serverOrderedDisconnectHandler = null;
     private static Text serverOrderedDisconnectReason = null;
 
+    private static int prevWidth, prevHeight;
+
+    public FinishQuit() {
+        super(new TranslatableText("connect.joining"));
+    }
+
     public static void run(ClientPlayNetworkHandler screen, Text reason) {
-        FinishQuit.serverOrderedDisconnectHandler = screen;
-        FinishQuit.serverOrderedDisconnectReason = reason;
+        serverOrderedDisconnectHandler = screen;
+        serverOrderedDisconnectReason = reason;
         run(false);
     }
 
@@ -58,9 +60,12 @@ public class FinishQuit extends Screen {
         client.options.debugEnabled = false;
         FinishQuit.stop = stop;
 
-        if(Config.resolution != Config.ScreenshotResolution.Native) {
-            resizeScreen(client, Config.resolution.width, Config.resolution.height);
+        if (Config.resolution != Config.ScreenshotResolution.Native) {
+            prevWidth = client.getWindow().getFramebufferWidth();
+            prevHeight = client.getWindow().getFramebufferHeight();
+            resizeScreen(Config.resolution.width, Config.resolution.height);
         }
+
         client.openScreen(new FinishQuit());
     }
 
@@ -75,7 +80,7 @@ public class FinishQuit extends Screen {
         try {
             nativeImage.writeFile(new File(name));
             if (Config.archiveScreenshots)
-                nativeImage.writeFile(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length()-4) + "_" +  new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
+                nativeImage.writeFile(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length() - 4) + "_" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,29 +88,28 @@ public class FinishQuit extends Screen {
         if (Config.updateWorldIcon && client.isInSingleplayer())
             updateIcon(client.getServer().getIconFile(), nativeImage);
 
-
         client.options.hudHidden = hudHidden;
-        if(Config.resolution != Config.ScreenshotResolution.Native)
-            resizeScreen(client, client.getWindow().getWidth(), client.getWindow().getHeight());
+
+        if (Config.resolution != Config.ScreenshotResolution.Native) {
+            resizeScreen(prevWidth, prevHeight);
+        }
 
         SeamlessLoadingScreen.isDisconnecting = true;  //Fapi 0.30.0 compat
 
-        if (stop)
-            client.scheduleStop();
-        else if (serverOrderedDisconnectHandler != null)
+        if (stop) client.scheduleStop();
+        else if (serverOrderedDisconnectHandler != null) {
             serverOrderedDisconnectHandler.onDisconnected(serverOrderedDisconnectReason);
-        else
-            quit(client);
-
+        }
+        else quit(client);
     }
 
-    private static void resizeScreen(MinecraftClient client, int width, int height) {
-        WindowAccessor window = (WindowAccessor) (Object) client.getWindow();
+    private static void resizeScreen(int width, int height) {
+        Window window = MinecraftClient.getInstance().getWindow();
 
-        window.setFramebufferWidth(width);
-        window.setFramebufferHeight(height);
+        ((WindowAccessor) (Object) window).setFramebufferWidth(width);
+        ((WindowAccessor) (Object) window).setFramebufferHeight(height);
 
-        client.onResolutionChanged();
+        MinecraftClient.getInstance().onResolutionChanged();
     }
 
     private static void quit(MinecraftClient client) {
@@ -140,7 +144,7 @@ public class FinishQuit extends Screen {
                 j = i;
             }
 
-            try(NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
+            try (NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
                 nativeImage2.writeFile(iconFile);
             } catch (IOException e) {
@@ -151,4 +155,5 @@ public class FinishQuit extends Screen {
 
         });
     }
+
 }
