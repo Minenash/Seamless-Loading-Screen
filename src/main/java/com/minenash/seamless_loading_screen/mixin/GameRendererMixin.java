@@ -61,9 +61,4 @@ public class GameRendererMixin {
         return false;
     }
 
-    @Inject(method = "updateWorldIcon", at = @At(value = "HEAD"))
-    private void test(CallbackInfo info) {
-        System.out.println("TEST");
-    }
-
 }
