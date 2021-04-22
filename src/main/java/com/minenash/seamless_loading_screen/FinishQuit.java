@@ -12,6 +12,7 @@ import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -32,6 +33,7 @@ public class FinishQuit extends Screen {
     private static boolean stop = false;
     private static ClientPlayNetworkHandler serverOrderedDisconnectHandler = null;
     private static Text serverOrderedDisconnectReason = null;
+    private static int prevWidth, prevHeight;
 
     public static void run(ClientPlayNetworkHandler screen, Text reason) {
         FinishQuit.serverOrderedDisconnectHandler = screen;
@@ -59,6 +61,8 @@ public class FinishQuit extends Screen {
         FinishQuit.stop = stop;
 
         if(Config.resolution != Config.ScreenshotResolution.Native) {
+            prevWidth = client.getWindow().getFramebufferWidth();
+            prevHeight = client.getWindow().getFramebufferHeight();
             resizeScreen(client, Config.resolution.width, Config.resolution.height);
         }
         client.openScreen(new FinishQuit());
@@ -86,7 +90,7 @@ public class FinishQuit extends Screen {
 
         client.options.hudHidden = hudHidden;
         if(Config.resolution != Config.ScreenshotResolution.Native)
-            resizeScreen(client, client.getWindow().getWidth(), client.getWindow().getHeight());
+            resizeScreen(client, prevWidth, prevHeight);
 
         SeamlessLoadingScreen.isDisconnecting = true;  //Fapi 0.30.0 compat
 
@@ -100,10 +104,10 @@ public class FinishQuit extends Screen {
     }
 
     private static void resizeScreen(MinecraftClient client, int width, int height) {
-        WindowAccessor window = (WindowAccessor) (Object) client.getWindow();
+        Window window = client.getWindow();
 
-        window.setFramebufferWidth(width);
-        window.setFramebufferHeight(height);
+        ((WindowAccessor)(Object)window).setFramebufferWidth(width);
+        ((WindowAccessor)(Object)window).setFramebufferHeight(height);
 
         client.onResolutionChanged();
     }
