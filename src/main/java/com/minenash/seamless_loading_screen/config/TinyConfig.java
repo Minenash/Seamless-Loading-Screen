@@ -184,7 +184,7 @@ public class TinyConfig {
         protected void init() {
             super.init();
 
-            ButtonWidget done = this.addButton(new ButtonWidget(this.width/2 - 100,this.height - 28,200,20,
+            ButtonWidget done = addDrawableChild(new ButtonWidget(this.width/2 - 100,this.height - 28,200,20,
                     new TranslatableText("gui.done"), (button) -> {
                 for (EntryInfo info : entries)
                     try { info.field.set(null, info.value); }
@@ -197,17 +197,17 @@ public class TinyConfig {
             for (EntryInfo info : entries) {
                 if (info.widget instanceof Map.Entry) {
                     Map.Entry<ButtonWidget.PressAction,Function<Object,Text>> widget = (Map.Entry<ButtonWidget.PressAction, Function<Object, Text>>) info.widget;
-                    addButton(new ButtonWidget(width-85,y,info.width,20, widget.getValue().apply(info.value), widget.getKey()));
+                    addDrawableChild(new ButtonWidget(width-85,y,info.width,20, widget.getValue().apply(info.value), widget.getKey()));
                 }
                 else {
-                    TextFieldWidget widget = addButton(new TextFieldWidget(textRenderer, width-85, y, info.width, 20, null));
+                    TextFieldWidget widget = addDrawableChild(new TextFieldWidget(textRenderer, width-85, y, info.width, 20, null));
                     widget.setText(info.tempValue);
 
                     Predicate<String> processor = ((BiFunction<TextFieldWidget, ButtonWidget, Predicate<String>>) info.widget).apply(widget,done);
                     widget.setTextPredicate(processor);
                     processor.test(info.tempValue);
 
-                    children.add(widget);
+                    addSelectableChild(widget);
                 }
                 y += 30;
             }

@@ -26,8 +26,6 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Shadow @Final private Screen loginScreen;
 
-    @Shadow @Final private static Text field_26620;
-
     @Redirect(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;joinWorld(Lnet/minecraft/client/world/ClientWorld;)V"))
     private void setChangeWorldJoinScreen(MinecraftClient client, ClientWorld world) {
         if (ScreenshotLoader.loaded) {

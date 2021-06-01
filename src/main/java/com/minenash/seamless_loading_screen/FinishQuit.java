@@ -8,10 +8,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.realms.gui.screen.RealmsBridgeScreen;
 import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.util.ScreenshotUtils;
+import net.minecraft.client.util.Screenshooter;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -74,7 +73,7 @@ public class FinishQuit extends Screen {
 
         String name = ScreenshotLoader.getFileName();
 
-        NativeImage nativeImage = ScreenshotUtils.takeScreenshot(0, 0, client.getFramebuffer()); //width and height args do nothing
+        NativeImage nativeImage = Screenshooter.takeScreenshot(0, 0, client.getFramebuffer()); //width and height args do nothing
 
         try {
             nativeImage.writeFile(new File(name));

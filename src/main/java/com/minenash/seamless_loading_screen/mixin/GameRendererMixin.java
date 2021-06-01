@@ -32,7 +32,8 @@ public class GameRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V"), cancellable = true)
     private void fade(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
         if (ScreenshotLoader.loaded && ScreenshotLoader.time > 0) {
-            client.getTextureManager().bindTexture(ScreenshotLoader.SCREENSHOT);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
 
             int height = client.getWindow().getScaledHeight();
             int width = client.getWindow().getScaledWidth();
@@ -40,7 +41,7 @@ public class GameRendererMixin {
             boolean doFade = ScreenshotLoader.time <= Config.fade;
 
             if (doFade)
-                RenderSystem.color4f(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
+                RenderSystem.clearColor(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
             DrawableHelper.drawTexture(stack, width/2 - w/2, 0, 0.0F, 0.0F, w, height, w, height);
             //ScreenshotLoader.renderVignette();
 

@@ -36,7 +36,7 @@ public abstract class AddServerScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
-        buttonAllowCustomScreenshot = addButton(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
+        buttonAllowCustomScreenshot = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
                 getText(), buttonWidget -> {
             ((ServerInfoExtras)server).setAllowCustomScreenshots(!((ServerInfoExtras)server).getAllowCustomScreenshot());
             buttonAllowCustomScreenshot.setMessage(getText());

@@ -3,6 +3,7 @@ package com.minenash.seamless_loading_screen.mixin;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -24,8 +25,8 @@ public class WorldListWidgetMixin {
         ScreenshotLoader.setScreenshot(level.getName());
     }
 
-    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/world/WorldListWidget$Entry;method_29990()V"))
-    private void changeScreen(WorldListWidget.Entry entry) {
-        MinecraftClient.getInstance().method_29970(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
+    @Redirect(method = "openReadingWorldScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;method_29970(Lnet/minecraft/client/gui/screen/Screen;)V"))
+    private void changeScreen(MinecraftClient client, Screen screen) {
+        client.method_29970(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
     }
 }

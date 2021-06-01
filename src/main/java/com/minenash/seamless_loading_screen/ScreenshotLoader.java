@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.NativeImage;
@@ -55,6 +56,7 @@ public class ScreenshotLoader {
     private static void setScreenshot() {
         loaded = false;
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
+            System.out.println("Name: " + ScreenshotLoader.fileName);
             NativeImageBackedTexture image = new NativeImageBackedTexture(NativeImage.read(in));
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
@@ -80,7 +82,8 @@ public class ScreenshotLoader {
 
     public static void render(Screen screen, MatrixStack stack) {
         if (loaded) {
-            MinecraftClient.getInstance().getTextureManager().bindTexture(ScreenshotLoader.SCREENSHOT);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, SCREENSHOT);
 
             int w = (int) (imageRatio * screen.height);
             DrawableHelper.drawTexture(stack, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
