@@ -24,12 +24,12 @@ public abstract class AddServerScreenMixin extends Screen {
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
+    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 0))
     private ButtonWidget buttonAdd(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
         return new ButtonWidget(x+103,y+24,width-103,height,message,onPress);
     }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 2))
+    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
     private ButtonWidget buttonCancel(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
         return new ButtonWidget(x,y,width-103,height,message,onPress);
     }
