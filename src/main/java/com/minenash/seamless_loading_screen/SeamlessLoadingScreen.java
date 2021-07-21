@@ -39,7 +39,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (OPEN_SETTINGS.wasPressed())
-                client.openScreen(Config.getScreen(client.currentScreen));
+                client.setScreen(Config.getScreen(client.currentScreen));
         });
     }
 }

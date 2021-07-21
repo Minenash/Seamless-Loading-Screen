@@ -190,7 +190,7 @@ public class TinyConfig {
                     try { info.field.set(null, info.value); }
                     catch (IllegalAccessException ignore) {}
                 write();
-                client.openScreen(parent);
+                client.setScreen(parent);
             }));
 
             int y = 45;
