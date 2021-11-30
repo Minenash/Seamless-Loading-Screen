@@ -7,7 +7,6 @@
     "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
     "GameMenuScreenMixin",
-    "GameRendererMixin",
     "LevelLoadingScreenMixin",
     "LevelStorageMixin",
     "MinecraftClientMixin",

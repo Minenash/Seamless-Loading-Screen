@@ -29,8 +29,6 @@ public class ScreenshotLoader {
     public static boolean allowCustomScreenshot = false;
 
     public static boolean inFade = false;
-    public static int time;
-    public static float timeDelta;
 
     private static String fileName = "";
 
@@ -61,8 +59,6 @@ public class ScreenshotLoader {
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
             loaded = true;
-            time = Config.time;
-            timeDelta = 1F / Config.fade;
         } catch (IOException ignored) {}
     }
 
