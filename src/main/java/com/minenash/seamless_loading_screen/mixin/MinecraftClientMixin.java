@@ -42,11 +42,11 @@ public abstract class MinecraftClientMixin {
 			reset(screen);
 	}
 
-	@ModifyVariable(method = "setScreen", at = @At(value = "HEAD"), argsOnly = true, index = 1)
+	@ModifyVariable(method = "setScreen", at = @At(value = "HEAD"), index = 1)
 	private Screen fadeScreen(Screen screen) {
-		if(currentScreen instanceof DownloadingTerrainScreen && screen == null && world != null && !player.isDead()) {
-			return new FadeScreen(Config.time, Config.fade).then(() -> {
-				setScreen(null);
+		if(currentScreen instanceof DownloadingTerrainScreen && screen == null && world != null) {
+			return new FadeScreen(Config.time, Config.fade).then((forced) -> {
+				if(!forced) setScreen(null);
 				ScreenshotLoader.inFade = false;
 			});
 		}
@@ -71,7 +71,6 @@ public abstract class MinecraftClientMixin {
 		FinishQuit.run(true);
 		first = false;
 		info.cancel();
-
 	}
 
 //	@Inject(method = "openScreen", at = @At("HEAD"))

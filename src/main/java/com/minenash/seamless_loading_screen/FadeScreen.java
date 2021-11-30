@@ -5,14 +5,15 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Matrix4f;
+
+import java.util.function.Consumer;
 
 public class FadeScreen extends Screen {
     private final int fadeFrames;
     private int frames;
-    private Runnable callback;
+    private Consumer<Boolean> callback;
     private boolean done;
 
     public FadeScreen(int totalFrames, int fadeFrames) {
@@ -21,23 +22,28 @@ public class FadeScreen extends Screen {
         this.frames = totalFrames;
     }
 
-    public FadeScreen then(Runnable callback) {
+    public FadeScreen then(Consumer<Boolean> callback) {
         this.callback = callback;
         return this;
     }
 
     @Override
     public void removed() {
+        markDone(true);
+        super.removed();
+    }
+
+    private void markDone(boolean forceClosed) {
         if(done) return;
         done = true;
         this.frames = 0;
-        if(callback != null) callback.run();
-        else if(client != null) client.setScreen(null);
+        if(callback != null) callback.accept(forceClosed);
+        if(callback == null && !forceClosed && client != null && client.currentScreen == this) client.setScreen(null);
     }
 
     @Override
     public boolean shouldCloseOnEsc() {
-        return false;
+        return true;
     }
 
     @Override
@@ -47,28 +53,32 @@ public class FadeScreen extends Screen {
 
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
-        if (frames <= 0) return;
+        if (frames <= 0 || client == null) return;
         boolean doFade = frames <= fadeFrames;
         float alpha = doFade ? (float) frames / fadeFrames : 1.0f;
 
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         if(ScreenshotLoader.loaded) {
             RenderSystem.setShaderColor(1, 1, 1, alpha);
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
-            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
             int w = (int) (ScreenshotLoader.imageRatio * height);
             int h = height;
             int x = width / 2 - w / 2;
             int y = 0;
 
-            Matrix4f modelMat = stack.peek().getModel();
-            bufferBuilder.vertex(modelMat, x, y + h, 0).texture(0, 1).color(255, 255, 255, 255).next();
-            bufferBuilder.vertex(modelMat, x + w, y + h, 0).texture(1, 1).color(255, 255, 255, 255).next();
-            bufferBuilder.vertex(modelMat, x + w, y, 0).texture(1, 0).color(255, 255, 255, 255).next();
-            bufferBuilder.vertex(modelMat, x, y, 0).texture(0, 0).color(255, 255, 255, 255).next();
-            tessellator.draw();
+            loadQuad(stack, x, y, x+w, y+h).draw();
+
+            if(w < width) {
+                RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
+                // 0.25f is from Screen.renderBackgroundTexture vertex colors
+                RenderSystem.setShaderColor(0.25f, 0.25f, 0.25f, alpha);
+                loadQuad(stack, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
+                loadQuad(stack, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
+            }
+        } else {
+            RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
+            RenderSystem.setShaderColor(0.25f, 0.25f, 0.25f, alpha);
+            loadQuad(stack, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
         }
 
         if (!doFade) {
@@ -79,7 +89,23 @@ public class FadeScreen extends Screen {
 
         frames--;
         if(frames == 0) {
-            removed();
+            markDone(false);
         }
+    }
+
+    private Tessellator loadQuad(MatrixStack stack, int x0, int y0, int x1, int y1) {
+        return loadQuad(stack,x0,y0,x1,y1,0,0,1,1);
+    }
+
+    private Tessellator loadQuad(MatrixStack stack, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+        Matrix4f modelMat = stack.peek().getModel();
+        bufferBuilder.vertex(modelMat, x0, y1, 0).texture(u0, v1).color(255, 255, 255, 255).next();
+        bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(255, 255, 255, 255).next();
+        bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(255, 255, 255, 255).next();
+        bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(255, 255, 255, 255).next();
+        return tessellator;
     }
 }
