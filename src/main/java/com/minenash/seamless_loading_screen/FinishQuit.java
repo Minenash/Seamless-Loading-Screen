@@ -80,7 +80,7 @@ public class FinishQuit extends Screen {
             if (Config.archiveScreenshots)
                 nativeImage.writeFile(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length()-4) + "_" +  new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            SeamlessLoadingScreen.LOGGER.error("Failed to save archive screenshot.", e);
         }
 
         if (Config.updateWorldIcon && client.isInSingleplayer())
@@ -147,7 +147,7 @@ public class FinishQuit extends Screen {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
                 nativeImage2.writeFile(iconFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                SeamlessLoadingScreen.LOGGER.error("Failed to save updated icon.", e);
             } finally {
                 nativeImage.close();
             }

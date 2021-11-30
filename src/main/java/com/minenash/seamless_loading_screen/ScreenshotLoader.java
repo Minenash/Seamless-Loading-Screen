@@ -54,7 +54,7 @@ public class ScreenshotLoader {
     private static void setScreenshot() {
         loaded = false;
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
-            System.out.println("Name: " + ScreenshotLoader.fileName);
+            SeamlessLoadingScreen.LOGGER.info("Loading screenshot '{}'", ScreenshotLoader.fileName);
             NativeImageBackedTexture image = new NativeImageBackedTexture(NativeImage.read(in));
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
