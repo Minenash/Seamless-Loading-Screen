@@ -47,40 +47,39 @@ public class FadeScreen extends Screen {
 
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
-        if (frames > 0) {
-            boolean doFade = frames <= fadeFrames;
-            float alpha = doFade ? (float) frames / fadeFrames : 1.0f;
+        if (frames <= 0) return;
+        boolean doFade = frames <= fadeFrames;
+        float alpha = doFade ? (float) frames / fadeFrames : 1.0f;
 
-            if(ScreenshotLoader.loaded) {
-                RenderSystem.setShaderColor(1, 1, 1, alpha);
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferBuilder = tessellator.getBuffer();
-                RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-                RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
-                bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
-                int w = (int) (ScreenshotLoader.imageRatio * height);
-                int h = height;
-                int x = width / 2 - w / 2;
-                int y = 0;
+        if(ScreenshotLoader.loaded) {
+            RenderSystem.setShaderColor(1, 1, 1, alpha);
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder bufferBuilder = tessellator.getBuffer();
+            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+            RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
+            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+            int w = (int) (ScreenshotLoader.imageRatio * height);
+            int h = height;
+            int x = width / 2 - w / 2;
+            int y = 0;
 
-                Matrix4f modelMat = stack.peek().getModel();
-                bufferBuilder.vertex(modelMat, x, y + h, 0).texture(0, 1).color(255, 255, 255, 255).next();
-                bufferBuilder.vertex(modelMat, x + w, y + h, 0).texture(1, 1).color(255, 255, 255, 255).next();
-                bufferBuilder.vertex(modelMat, x + w, y, 0).texture(1, 0).color(255, 255, 255, 255).next();
-                bufferBuilder.vertex(modelMat, x, y, 0).texture(0, 0).color(255, 255, 255, 255).next();
-                tessellator.draw();
-            }
+            Matrix4f modelMat = stack.peek().getModel();
+            bufferBuilder.vertex(modelMat, x, y + h, 0).texture(0, 1).color(255, 255, 255, 255).next();
+            bufferBuilder.vertex(modelMat, x + w, y + h, 0).texture(1, 1).color(255, 255, 255, 255).next();
+            bufferBuilder.vertex(modelMat, x + w, y, 0).texture(1, 0).color(255, 255, 255, 255).next();
+            bufferBuilder.vertex(modelMat, x, y, 0).texture(0, 0).color(255, 255, 255, 255).next();
+            tessellator.draw();
+        }
 
-            if (!doFade) {
-                DrawableHelper.drawCenteredText(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
-                String progress = String.valueOf(client.worldRenderer.getCompletedChunkCount());
-                DrawableHelper.drawCenteredText(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
-            }
+        if (!doFade) {
+            DrawableHelper.drawCenteredText(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
+            String progress = String.valueOf(client.worldRenderer.getCompletedChunkCount());
+            DrawableHelper.drawCenteredText(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
+        }
 
-            frames--;
-            if(frames == 0) {
-                removed();
-            }
+        frames--;
+        if(frames == 0) {
+            removed();
         }
     }
 }
