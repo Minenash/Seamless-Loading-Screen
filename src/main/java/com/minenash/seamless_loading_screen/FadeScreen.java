@@ -7,6 +7,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vector4f;
 
 import java.util.function.Consumer;
 
@@ -56,29 +57,31 @@ public class FadeScreen extends Screen {
         if (frames <= 0 || client == null) return;
         boolean doFade = frames <= fadeFrames;
         float alpha = doFade ? (float) frames / fadeFrames : 1.0f;
+        Vector4f color = new Vector4f(1, 1, 1, alpha);
 
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         if(ScreenshotLoader.loaded) {
-            RenderSystem.setShaderColor(1, 1, 1, alpha);
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
             int w = (int) (ScreenshotLoader.imageRatio * height);
             int h = height;
             int x = width / 2 - w / 2;
             int y = 0;
 
-            loadQuad(stack, x, y, x+w, y+h).draw();
+            loadQuad(stack, color, x, y, x+w, y+h).draw();
 
             if(w < width) {
                 RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
                 // 0.25f is from Screen.renderBackgroundTexture vertex colors
-                RenderSystem.setShaderColor(0.25f, 0.25f, 0.25f, alpha);
-                loadQuad(stack, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
-                loadQuad(stack, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
+                color.set(0.25f, 0.25f, 0.25f, alpha);
+                loadQuad(stack, color, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
+                loadQuad(stack, color, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
             }
         } else {
             RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
-            RenderSystem.setShaderColor(0.25f, 0.25f, 0.25f, alpha);
-            loadQuad(stack, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
+            color.set(0.25f, 0.25f, 0.25f, alpha);
+            loadQuad(stack, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
         }
 
         if (!doFade) {
@@ -87,25 +90,27 @@ public class FadeScreen extends Screen {
             DrawableHelper.drawCenteredText(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
         }
 
+        RenderSystem.disableBlend();
+
         frames--;
         if(frames == 0) {
             markDone(false);
         }
     }
 
-    private Tessellator loadQuad(MatrixStack stack, int x0, int y0, int x1, int y1) {
-        return loadQuad(stack,x0,y0,x1,y1,0,0,1,1);
+    private Tessellator loadQuad(MatrixStack stack, Vector4f color, int x0, int y0, int x1, int y1) {
+        return loadQuad(stack, color, x0, y0, x1, y1, 0, 0, 1, 1);
     }
 
-    private Tessellator loadQuad(MatrixStack stack, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
+    private Tessellator loadQuad(MatrixStack stack, Vector4f color, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
         Matrix4f modelMat = stack.peek().getModel();
-        bufferBuilder.vertex(modelMat, x0, y1, 0).texture(u0, v1).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(255, 255, 255, 255).next();
-        bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(255, 255, 255, 255).next();
+        bufferBuilder.vertex(modelMat, x0, y1, 0).texture(u0, v1).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
+        bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
+        bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
+        bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
         return tessellator;
     }
 }
