@@ -27,6 +27,6 @@ public class WorldListWidgetMixin {
 
     @Redirect(method = "openReadingWorldScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;method_29970(Lnet/minecraft/client/gui/screen/Screen;)V"))
     private void changeScreen(MinecraftClient client, Screen screen) {
-        client.method_29970(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
+        client.setScreenAndRender(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
     }
 }
