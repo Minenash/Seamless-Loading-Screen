@@ -37,7 +37,7 @@ public abstract class MinecraftClientMixin {
 		client.disconnect(new ScreenshotWithTextScreen());
 	}
 
-	@Redirect(method = "method_29970", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
+	@Redirect(method = "setScreenAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreen(Lnet/minecraft/client/gui/screen/Screen;)V"))
 	private void changeScreen2(MinecraftClient client, Screen screen) {
 		client.setScreen(new ScreenshotWithTextScreen(screen.getTitle()));
 	}

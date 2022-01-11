@@ -1,14 +1,15 @@
 package com.minenash.seamless_loading_screen.mixin.realm;
 
-import com.minenash.seamless_loading_screen.ScreenshotLoader;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.realms.gui.screen.RealmsLongConfirmationScreen;
-import net.minecraft.client.realms.gui.screen.RealmsLongRunningMcoTaskScreen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.minenash.seamless_loading_screen.ScreenshotLoader;
+
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.realms.gui.screen.RealmsLongConfirmationScreen;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 
 @Mixin(RealmsLongConfirmationScreen.class)
 public class RealmsLongConfirmationScreenMixin extends Screen {
