@@ -18,15 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WorldListWidget.Entry.class)
 public class WorldListWidgetMixin {
 
-    @Shadow @Final private LevelSummary level;
+    @Shadow @Final LevelSummary level;
 
     @Inject(method = "play", at = @At("HEAD"))
     public void setFilename(CallbackInfo info) {
         ScreenshotLoader.setScreenshot(level.getName());
     }
 
-    @Redirect(method = "openReadingWorldScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;method_29970(Lnet/minecraft/client/gui/screen/Screen;)V"))
+    @Redirect(method = "openReadingWorldScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;setScreenAndRender(Lnet/minecraft/client/gui/screen/Screen;)V"))
     private void changeScreen(MinecraftClient client, Screen screen) {
-        client.method_29970(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
+        client.setScreenAndRender(new ScreenshotWithTextScreen(new TranslatableText("selectWorld.data_read")));
     }
 }

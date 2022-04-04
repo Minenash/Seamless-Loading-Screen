@@ -76,9 +76,9 @@ public class FinishQuit extends Screen {
         NativeImage nativeImage = ScreenshotRecorder.takeScreenshot(client.getFramebuffer()); //width and height args do nothing
 
         try {
-            nativeImage.writeFile(new File(name));
+            nativeImage.writeTo(new File(name));
             if (Config.archiveScreenshots)
-                nativeImage.writeFile(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length()-4) + "_" +  new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
+                nativeImage.writeTo(new File("screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length()-4) + "_" +  new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -145,7 +145,7 @@ public class FinishQuit extends Screen {
 
             try(NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
-                nativeImage2.writeFile(iconFile);
+                nativeImage2.writeTo(iconFile);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
