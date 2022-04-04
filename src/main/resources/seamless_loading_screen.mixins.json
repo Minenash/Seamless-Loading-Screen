@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.minenash.seamless_loading_screen.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
