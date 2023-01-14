@@ -33,7 +33,7 @@ public class GameRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V"), cancellable = true)
     private void fade(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
         if (ScreenshotLoader.loaded && ScreenshotLoader.time > 0) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
 
             int height = client.getWindow().getScaledHeight();

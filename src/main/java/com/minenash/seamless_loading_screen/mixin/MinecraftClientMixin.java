@@ -33,7 +33,7 @@ public abstract class MinecraftClientMixin {
 	}
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;disconnect()V"),
-			method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/resource/ResourcePackManager;Lnet/minecraft/server/SaveLoader;)V")
+			method = "startIntegratedServer")
 	private void changeScreen(MinecraftClient client) {
 		client.disconnect(new ScreenshotWithTextScreen());
 	}
