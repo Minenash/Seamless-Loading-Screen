@@ -10,7 +10,6 @@
     "GameMenuScreenMixin",
     "GameRendererMixin",
     "LevelLoadingScreenMixin",
-    "LevelStorageMixin",
     "MinecraftClientMixin",
     "MouseMixin",
     "WindowAccessor",
