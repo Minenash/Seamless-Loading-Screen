@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,29 +23,31 @@ public abstract class AddServerScreenMixin extends Screen {
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 0))
-    private ButtonWidget buttonAdd(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
-        return new ButtonWidget(x+103,y+24,width-103,height,message,onPress);
+    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0))
+    private ButtonWidget.Builder buttonAdd(ButtonWidget.Builder instance, int x, int y, int width, int height) {
+        return instance.dimensions(x+103,y+24,width-103,height);
     }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
-    private ButtonWidget buttonCancel(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
-        return new ButtonWidget(x,y,width-103,height,message,onPress);
+    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 1))
+    private ButtonWidget.Builder buttonCancel(ButtonWidget.Builder instance, int x, int y, int width, int height) {
+        return instance.dimensions(x,y,width-103,height);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
-        buttonAllowCustomScreenshot = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
-                getText(), buttonWidget -> {
-            ((ServerInfoExtras)server).setAllowCustomScreenshots(!((ServerInfoExtras)server).getAllowCustomScreenshot());
-            buttonAllowCustomScreenshot.setMessage(getText());
-        }));
+        buttonAllowCustomScreenshot = addDrawableChild(ButtonWidget.builder(getText(),
+                        buttonWidget -> {
+                            ((ServerInfoExtras)server).setAllowCustomScreenshots(!((ServerInfoExtras)server).getAllowCustomScreenshot());
+                            buttonAllowCustomScreenshot.setMessage(getText());
+                        })
+                .dimensions(width / 2 - 100, height / 4 + 72 + 24, 200, 20)
+                .build());
     }
 
     private Text getText() {
-        return (new TranslatableText("seamless_loading_screen.server.allowCustomScreenshot"))
+        return (Text.translatable("seamless_loading_screen.server.allowCustomScreenshot"))
                 .append(": ")
-                .append(new TranslatableText(
+                .append(Text.translatable(
                         "seamless_loading_screen.tinyconfig.boolean."
                                 + (((ServerInfoExtras)server).getAllowCustomScreenshot() ? "true" : "false")));
     }

@@ -6,7 +6,8 @@ import com.minenash.seamless_loading_screen.ScreenshotWithTextScreen;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.*;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,12 +20,12 @@ public abstract class MinecraftClientMixin {
 
 	@Shadow protected abstract void reset(Screen screen);
 
-	@Shadow private static MinecraftClient instance;
+	@Shadow static MinecraftClient instance;
 
 	@Redirect(method = "joinWorld", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/MinecraftClient;reset(Lnet/minecraft/client/gui/screen/Screen;)V"))
 	private void changeScreen(MinecraftClient _client, Screen screen) {
 		if (SeamlessLoadingScreen.changeWorldJoinScreen) {
-			reset(new ScreenshotWithTextScreen(new TranslatableText("connect.joining")));
+			reset(new ScreenshotWithTextScreen(Text.translatable("connect.joining")));
 			SeamlessLoadingScreen.changeWorldJoinScreen = false;
 			ScreenshotLoader.inFade = true;
 		}
@@ -32,7 +33,7 @@ public abstract class MinecraftClientMixin {
 			reset(screen);
 	}
 
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;disconnect()V"), method = "startIntegratedServer(Ljava/lang/String;Ljava/util/function/Function;Ljava/util/function/Function;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V")
+	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;disconnect()V"), method = "startIntegratedServer")
 	private void changeScreen(MinecraftClient client) {
 		client.disconnect(new ScreenshotWithTextScreen());
 	}

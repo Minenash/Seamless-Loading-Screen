@@ -16,12 +16,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final MinecraftClient client;
     private MatrixStack stack;
 
     @Redirect(method = "render", at = @At(value = "NEW", target = "net/minecraft/client/util/math/MatrixStack"))
@@ -33,7 +33,7 @@ public class GameRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V"), cancellable = true)
     private void fade(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
         if (ScreenshotLoader.loaded && ScreenshotLoader.time > 0) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
 
             int height = client.getWindow().getScaledHeight();
@@ -47,7 +47,7 @@ public class GameRendererMixin {
             //ScreenshotLoader.renderVignette();
 
             if (!doFade)
-                DrawableHelper.drawCenteredText(stack, client.textRenderer, new TranslatableText("seamless_loading_screen.screen.generating_chunks"), width / 2, 70, 16777215);
+                DrawableHelper.drawCenteredText(stack, client.textRenderer, Text.translatable("seamless_loading_screen.screen.generating_chunks"), width / 2, 70, 16777215);
 
             ScreenshotLoader.time--;
         }

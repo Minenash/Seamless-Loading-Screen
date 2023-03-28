@@ -3,7 +3,7 @@ package com.minenash.seamless_loading_screen;
 import com.minenash.seamless_loading_screen.config.Config;
 import com.minenash.seamless_loading_screen.mixin.WindowAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.SaveLevelScreen;
+import net.minecraft.client.gui.screen.MessageScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -14,7 +14,6 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 
 import java.io.File;
@@ -25,7 +24,7 @@ import java.util.Date;
 public class FinishQuit extends Screen {
 
     public FinishQuit() {
-        super(new TranslatableText("connect.joining"));
+        super(Text.translatable("connect.joining"));
     }
 
     private static boolean hudHidden = false;
@@ -117,7 +116,7 @@ public class FinishQuit extends Screen {
 
         client.world.disconnect();
         if (isSinglePlayer)
-            client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
+            client.disconnect(new MessageScreen(Text.translatable("menu.savingLevel")));
         else
             client.disconnect();
 
