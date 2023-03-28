@@ -6,6 +6,7 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
+    "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
     "GameRendererMixin",
     "LevelLoadingScreenMixin",
