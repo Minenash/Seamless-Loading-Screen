@@ -14,12 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ConnectScreen.class)
 public class ConnectScreenMixin {
 
-	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
-	public void render(ConnectScreen screen, MatrixStack stack) {
-		screen.renderBackground(stack);
-		ScreenshotLoader.render(screen,stack);
-	}
-
 	@Inject(method = "connect(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ServerAddress;)V", at = @At("HEAD"), cancellable = true)
 	public void getImage(MinecraftClient client, ServerAddress address, CallbackInfo _info) {
 		ScreenshotLoader.setScreenshot(address.getAddress(), address.getPort());

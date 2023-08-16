@@ -16,11 +16,11 @@ public class ServerInfoMixin implements ServerInfoExtras {
     @Unique
     private boolean allowCustomScreenshots = false;
 
-    @Inject(method = "toNbt", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "toNbt", at = @At("RETURN"))
     private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
         NbtCompound tag = callback.getReturnValue();
+
         tag.putBoolean("allowCustomScreenshots", allowCustomScreenshots);
-        callback.setReturnValue(tag);
     }
 
     @Inject(method = "fromNbt", at = @At("RETURN"), cancellable = true)
@@ -28,15 +28,14 @@ public class ServerInfoMixin implements ServerInfoExtras {
         if (!tag.contains("allowCustomScreenshots", 1)) return;
 
         ServerInfo info = callback.getReturnValue();
+
         ((ServerInfoMixin)(Object)info).allowCustomScreenshots = tag.getBoolean("allowCustomScreenshots");
-        callback.setReturnValue(info);
     }
 
     @Inject(method = "copyFrom", at = @At("TAIL"))
     private void copyFrom(ServerInfo info, CallbackInfo callback) {
         allowCustomScreenshots = ((ServerInfoMixin)(Object)info).allowCustomScreenshots;
     }
-
 
     @Override
     public void setAllowCustomScreenshots(boolean b) {

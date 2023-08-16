@@ -1,16 +1,17 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.ConnectScreen;
+import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
+import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.realms.gui.screen.RealmsLongConfirmationScreen;
+import net.minecraft.client.realms.gui.screen.RealmsLongRunningMcoTaskScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
@@ -89,6 +90,24 @@ public class ScreenshotLoader {
             DrawableHelper.drawTexture(stack, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
            // renderVignette();
         }
+    }
+
+    public static boolean stopReplacementNextTick = false;
+
+    public static boolean stopReplacement = false;
+
+    public static boolean validScreen(Screen screen){
+        System.out.println(screen.getClass());
+
+        if(stopReplacement) return false;
+        if(stopReplacementNextTick) stopReplacement = true;
+
+        return screen instanceof ScreenshotWithTextScreen
+                || screen instanceof LevelLoadingScreen
+                || screen instanceof ConnectScreen
+                || screen instanceof RealmsLongConfirmationScreen
+                || screen instanceof RealmsLongRunningMcoTaskScreen
+                || screen instanceof DownloadingTerrainScreen;
     }
 
 //    public static void renderVignette() {

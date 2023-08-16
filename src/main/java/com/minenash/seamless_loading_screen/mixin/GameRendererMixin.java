@@ -1,11 +1,11 @@
 package com.minenash.seamless_loading_screen.mixin;
 
+import com.minenash.seamless_loading_screen.OnQuitHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
@@ -17,16 +17,18 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
     @Shadow @Final private MinecraftClient client;
-    private MatrixStack stack;
 
-    @Redirect(method = "render", at = @At(value = "NEW", target = "net/minecraft/client/util/math/MatrixStack"))
-    private MatrixStack getStack() {
-        stack = new MatrixStack();
+    @Unique private MatrixStack stack;
+
+    @ModifyVariable(method = "render", at = @At(value = "NEW", target = "()Lnet/minecraft/client/util/math/MatrixStack;", ordinal = 1))
+    private MatrixStack getStack(MatrixStack stack){
+        this.stack = new MatrixStack();
         return stack;
     }
 
@@ -55,6 +57,13 @@ public class GameRendererMixin {
             ScreenshotLoader.loaded = false;
             ScreenshotLoader.inFade = false;
             ScreenshotLoader.time = Config.time;
+        }
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.BY, by = 2)) //
+    private void attemptToTakeScreenshot(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
+        if(OnQuitHelper.attemptScreenShot) {
+            OnQuitHelper.takeScreenShot();
         }
     }
 

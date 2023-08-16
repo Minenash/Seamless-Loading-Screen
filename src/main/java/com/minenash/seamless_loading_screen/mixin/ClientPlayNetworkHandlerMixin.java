@@ -1,46 +1,44 @@
 package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.seamless_loading_screen.FinishQuit;
+import com.minenash.seamless_loading_screen.OnQuitHelper;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.DisconnectedScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.realms.gui.screen.DisconnectedRealmsScreen;
-import net.minecraft.client.realms.gui.screen.RealmsScreen;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayNetworkHandler.class)
-public class ClientPlayNetworkHandlerMixin {
+public abstract class ClientPlayNetworkHandlerMixin {
 
-    @Shadow @Final private Screen loginScreen;
+    @Shadow public abstract void onDisconnected(Text reason);
 
-    @Redirect(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;joinWorld(Lnet/minecraft/client/world/ClientWorld;)V"))
-    private void setChangeWorldJoinScreen(MinecraftClient client, ClientWorld world) {
-        if (ScreenshotLoader.loaded) {
-            SeamlessLoadingScreen.changeWorldJoinScreen = true;
-        }
-        client.joinWorld(world);
+    @Inject(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;joinWorld(Lnet/minecraft/client/world/ClientWorld;)V"))
+    private void setChangeWorldJoinScreen(GameJoinS2CPacket packet, CallbackInfo ci) {
+        if (ScreenshotLoader.loaded) SeamlessLoadingScreen.changeWorldJoinScreen = true;
     }
 
+    @Unique
     private boolean stopDisconnect = true;
+
     @Inject(method = "onDisconnected", at = @At("HEAD"), cancellable = true)
     private void onServerOrderedDisconnect(Text reason, CallbackInfo info) {
         if (stopDisconnect) {
+            OnQuitHelper.beginScreenshotTask(() -> this.onDisconnected(reason));
+
             info.cancel();
-            FinishQuit.run((ClientPlayNetworkHandler) (Object) this, reason);
         }
+
         stopDisconnect = !stopDisconnect;
     }
+
 }

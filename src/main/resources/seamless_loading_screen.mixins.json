@@ -18,9 +18,9 @@
     "custom_screenshots.MultiplayerScreenMixin",
     "custom_screenshots.ServerInfoMixin",
     "mod_compat.fapi_0_30_0.ScreenEventsMixin",
-    "realm.RealmsLongConfirmationScreenMixin",
-    "realm.RealmsLongRunningMcoTaskScreenMixin",
-    "realm.RealmsMainScreenMixin"
+    "realm.RealmsMainScreenMixin",
+    "ScreenMixin",
+    "DownloadingTerrainScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

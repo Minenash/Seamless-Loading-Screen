@@ -12,8 +12,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(AddServerScreen.class)
 public abstract class AddServerScreenMixin extends Screen {
@@ -24,14 +26,16 @@ public abstract class AddServerScreenMixin extends Screen {
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 0))
-    private ButtonWidget buttonAdd(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
-        return new ButtonWidget(x+103,y+24,width-103,height,message,onPress);
+    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;<init>(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V", ordinal = 0))
+    private void adjust_addButton_args(Args args){
+        args.set(0, ((int) args.get(0)) + 103); // x + 103
+        args.set(1, ((int) args.get(1)) + 24);  // y + 24
+        args.set(2, ((int) args.get(2)) - 103); // width - 103
     }
 
-    @Redirect(method = "init", at = @At(value = "NEW", target = "net/minecraft/client/gui/widget/ButtonWidget", ordinal = 1))
-    private ButtonWidget buttonCancel(int x, int y, int width, int height, Text message, ButtonWidget.PressAction onPress) {
-        return new ButtonWidget(x,y,width-103,height,message,onPress);
+    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;<init>(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V", ordinal = 1))
+    private void adjust_cancelButton_args(Args args){
+        args.set(2, ((int) args.get(2)) - 103); // width - 103
     }
 
     @Inject(method = "init", at = @At("HEAD"))
