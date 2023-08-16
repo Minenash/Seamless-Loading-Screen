@@ -1,6 +1,7 @@
-package com.minenash.seamless_loading_screen.config;
+package com.minenash.seamless_loading_screen.fabric.config;
 
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
+import com.minenash.seamless_loading_screen.config.MidnightConfig;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 

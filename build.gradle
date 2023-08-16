@@ -1,117 +1,55 @@
 plugins {
-	id 'fabric-loom' version '1.3-SNAPSHOT'
-	id 'io.github.juuxel.loom-vineflower' version '1.11.0'
-	id 'maven-publish'
+	id "architectury-plugin" version "3.4-SNAPSHOT"
+	id "dev.architectury.loom" version "1.3-SNAPSHOT" apply false
+	id 'io.github.juuxel.loom-vineflower' version '1.11.0' apply false
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-repositories {
-	maven {
-		url "https://maven.terraformersmc.com/releases/"
-	}
-	maven {
-		url = "https://api.modrinth.com/maven"
-	}
+architectury {
+	minecraft = rootProject.minecraft_version
 }
 
-dependencies {
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+subprojects {
+	apply plugin: "dev.architectury.loom"
+	apply plugin: "io.github.juuxel.loom-vineflower"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-//	modImplementation "curse.maven:bedrockify-403858:3152545"
-	modImplementation ("com.terraformersmc:modmenu:${project.modmenu_version}") {
-		exclude module: "fabric-api"
+	loom {
+		silentMojangMappingsLicense()
 	}
 
-	//modImplementation include("maven.modrinth:midnightlib:${project.midnightlib_version}-fabric")
-}
-
-loom {
-	runs {
-		client_mixin {
-			client()
-			ideConfigGenerated true
-			name = "[${project.archivesBaseName}] Client - (Mixin Swap)"
-			source sourceSets.main
-			vmArg "-Dmixin.debug.export=true"
-
-			try {
-				afterEvaluate {
-					def mixinDep = this.configurations.compileClasspath
-							.allDependencies
-							.findAll { it.name == "sponge-mixin" }
-							.first()
-
-					if (mixin != null) {
-						def mixinPath = this.configurations.compileClasspath.files(mixinDep).first().path;
-
-						println(mixinPath)
-
-						vmArg("-javaagent:\"${mixinPath}\"")
-
-						println("[Info]: Mixin Hotswap Run should be working")
-					} else {
-						println("[Warning]: Unable to locate file path for Mixin Jar, HotSwap Run will not work!!!")
-					}
-				}
-			} catch (Exception e) {
-				println("[Error]: MixinHotswap Run had a issue!")
-				e.printStackTrace()
-			}
-		}
+	dependencies {
+		minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	}
 }
 
-processResources {
-	inputs.property "version", project.version
+allprojects {
+	apply plugin: "java"
+	apply plugin: "architectury-plugin"
+	apply plugin: "maven-publish"
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
-}
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 
-tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
-}
+	archivesBaseName = rootProject.archives_base_name
+	version = rootProject.mod_version
+	group = rootProject.maven_group
 
-java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
-}
-
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
+		maven {
+			url "https://maven.terraformersmc.com/releases/"
+		}
+		maven {
+			url = "https://api.modrinth.com/maven"
+		}
+	}
+
+	tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
+		options.release = 17
+	}
+
+	java {
+		withSourcesJar()
 	}
 }
+

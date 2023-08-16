@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = "https://github.com/Minenash/Seamless-Loading-Screen/issues"
+license = "MIT"
+
+[[mods]]
+modId = "seamless_loading_screen"
+version = "${version}"
+displayName = "Seamless Loading Screen"
+authors = "Minenash"
+description = '''
+Takes a screenshot of the game when you leave a world or server, and displays it when you rejoin it
+'''
+logoFile = "icon.png"
+
+[[dependencies.seamless_loading_screen]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.seamless_loading_screen]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "BOTH"

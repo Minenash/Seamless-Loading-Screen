@@ -18,7 +18,8 @@
     "custom_screenshots.ServerInfoMixin",
     "realm.RealmsMainScreenMixin",
     "ScreenMixin",
-    "DownloadingTerrainScreenMixin"
+    "DownloadingTerrainScreenMixin",
+    "CreateWorldScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

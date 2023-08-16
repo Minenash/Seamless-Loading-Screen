@@ -21,8 +21,10 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class ScreenshotLoader {
@@ -64,7 +66,7 @@ public class ScreenshotLoader {
     private static void setScreenshot() {
         loaded = false;
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
-            if(FabricLoader.getInstance().isDevelopmentEnvironment()){
+            if(PlatformFunctions.isDevEnv()){
                 LOGGER.info("Name: " + ScreenshotLoader.fileName);
             }
 
@@ -75,7 +77,12 @@ public class ScreenshotLoader {
             time = Config.time;
             timeDelta = 1F / Config.fade;
             replacebg = true;
-        } catch (IOException ignored) {}
+        }
+        catch (FileNotFoundException ignore){}
+        catch (IOException e) {
+            LOGGER.error("[SeamlessLoadingScreen]: An Issue has occurred when attempting to set a Screenshot: [name: {}]", ScreenshotLoader.fileName);
+            LOGGER.error(String.valueOf(e));
+        }
     }
 
     private static final Pattern RESERVED_FILENAMES_PATTERN = Pattern.compile(".*\\.|(?:COM|CLOCK\\$|CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?", Pattern.CASE_INSENSITIVE);
