@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,9 +47,9 @@ public abstract class AddServerScreenMixin extends Screen {
     }
 
     private Text getText() {
-        return (new TranslatableText("seamless_loading_screen.server.allowCustomScreenshot"))
+        return (Text.translatable("seamless_loading_screen.server.allowCustomScreenshot"))
                 .append(": ")
-                .append(new TranslatableText(
+                .append(Text.translatable(
                         "seamless_loading_screen.tinyconfig.boolean."
                                 + (((ServerInfoExtras)server).getAllowCustomScreenshot() ? "true" : "false")));
     }

@@ -2,7 +2,6 @@ package com.minenash.seamless_loading_screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 public class ScreenshotWithTextScreen extends Screen {

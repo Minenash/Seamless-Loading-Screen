@@ -12,12 +12,10 @@
     "LevelStorageMixin",
     "MinecraftClientMixin",
     "MouseMixin",
-    "WindowAccessor",
     "WorldListWidgetMixin",
     "custom_screenshots.AddServerScreenMixin",
     "custom_screenshots.MultiplayerScreenMixin",
     "custom_screenshots.ServerInfoMixin",
-    "mod_compat.fapi_0_30_0.ScreenEventsMixin",
     "realm.RealmsMainScreenMixin",
     "ScreenMixin",
     "DownloadingTerrainScreenMixin"

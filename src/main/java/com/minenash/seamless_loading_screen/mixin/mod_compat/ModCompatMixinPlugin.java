@@ -19,10 +19,6 @@ public class ModCompatMixinPlugin implements IMixinConfigPlugin {
 
         switch (packages[5]) {
             case "bedrockify": return FabricLoader.getInstance().isModLoaded("bedrockify");
-            case "fapi_0_30_0": {
-                ModContainer mod = FabricLoader.getInstance().getModContainer("fabric").orElse(null);
-                return mod != null && Integer.parseInt(mod.getMetadata().getVersion().getFriendlyString().split("\\.")[1]) >= 30;
-            }
         }
         return true;
     }
