@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen.config;
 
-public class Config extends TinyConfig {
+public class Config extends MidnightConfig {
 
     @Entry(min = 0)
     public static int time = 80;

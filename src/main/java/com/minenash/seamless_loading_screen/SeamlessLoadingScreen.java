@@ -2,6 +2,7 @@ package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.logging.LogUtils;
+import com.minenash.seamless_loading_screen.config.MidnightConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -19,10 +20,11 @@ import java.nio.file.Path;
 
 public class SeamlessLoadingScreen implements ClientModInitializer {
 
+    public static final String MODID = "seamless_loading_screen";
+
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static boolean changeWorldJoinScreen = false;
-    public static boolean isDisconnecting = false; //Fapi 0.30.0 Compat
 
     public static final KeyBinding OPEN_SETTINGS = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "seamless_loading_screen.keybind.config",
@@ -31,7 +33,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        Config.init("seamless_loading_screen", Config.class);
+        MidnightConfig.init(MODID, Config.class);
 
         try {
             Path path = FabricLoader.getInstance().getGameDir().resolve("screenshots/worlds");
@@ -44,7 +46,7 @@ public class SeamlessLoadingScreen implements ClientModInitializer {
         }
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (OPEN_SETTINGS.wasPressed()) client.setScreen(Config.getScreen(client.currentScreen));
+            while (OPEN_SETTINGS.wasPressed()) client.setScreen(Config.getScreen(client.currentScreen, MODID));
         });
 
     }

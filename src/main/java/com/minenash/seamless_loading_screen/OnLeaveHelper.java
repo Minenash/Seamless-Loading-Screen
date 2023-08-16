@@ -3,6 +3,7 @@ package com.minenash.seamless_loading_screen;
 import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.util.Util;
@@ -13,7 +14,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OnQuitHelper {
+/**
+ * Class used as a helper to deal with taking the screenshot after leaving
+ */
+public class OnLeaveHelper {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -24,6 +28,11 @@ public class OnQuitHelper {
     private static int old_FrameBufferWidth = 0;
     private static int old_FrameBufferHeight = 0;
 
+    /**
+     * Method to start the screenshot Task and setup the screen for the screenshot
+     *
+     * @param runnable Tasks to be performed after taking the screenshot
+     */
     public static void beginScreenshotTask(Runnable runnable){
         //ScreenshotLoader.replacebg = false;
 
@@ -42,6 +51,9 @@ public class OnQuitHelper {
         MinecraftClient.getInstance().onResolutionChanged();
     }
 
+    /**
+     * Inject after World Rendering within {@link GameRenderer#render(float, long, boolean)} method before {@link MinecraftClient#getWindow()}
+     */
     public static void takeScreenShot(){
         var client = MinecraftClient.getInstance();
 
@@ -74,6 +86,8 @@ public class OnQuitHelper {
 
         attemptScreenShot = false;
 
+        //--
+
         var window = MinecraftClient.getInstance().getWindow();
 
         window.setFramebufferWidth(old_FrameBufferWidth);
@@ -81,10 +95,14 @@ public class OnQuitHelper {
 
         client.onResolutionChanged();
 
-        finished();
+        //--
+
+        onceFinished.run();
+
+        onceFinished = () -> {};
     }
 
-    public static void updateIcon(File iconFile, NativeImage nativeImage) {
+    private static void updateIcon(File iconFile, NativeImage nativeImage) {
         Util.getIoWorkerExecutor().execute(() -> {
             int i = nativeImage.getWidth();
             int j = nativeImage.getHeight();
@@ -106,13 +124,6 @@ public class OnQuitHelper {
             } finally {
                 nativeImage.close();
             }
-
         });
-    }
-
-    public static void finished(){
-        onceFinished.run();
-
-        onceFinished = () -> {};
     }
 }

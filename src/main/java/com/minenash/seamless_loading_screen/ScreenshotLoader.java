@@ -2,6 +2,8 @@ package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.logging.LogUtils;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -16,6 +18,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,7 +27,9 @@ import java.util.regex.Pattern;
 
 public class ScreenshotLoader {
 
-    public static Identifier SCREENSHOT = new Identifier("visualconnect", "screenshot");
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static Identifier SCREENSHOT = new Identifier(SeamlessLoadingScreen.MODID, "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
     public static boolean allowCustomScreenshot = false;
@@ -40,24 +45,29 @@ public class ScreenshotLoader {
     }
 
 	public static void setScreenshot(String address, int port) {
-        fileName = "screenshots/worlds/servers/" + address + "_" + port + ".png";
-        setScreenshot();
+        setFileName("screenshots/worlds/servers/" + cleanFileName(address) + "_" + port + ".png");
     }
 
     public static void setScreenshot(String worldName) {
-        fileName = "screenshots/worlds/singleplayer/" + worldName + ".png";
-        setScreenshot();
+        setFileName("screenshots/worlds/singleplayer/" + worldName + ".png");
     }
 
     public static void setRealmScreenshot(String realmName) {
-        fileName = "screenshots/worlds/realms/" + cleanFileName(realmName) + ".png";
+        setFileName("screenshots/worlds/realms/" + cleanFileName(realmName) + ".png");
+    }
+
+    private static void setFileName(String newFileName){
+        fileName = newFileName;
         setScreenshot();
     }
 
     private static void setScreenshot() {
         loaded = false;
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
-            System.out.println("Name: " + ScreenshotLoader.fileName);
+            if(FabricLoader.getInstance().isDevelopmentEnvironment()){
+                LOGGER.info("Name: " + ScreenshotLoader.fileName);
+            }
+
             NativeImageBackedTexture image = new NativeImageBackedTexture(NativeImage.read(in));
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
@@ -70,14 +80,11 @@ public class ScreenshotLoader {
 
     private static final Pattern RESERVED_FILENAMES_PATTERN = Pattern.compile(".*\\.|(?:COM|CLOCK\\$|CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?", Pattern.CASE_INSENSITIVE);
     private static String cleanFileName(String fileName) {
-        for (char c : SharedConstants.INVALID_CHARS_LEVEL_NAME)
-            fileName = fileName.replace(c, '_');
+        for (char c : SharedConstants.INVALID_CHARS_LEVEL_NAME) fileName = fileName.replace(c, '_');
 
-        if (RESERVED_FILENAMES_PATTERN.matcher(fileName).matches())
-            fileName = "_" + fileName + "_";
+        if (RESERVED_FILENAMES_PATTERN.matcher(fileName).matches()) fileName = "_" + fileName + "_";
 
-        if (fileName.length() > 255 - 4)
-            fileName = fileName.substring(0, 255 - 4);
+        if (fileName.length() > 255 - 4) fileName = fileName.substring(0, 255 - 4);
 
         return fileName;
     }

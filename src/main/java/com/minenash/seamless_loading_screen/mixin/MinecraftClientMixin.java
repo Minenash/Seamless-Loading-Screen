@@ -9,15 +9,12 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
 
-	@Shadow protected abstract void reset(Screen screen);
-
-	@Shadow private static MinecraftClient instance;
+	@Shadow static MinecraftClient instance;
 
 	@Shadow public abstract void scheduleStop();
 
@@ -35,7 +32,7 @@ public abstract class MinecraftClientMixin {
 	private void onWindowClose(CallbackInfo info) {
 		if (!firstOccurrence || instance.player == null) return;
 
-		OnQuitHelper.beginScreenshotTask(() -> {
+		OnLeaveHelper.beginScreenshotTask(() -> {
 			this.firstOccurrence = false;
 
 			this.scheduleStop();

@@ -1,15 +1,11 @@
 package com.minenash.seamless_loading_screen.mixin;
 
-import com.minenash.seamless_loading_screen.OnQuitHelper;
+import com.minenash.seamless_loading_screen.OnLeaveHelper;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,18 +23,17 @@ public abstract class ClientPlayNetworkHandlerMixin {
         if (ScreenshotLoader.loaded) SeamlessLoadingScreen.changeWorldJoinScreen = true;
     }
 
-    @Unique
-    private boolean stopDisconnect = true;
+    @Unique private boolean haltDisconnect = true;
 
     @Inject(method = "onDisconnected", at = @At("HEAD"), cancellable = true)
     private void onServerOrderedDisconnect(Text reason, CallbackInfo info) {
-        if (stopDisconnect) {
-            OnQuitHelper.beginScreenshotTask(() -> this.onDisconnected(reason));
+        if (haltDisconnect) {
+            OnLeaveHelper.beginScreenshotTask(() -> this.onDisconnected(reason));
 
             info.cancel();
         }
 
-        stopDisconnect = !stopDisconnect;
+        haltDisconnect = !haltDisconnect;
     }
 
 }

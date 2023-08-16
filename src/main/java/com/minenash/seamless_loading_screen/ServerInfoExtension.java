@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-public interface ServerInfoExtras {
+public interface ServerInfoExtension {
 
     void setAllowCustomScreenshots(boolean b);
 

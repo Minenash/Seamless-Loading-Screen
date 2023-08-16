@@ -1,7 +1,7 @@
 package com.minenash.seamless_loading_screen.mixin.custom_screenshots;
 
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
-import com.minenash.seamless_loading_screen.ServerInfoExtras;
+import com.minenash.seamless_loading_screen.ServerInfoExtension;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ServerInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ public class MultiplayerScreenMixin {
 
     @Inject(method = "connect(Lnet/minecraft/client/network/ServerInfo;)V", at = @At("HEAD"))
     private void getAllowCustomScreenshot(ServerInfo info, CallbackInfo callback) {
-        ScreenshotLoader.allowCustomScreenshot = ((ServerInfoExtras)info).getAllowCustomScreenshot();
+        ScreenshotLoader.allowCustomScreenshot = ((ServerInfoExtension)info).getAllowCustomScreenshot();
     }
 
 }
