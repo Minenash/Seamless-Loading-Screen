@@ -25,25 +25,24 @@ public abstract class AddServerScreenMixin extends Screen {
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
-    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;<init>(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V", ordinal = 0))
+    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0)) //
     private void adjust_addButton_args(Args args){
         args.set(0, ((int) args.get(0)) + 103); // x + 103
         args.set(1, ((int) args.get(1)) + 24);  // y + 24
         args.set(2, ((int) args.get(2)) - 103); // width - 103
     }
 
-    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;<init>(IIIILnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)V", ordinal = 1))
+    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 1))
     private void adjust_cancelButton_args(Args args){
         args.set(2, ((int) args.get(2)) - 103); // width - 103
     }
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
-        buttonAllowCustomScreenshot = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
-                getText(), buttonWidget -> {
+        buttonAllowCustomScreenshot = addDrawableChild(ButtonWidget.builder(getText(), buttonWidget -> {
             ((ServerInfoExtension)server).setAllowCustomScreenshots(!((ServerInfoExtension)server).getAllowCustomScreenshot());
             buttonAllowCustomScreenshot.setMessage(getText());
-        }));
+        }).dimensions(width / 2 - 100, height / 4 + 72 + 24, 200, 20).build());
     }
 
     private Text getText() {

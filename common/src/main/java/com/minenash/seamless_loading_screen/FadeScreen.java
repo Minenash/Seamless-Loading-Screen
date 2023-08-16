@@ -6,8 +6,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vector4f;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 import java.util.function.Consumer;
 
@@ -69,7 +69,7 @@ public class FadeScreen extends Screen {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
         if(ScreenshotLoader.loaded) {
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
             int w = (int) (ScreenshotLoader.imageRatio * height);
@@ -93,9 +93,9 @@ public class FadeScreen extends Screen {
         }
 
         if (!doFade) {
-            DrawableHelper.drawCenteredText(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
+            DrawableHelper.drawCenteredTextWithShadow(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
             String progress = String.valueOf(client.worldRenderer.getCompletedChunkCount());
-            DrawableHelper.drawCenteredText(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
+            DrawableHelper.drawCenteredTextWithShadow(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
         }
 
         RenderSystem.disableBlend();
@@ -114,10 +114,10 @@ public class FadeScreen extends Screen {
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
         Matrix4f modelMat = stack.peek().getPositionMatrix();
-        bufferBuilder.vertex(modelMat, x0, y1, 0).texture(u0, v1).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
-        bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
-        bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
-        bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(color.getX(), color.getY(), color.getZ(), color.getW()).next();
+        bufferBuilder.vertex(modelMat, x0, y1, 0).texture(u0, v1).color(color.x(), color.y(), color.z(), color.w()).next();
+        bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(color.x(), color.y(), color.z(), color.w()).next();
+        bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(color.x(), color.y(), color.z(), color.w()).next();
+        bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(color.x(), color.y(), color.z(), color.w()).next();
         return tessellator;
     }
 }

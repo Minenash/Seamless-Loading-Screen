@@ -99,7 +99,7 @@ public class ScreenshotLoader {
     public static boolean replacebg = false;
 
     public static void render(Screen screen, MatrixStack stack) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, SCREENSHOT);
 
         int w = (int) (imageRatio * screen.height);

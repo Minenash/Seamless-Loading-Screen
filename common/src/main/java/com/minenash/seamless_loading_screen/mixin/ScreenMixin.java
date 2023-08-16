@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ScreenMixin {
 
     @Inject(method = "renderBackgroundTexture", at = @At("HEAD"), cancellable = true)
-    private void renderScreenBackground_AfterTexture(int vOffset, CallbackInfo ci){
+    private void renderScreenBackground_AfterTexture(MatrixStack stack, CallbackInfo ci){
         if(!ScreenshotLoader.replacebg) return;
 
-        ScreenshotLoader.render((Screen) (Object) this, new MatrixStack());
+        ScreenshotLoader.render((Screen) (Object) this, stack);
 
         ci.cancel();
     }
