@@ -1,7 +1,7 @@
 package com.minenash.seamless_loading_screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -58,7 +58,7 @@ public class FadeScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack stack, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (frames <= 0 || client == null) return;
 
         boolean doFade = frames <= fadeFrames;
@@ -77,25 +77,25 @@ public class FadeScreen extends Screen {
             int x = width / 2 - w / 2;
             int y = 0;
 
-            loadQuad(stack, color, x, y, x+w, y+h).draw();
+            loadQuad(context, color, x, y, x+w, y+h).draw();
 
             if(w < width) {
                 RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
                 // 0.25f is from Screen.renderBackgroundTexture vertex colors
                 color.set(0.25f, 0.25f, 0.25f, alpha);
-                loadQuad(stack, color, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
-                loadQuad(stack, color, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
+                loadQuad(context, color, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
+                loadQuad(context, color, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
             }
         } else {
             RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
             color.set(0.25f, 0.25f, 0.25f, alpha);
-            loadQuad(stack, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
+            loadQuad(context, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
         }
 
         if (!doFade) {
-            DrawableHelper.drawCenteredTextWithShadow(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
+            context.drawCenteredTextWithShadow(client.textRenderer, title, width / 2, 70, 0xFFFFFF);
             String progress = String.valueOf(client.worldRenderer.getCompletedChunkCount());
-            DrawableHelper.drawCenteredTextWithShadow(stack, client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
+            context.drawCenteredTextWithShadow(client.textRenderer, progress, width / 2, 90, 0xFFFFFF);
         }
 
         RenderSystem.disableBlend();
@@ -105,11 +105,13 @@ public class FadeScreen extends Screen {
         if(frames == 0) markDone(false);
     }
 
-    private Tessellator loadQuad(MatrixStack stack, Vector4f color, int x0, int y0, int x1, int y1) {
-        return loadQuad(stack, color, x0, y0, x1, y1, 0, 0, 1, 1);
+    private Tessellator loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1) {
+        return loadQuad(context, color, x0, y0, x1, y1, 0, 0, 1, 1);
     }
 
-    private Tessellator loadQuad(MatrixStack stack, Vector4f color, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
+    private Tessellator loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
+        MatrixStack stack = context.getMatrices();
+
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
