@@ -120,7 +120,7 @@ public class OnLeaveHelper {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
                 nativeImage2.writeTo(iconFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("[SeamlessLoadingScreen] Unable to update the world icon!", e);
             } finally {
                 nativeImage.close();
             }

@@ -1,9 +1,9 @@
 {
-  "seamless_loading_screen.screen.generating_chunks": "Generating Chunks",
+  "seamless_loading_screen.screen.loading_chunks": "Generating Chunks",
   "seamless_loading_screen.keybind.config": "Open Seamless Loading Screen Config",
   "seamless_loading_screen.midnightconfig.title": "Seamless Loading Screen Options",
-  "seamless_loading_screen.midnightconfig.time": "Delay for Loading Chunks",
-  "seamless_loading_screen.midnightconfig.fade": "Fade Duration",
+  "seamless_loading_screen.midnightconfig.time": "Delay for Loading Chunks (In Ticks)",
+  "seamless_loading_screen.midnightconfig.fade": "Fade Duration (In Ticks)",
   "seamless_loading_screen.midnightconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
   "seamless_loading_screen.midnightconfig.archiveScreenshots": "Archive Screenshots",
   "seamless_loading_screen.midnightconfig.updateWorldIcon": "Update World Icon",
