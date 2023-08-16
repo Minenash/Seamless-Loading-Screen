@@ -25,8 +25,7 @@ public class OnQuitHelper {
     private static int old_FrameBufferHeight = 0;
 
     public static void beginScreenshotTask(Runnable runnable){
-        ScreenshotLoader.stopReplacementNextTick = false;
-        ScreenshotLoader.stopReplacement = false;
+        //ScreenshotLoader.replacebg = false;
 
         attemptScreenShot = true;
 

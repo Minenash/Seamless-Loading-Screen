@@ -12,6 +12,6 @@ public class DownloadingTerrainScreenMixin {
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/DownloadingTerrainScreen;close()V"))
     private void stopBackgroundReplacement(CallbackInfo ci){
-        //ScreenshotLoader.stopReplacement = true;
+        ScreenshotLoader.replacebg = false;
     }
 }

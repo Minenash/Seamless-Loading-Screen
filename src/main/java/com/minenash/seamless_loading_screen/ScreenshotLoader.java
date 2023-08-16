@@ -64,6 +64,7 @@ public class ScreenshotLoader {
             loaded = true;
             time = Config.time;
             timeDelta = 1F / Config.fade;
+            replacebg = true;
         } catch (IOException ignored) {}
     }
 
@@ -81,33 +82,15 @@ public class ScreenshotLoader {
         return fileName;
     }
 
+    public static boolean replacebg = false;
+
     public static void render(Screen screen, MatrixStack stack) {
-        if (loaded) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, SCREENSHOT);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, SCREENSHOT);
 
-            int w = (int) (imageRatio * screen.height);
-            DrawableHelper.drawTexture(stack, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
-           // renderVignette();
-        }
-    }
-
-    public static boolean stopReplacementNextTick = false;
-
-    public static boolean stopReplacement = false;
-
-    public static boolean validScreen(Screen screen){
-        System.out.println(screen.getClass());
-
-        if(stopReplacement) return false;
-        if(stopReplacementNextTick) stopReplacement = true;
-
-        return screen instanceof ScreenshotWithTextScreen
-                || screen instanceof LevelLoadingScreen
-                || screen instanceof ConnectScreen
-                || screen instanceof RealmsLongConfirmationScreen
-                || screen instanceof RealmsLongRunningMcoTaskScreen
-                || screen instanceof DownloadingTerrainScreen;
+        int w = (int) (imageRatio * screen.height);
+        DrawableHelper.drawTexture(stack, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
+       // renderVignette();
     }
 
 //    public static void renderVignette() {

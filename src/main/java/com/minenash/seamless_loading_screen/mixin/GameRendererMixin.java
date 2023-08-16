@@ -42,9 +42,9 @@ public class GameRendererMixin {
             int w = (int) (ScreenshotLoader.imageRatio * height);
             boolean doFade = ScreenshotLoader.time <= Config.fade;
 
-            if (doFade)
-                RenderSystem.clearColor(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
-            DrawableHelper.drawTexture(stack, width/2 - w/2, 0, 0.0F, 0.0F, w, height, w, height);
+            if (doFade) RenderSystem.clearColor(1.0F, 1.0F, 1.0F, ScreenshotLoader.timeDelta * ScreenshotLoader.time);
+
+            DrawableHelper.drawTexture(stack, width / 2 - w / 2, 0, 0.0F, 0.0F, w, height, w, height);
             //ScreenshotLoader.renderVignette();
 
             if (!doFade)
@@ -61,9 +61,7 @@ public class GameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.BY, by = 2)) //
     private void attemptToTakeScreenshot(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
-        if(OnQuitHelper.attemptScreenShot) {
-            OnQuitHelper.takeScreenShot();
-        }
+        if(OnQuitHelper.attemptScreenShot) OnQuitHelper.takeScreenShot();
     }
 
 }

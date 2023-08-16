@@ -18,18 +18,15 @@ public class ServerInfoMixin implements ServerInfoExtras {
 
     @Inject(method = "toNbt", at = @At("RETURN"))
     private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
-        NbtCompound tag = callback.getReturnValue();
-
-        tag.putBoolean("allowCustomScreenshots", allowCustomScreenshots);
+        callback.getReturnValue()
+                .putBoolean("allowCustomScreenshots", allowCustomScreenshots);
     }
 
-    @Inject(method = "fromNbt", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "fromNbt", at = @At("RETURN"))
     private static void deserialize(NbtCompound tag, CallbackInfoReturnable<ServerInfo> callback) {
         if (!tag.contains("allowCustomScreenshots", 1)) return;
 
-        ServerInfo info = callback.getReturnValue();
-
-        ((ServerInfoMixin)(Object)info).allowCustomScreenshots = tag.getBoolean("allowCustomScreenshots");
+        ((ServerInfoMixin) (Object) callback.getReturnValue()).allowCustomScreenshots = tag.getBoolean("allowCustomScreenshots");
     }
 
     @Inject(method = "copyFrom", at = @At("TAIL"))
