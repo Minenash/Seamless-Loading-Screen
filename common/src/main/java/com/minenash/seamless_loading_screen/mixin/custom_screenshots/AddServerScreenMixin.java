@@ -50,7 +50,7 @@ public abstract class AddServerScreenMixin extends Screen {
         return (Text.translatable("seamless_loading_screen.server.allowCustomScreenshot"))
                 .append(": ")
                 .append(Text.translatable(
-                        "seamless_loading_screen.tinyconfig.boolean."
+                        "seamless_loading_screen.midnightconfig.boolean."
                                 + (((ServerInfoExtension)server).getAllowCustomScreenshot() ? "true" : "false")));
     }
 
