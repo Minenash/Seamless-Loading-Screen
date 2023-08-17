@@ -36,9 +36,15 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
-      - name: capture build artifacts
+      - name: capture fabric build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
         uses: actions/upload-artifact@v2
         with:
           name: Artifacts
-          path: build/libs/
+          path: fabric/build/libs/
+      - name: capture forge build artifacts
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: forge/build/libs/
