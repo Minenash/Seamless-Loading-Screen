@@ -8,6 +8,12 @@ public class Config extends MidnightConfig {
     @Entry(min = 0)
     public static int fade = 20;
 
+    @Entry(isColor = true)
+    public static String tintColor = "#121212";
+
+    @Entry(min = 0f, max = 1f, isSlider = true)
+    public static float tintStrength = 0.3f;
+
     @Entry public static ScreenshotResolution resolution = ScreenshotResolution.Normal;
     @Entry public static boolean disableCamera = true;
     @Entry public static boolean archiveScreenshots = false;

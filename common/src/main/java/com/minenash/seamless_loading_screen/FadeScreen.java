@@ -92,6 +92,8 @@ public class FadeScreen extends Screen {
             loadQuad(stack, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
         }
 
+        ScreenshotLoader.renderTint(this, stack, alpha);
+
         if (!doFade) {
             DrawableHelper.drawCenteredText(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
             String progress = String.valueOf(client.worldRenderer.getCompletedChunkCount());
