@@ -1,6 +1,7 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
@@ -8,9 +9,12 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,34 +95,30 @@ public class ScreenshotLoader {
     public static void render(Screen screen, DrawContext context) {
         int w = (int) (imageRatio * screen.height);
         context.drawTexture(SCREENSHOT, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
-       // renderVignette();
+        renderTint(screen, context, 1f);
     }
 
-//    public static void renderVignette() {
-//        MinecraftClient client = MinecraftClient.getInstance();
-//
-//        int scaledWidth = client.getWindow().getScaledWidth();
-//        int scaledHeight = client.getWindow().getScaledHeight();
-//
-//        RenderSystem.enableBlend();
-//        RenderSystem.disableDepthTest();
-//        RenderSystem.depthMask(false);
-//        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-//        RenderSystem.color4f(0.5F, 0.5F, 0.5F, 1.0F);
-//
-//        client.getTextureManager().bindTexture(new Identifier("textures/misc/vignette.png"));
-//        Tessellator tessellator = Tessellator.getInstance();
-//        BufferBuilder bufferBuilder = tessellator.getBuffer();
-//        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
-//        bufferBuilder.vertex(0.0D, scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
-//        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
-//        bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
-//        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
-//        tessellator.draw();
-//        RenderSystem.depthMask(true);
-//        RenderSystem.enableDepthTest();
-//        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-//        RenderSystem.defaultBlendFunc();
-//    }
-	
+    public static void renderTint(Screen screen, DrawContext context, float fadeValue){
+        Color color = hex2Rgb(Config.tintColor);
+
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        int alpha = Math.round((Config.tintStrength * 255) * fadeValue);
+
+        int argb_color = getArgb(alpha, red, green, blue);
+
+        context.fill(0,0, screen.width, screen.height, argb_color);
+    }
+
+    public static int getArgb(int alpha, int red, int green, int blue) {
+        return alpha << 24 | red << 16 | green << 8 | blue;
+    }
+
+    public static Color hex2Rgb(String colorStr) {
+        try {
+            return Color.decode("#" + colorStr.replace("#", ""));
+        } catch (Exception ignored) {}
+        return Color.BLACK;
+    }
 }
