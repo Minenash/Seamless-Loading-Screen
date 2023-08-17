@@ -12,9 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(AddServerScreen.class)
 public abstract class AddServerScreenMixin extends Screen {
@@ -25,16 +24,25 @@ public abstract class AddServerScreenMixin extends Screen {
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
-    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0)) //
-    private void adjust_addButton_args(Args args){
-        args.set(0, ((int) args.get(0)) + 103); // x + 103
-        args.set(1, ((int) args.get(1)) + 24);  // y + 24
-        args.set(2, ((int) args.get(2)) - 103); // width - 103
+    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 0)
+    private int adjust_addButton_x(int x){
+        return x + 103; // x + 103
     }
 
-    @ModifyArgs(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 1))
-    private void adjust_cancelButton_args(Args args){
-        args.set(2, ((int) args.get(2)) - 103); // width - 103
+    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 1)
+    private int adjust_addButton_y(int y){
+        return y + 24; // y + 24
+    }
+
+    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 2)
+    private int adjust_addButton_width(int width){
+        return width - 103; // width - 103
+    }
+    
+
+    @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 1), index = 2)
+    private int adjust_cancelButton_wdith(int width){
+        return width - 103; // width - 103
     }
 
     @Inject(method = "init", at = @At("HEAD"))
