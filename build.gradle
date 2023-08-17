@@ -39,7 +39,9 @@ allprojects {
 			url "https://maven.terraformersmc.com/releases/"
 		}
 		maven {
-			url = "https://api.modrinth.com/maven"
+			name = "Modrinth"
+			url "https://api.modrinth.com/maven"
+			content { includeGroup "maven.modrinth" }
 		}
 	}
 
