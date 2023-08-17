@@ -4,8 +4,10 @@ import com.minenash.seamless_loading_screen.*;
 import com.minenash.seamless_loading_screen.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -59,6 +61,19 @@ public abstract class MinecraftClientMixin {
 		});
 
 		info.cancel();
+	}
+
+	//----
+
+	@Shadow
+	@Final
+	private Window window;
+
+	@Inject(method = "onResolutionChanged", at = @At("TAIL"))
+	private void captureResize(CallbackInfo ci) {
+		if(SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
+			SeamlessLoadingScreen.BLUR_PROGRAM.onWindowResize((MinecraftClient) (Object) this, window);
+		}
 	}
 
 }

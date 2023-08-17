@@ -1,17 +1,29 @@
 package com.minenash.seamless_loading_screen;
 
+import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawableHelper;
+import com.mojang.logging.LogUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
+
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vector4f;
+import net.minecraft.util.registry.Registry;
+import org.slf4j.Logger;
 
 import java.util.function.Consumer;
 
 public class FadeScreen extends Screen {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     private final int fadeFrames;
     private int frames;
     private Consumer<Boolean> callback;
@@ -34,6 +46,21 @@ public class FadeScreen extends Screen {
         markDone(true);
 
         super.removed();
+    }
+
+    @Override
+    protected void init() {
+        if(Config.playSoundEffect) {
+            var id = Identifier.tryParse(Config.soundEffect);
+
+            if(id != null) {
+                SoundEvent soundEvent = Registry.SOUND_EVENT.getOrEmpty(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
+
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, Config.soundPitch, Config.soundVolume));
+            } else {
+                LOGGER.error("[SeamlessLoadingScreen]: Unable to parse the above SoundEffect due to it not being a valid Identifier. [Value: {}]", Config.soundEffect);
+            }
+        }
     }
 
     private void markDone(boolean forceClosed) {
@@ -63,7 +90,7 @@ public class FadeScreen extends Screen {
 
         boolean doFade = frames <= fadeFrames;
 
-        float alpha = doFade ? (float) frames / fadeFrames : 1.0f;
+        float alpha = doFade ? Math.min(frames / (float) fadeFrames, 1.0f) : 1.0f;
 
         Vector4f color = new Vector4f(1, 1, 1, alpha);
 
@@ -92,7 +119,7 @@ public class FadeScreen extends Screen {
             loadQuad(stack, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
         }
 
-        ScreenshotLoader.renderTint(this, stack, alpha);
+        ScreenshotLoader.renderAfterEffects(this, stack, alpha);
 
         if (!doFade) {
             DrawableHelper.drawCenteredText(stack, client.textRenderer, title, width / 2, 70, 0xFFFFFF);
