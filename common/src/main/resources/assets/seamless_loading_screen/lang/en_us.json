@@ -1,31 +1,61 @@
 {
   "seamless_loading_screen.screen.loading_chunks": "Generating Chunks",
-  "seamless_loading_screen.keybind.config": "Open Seamless Loading Screen Config",
-  "seamless_loading_screen.midnightconfig.title": "Seamless Loading Screen Options",
-  "seamless_loading_screen.midnightconfig.time": "Delay for Loading Chunks (In Ticks)",
-  "seamless_loading_screen.midnightconfig.fade": "Fade Duration (In Ticks)",
-  "seamless_loading_screen.midnightconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
-  "seamless_loading_screen.midnightconfig.archiveScreenshots": "Archive Screenshots",
-  "seamless_loading_screen.midnightconfig.updateWorldIcon": "Update World Icon",
-  "seamless_loading_screen.midnightconfig.boolean.true": "True",
-  "seamless_loading_screen.midnightconfig.boolean.false": "False",
 
-  "seamless_loading_screen.midnightconfig.soundEffect": "Sound Effect",
-  "seamless_loading_screen.midnightconfig.playSoundEffect": "Enable Sound Effect",
-  "seamless_loading_screen.midnightconfig.soundPitch": "Sound Pitch",
-  "seamless_loading_screen.midnightconfig.soundVolume": "Sound Volume",
-  "seamless_loading_screen.midnightconfig.screenshotBlurStrength": "Background Blur Strength",
-  "seamless_loading_screen.midnightconfig.screenshotBlurQuality": "Background Blur Quality",
-  "seamless_loading_screen.midnightconfig.enableScreenshotBlur": "Enable Background Blur",
-  "seamless_loading_screen.midnightconfig.tintColor": "Tint Color (RGB)",
-  "seamless_loading_screen.midnightconfig.tintStrength": "Tint Strength",
+  "seamless_loading_screen.config.title": "Seamless Loading Screen Options",
+  "seamless_loading_screen.config.display": "Display Options",
+  "seamless_loading_screen.config.display.description": "Options relating to how screenshots are rendered during the loading screen.",
+  "seamless_loading_screen.config.capturing": "Capturing Options",
+  "seamless_loading_screen.config.capturing.description": "Options relating to how screenshots are captured.",
 
-  "seamless_loading_screen.midnightconfig.resolution": "Screenshot Resolution",
-  "seamless_loading_screen.midnightconfig.resolution.tooltip": "Native - Optifine TAA compatibility, game's resolution\nNormal - Supports up to 21:9 ultrawide monitors\n4K - For 4K monitors\n8K - For 8K monitors",
-  "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.Native": "Native",
-  "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.Normal": "Normal",
-  "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r4K": "4K",
-  "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r8K": "8K",
+  "seamless_loading_screen.config.time": "Chunk Load Waiting Delay",
+  "seamless_loading_screen.config.time.description": "The amount of time, in ticks (20 ticks = 1 second), that the fade-in effect should wait before starting to fade to allow chunks to load in.",
+
+  "seamless_loading_screen.config.fade": "Fade Duration",
+  "seamless_loading_screen.config.fade.description": "The amount of time, in ticks (20 ticks = 1 second), that the fade-in effect should take.",
+
+  "seamless_loading_screen.config.disableCamera": "Disable Camera Movement",
+  "seamless_loading_screen.config.disableCamera.description": "Should camera movement be disabled whilst the fade-in effect is taking place?",
+
+  "seamless_loading_screen.config.archiveScreenshots": "Archive Screenshots",
+  "seamless_loading_screen.config.archiveScreenshots.description": "Should old screenshots be archived for later use?",
+
+  "seamless_loading_screen.config.updateWorldIcon": "Update World Icon",
+  "seamless_loading_screen.config.updateWorldIcon.description": "Should the world icon be updated when you leave a singleplayer world?",
+
+  "seamless_loading_screen.config.soundEffects": "Sound Effects",
+  "seamless_loading_screen.config.soundEffect": "Sound Effect",
+  "seamless_loading_screen.config.soundEffect.description": "The identifier of the sound effect to be played when the fade-in process begins.",
+
+  "seamless_loading_screen.config.playSoundEffect": "Enable Sound Effect",
+  "seamless_loading_screen.config.playSoundEffect.description": "Should a sound effect be played once the fade-in process begins?",
+
+  "seamless_loading_screen.config.soundPitch": "Sound Pitch",
+  "seamless_loading_screen.config.soundVolume": "Sound Volume",
+
+  "seamless_loading_screen.config.screenshotBlur": "Screenshot Blur",
+  "seamless_loading_screen.config.screenshotBlurStrength": "Background Blur Strength",
+  "seamless_loading_screen.config.screenshotBlurStrength.description": "How strong should the blur effect be? A higher strength means the screenshot will be less recognizable.",
+
+  "seamless_loading_screen.config.screenshotBlurQuality": "Background Blur Quality",
+  "seamless_loading_screen.config.screenshotBlurQuality.description": "What level of quality should the blur be? A lower quality causes more recognizable blur patterns but is more peformance friendly.",
+
+  "seamless_loading_screen.config.enableScreenshotBlur": "Enable Background Blur",
+  "seamless_loading_screen.config.enableScreenshotBlur.description": "Should the screenshot be blurred?",
+
+  "seamless_loading_screen.config.tint": "Screenshot Tint",
+  "seamless_loading_screen.config.tintColor": "Tint Color (RGB)",
+  "seamless_loading_screen.config.tintColor.description": "What color should the screenshot be tinted?",
+
+  "seamless_loading_screen.config.tintStrength": "Tint Strength",
+  "seamless_loading_screen.config.tintStrength.description": "How strong should the tint effect be?",
+
+  "seamless_loading_screen.config.resolution": "Screenshot Resolution",
+  "seamless_loading_screen.config.resolution.description": "Native - Optifine TAA compatibility, game's resolution\nNormal - Supports up to 21:9 ultrawide monitors\n4K - For 4K monitors\n8K - For 8K monitors",
+  "seamless_loading_screen.config.resolution.native": "Native",
+  "seamless_loading_screen.config.resolution.normal": "Normal",
+  "seamless_loading_screen.config.resolution.r4k": "4K",
+  "seamless_loading_screen.config.resolution.r8k": "8K",
+
   "seamless_loading_screen.server.displayMode": "Seamless Screen",
   "seamless_loading_screen.server.displayMode.ENABLED": "Enabled",
   "seamless_loading_screen.server.displayMode.FREEZE": "Custom / Freeze",

@@ -42,7 +42,7 @@ public abstract class MinecraftClientMixin {
 	@ModifyVariable(method = "setScreen", at = @At(value = "HEAD"), argsOnly = true, index = 1)
 	private Screen fadeScreen(Screen screen) {
 		if(currentScreen instanceof DownloadingTerrainScreen && screen == null && world != null && ScreenshotLoader.loaded) {
-			return new FadeScreen(Config.time, Config.fade).then((forced) -> {
+			return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
 				if(!forced) setScreen(null);
 				ScreenshotLoader.inFade = false;
 			});

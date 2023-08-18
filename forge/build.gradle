@@ -32,6 +32,9 @@ dependencies {
 
     //modLocalRuntime ("maven.modrinth:fastload:mc1.20.1-3.4.0")
 
+    modImplementation "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"
+    include "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
