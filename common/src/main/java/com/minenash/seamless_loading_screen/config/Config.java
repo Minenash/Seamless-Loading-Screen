@@ -67,7 +67,7 @@ public class Config {
                             .name(getName("disableCamera"))
                             .description(OptionDescription.createBuilder().text(getDesc("disableCamera")).build())
                             .binding(defaults.disableCamera, () -> config.disableCamera, (val) -> config.disableCamera = val)
-                            .controller(BooleanControllerBuilder::create)
+                            .controller(opt -> BooleanControllerBuilder.create(opt).trueFalseFormatter())
                             .build();
 
                     var soundOpt = Option.<String>createBuilder()
@@ -191,7 +191,7 @@ public class Config {
     public int fade = 20;
 
     @ConfigEntry
-    public Color tintColor = Color.decode("#212121");
+    public Color tintColor = new Color(0x212121);
     public float tintStrength = 0.3f;
 
     @ConfigEntry
