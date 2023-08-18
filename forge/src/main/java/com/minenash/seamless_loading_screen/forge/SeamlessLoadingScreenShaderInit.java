@@ -2,14 +2,11 @@ package com.minenash.seamless_loading_screen.forge;
 
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.gl.GlShader;
-import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterShadersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
