@@ -17,10 +17,7 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.Window;
-import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL30;
 import org.slf4j.Logger;
 
@@ -29,8 +26,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 public class ScreenshotLoader {
@@ -40,7 +35,7 @@ public class ScreenshotLoader {
     public static Identifier SCREENSHOT = new Identifier(SeamlessLoadingScreen.MODID, "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
-    public static boolean allowCustomScreenshot = false;
+    public static DisplayMode displayMode = DisplayMode.ENABLED;
 
     public static boolean inFade = false;
     public static int time;
@@ -71,6 +66,10 @@ public class ScreenshotLoader {
 
     private static void setScreenshot() {
         loaded = false;
+
+        if (displayMode == DisplayMode.DISABLED)
+            return;
+
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
             if(PlatformFunctions.isDevEnv()){
                 LOGGER.info("Name: " + ScreenshotLoader.fileName);

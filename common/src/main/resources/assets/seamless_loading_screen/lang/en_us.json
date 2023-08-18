@@ -26,5 +26,8 @@
   "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.Normal": "Normal",
   "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r4K": "4K",
   "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r8K": "8K",
-  "seamless_loading_screen.server.allowCustomScreenshot": "Use Custom Screenshot"
+  "seamless_loading_screen.server.displayMode": "Seamless Screen",
+  "seamless_loading_screen.server.displayMode.ENABLED": "Enabled",
+  "seamless_loading_screen.server.displayMode.FREEZE": "Custom / Freeze",
+  "seamless_loading_screen.server.displayMode.DISABLED": "Disabled"
 }

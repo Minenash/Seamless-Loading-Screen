@@ -35,12 +35,15 @@ public class OnLeaveHelper {
      * @param runnable Tasks to be performed after taking the screenshot
      */
     public static void beginScreenshotTask(Runnable runnable){
-        //ScreenshotLoader.replacebg = false;
-        MinecraftClient.getInstance().options.setPerspective(Perspective.FIRST_PERSON);
+        if (ScreenshotLoader.displayMode == DisplayMode.FREEZE) {
+            runnable.run();
+            return;
+        }
 
         attemptScreenShot = true;
-
         onceFinished = runnable;
+
+        MinecraftClient.getInstance().options.setPerspective(Perspective.FIRST_PERSON);
 
         var window = MinecraftClient.getInstance().getWindow();
 
