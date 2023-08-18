@@ -20,7 +20,7 @@ public abstract class AddServerScreenMixin extends Screen {
 
     @Shadow @Final private ServerInfo server;
 
-    @Unique private ButtonWidget buttonAllowCustomScreenshot;
+    @Unique private ButtonWidget buttonDisplayMode;
 
     protected AddServerScreenMixin(Text title) { super(title); }
 
@@ -47,19 +47,19 @@ public abstract class AddServerScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
-        buttonAllowCustomScreenshot = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
+        buttonDisplayMode = addDrawableChild(new ButtonWidget(width / 2 - 100, height / 4 + 72 + 24, 200, 20,
                 getText(), buttonWidget -> {
-            ((ServerInfoExtension)server).setAllowCustomScreenshots(!((ServerInfoExtension)server).getAllowCustomScreenshot());
-            buttonAllowCustomScreenshot.setMessage(getText());
+            ((ServerInfoExtension)server).setDisplayMode(((ServerInfoExtension)server).getDisplayMode().next());
+            buttonDisplayMode.setMessage(getText());
         }));
     }
 
     private Text getText() {
-        return (Text.translatable("seamless_loading_screen.server.allowCustomScreenshot"))
+        return (Text.translatable("seamless_loading_screen.server.displayMode"))
                 .append(": ")
                 .append(Text.translatable(
-                        "seamless_loading_screen.midnightconfig.boolean."
-                                + (((ServerInfoExtension)server).getAllowCustomScreenshot() ? "true" : "false")));
+                        "seamless_loading_screen.server.displayMode."
+                                + (((ServerInfoExtension)server).getDisplayMode().toString())));
     }
 
 }

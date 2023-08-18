@@ -33,7 +33,7 @@ public class ScreenshotLoader {
     public static Identifier SCREENSHOT = new Identifier(SeamlessLoadingScreen.MODID, "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
-    public static boolean allowCustomScreenshot = false;
+    public static DisplayMode displayMode = DisplayMode.ENABLED;
 
     public static boolean inFade = false;
     public static int time;
@@ -64,6 +64,10 @@ public class ScreenshotLoader {
 
     private static void setScreenshot() {
         loaded = false;
+
+        if (displayMode == DisplayMode.DISABLED)
+            return;
+
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
             if(PlatformFunctions.isDevEnv()){
                 LOGGER.info("Name: " + ScreenshotLoader.fileName);
