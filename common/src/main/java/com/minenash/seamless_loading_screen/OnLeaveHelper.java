@@ -3,6 +3,7 @@ package com.minenash.seamless_loading_screen;
 import com.minenash.seamless_loading_screen.config.Config;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotRecorder;
@@ -35,6 +36,7 @@ public class OnLeaveHelper {
      */
     public static void beginScreenshotTask(Runnable runnable){
         //ScreenshotLoader.replacebg = false;
+        MinecraftClient.getInstance().options.setPerspective(Perspective.FIRST_PERSON);
 
         attemptScreenShot = true;
 
