@@ -124,7 +124,7 @@ public class ScreenshotLoader {
         }
     }
 
-    public static void renderTint(Screen screen, MatrixStack context, float fadeValue){
+    public static void renderTint(Screen screen, MatrixStack stack, float fadeValue){
         Color color = Config.get().tintColor;
 
         int red = color.getRed();
