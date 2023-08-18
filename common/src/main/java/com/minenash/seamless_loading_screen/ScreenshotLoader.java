@@ -37,7 +37,7 @@ public class ScreenshotLoader {
     public static Identifier SCREENSHOT = new Identifier(SeamlessLoadingScreen.MODID, "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
-    public static boolean allowCustomScreenshot = false;
+    public static DisplayMode displayMode = DisplayMode.ENABLED;
 
     public static boolean inFade = false;
     public static int time;
@@ -68,6 +68,10 @@ public class ScreenshotLoader {
 
     private static void setScreenshot() {
         loaded = false;
+
+        if (displayMode == DisplayMode.DISABLED)
+            return;
+
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
             if(PlatformFunctions.isDevEnv()){
                 LOGGER.info("Name: " + ScreenshotLoader.fileName);
@@ -77,8 +81,8 @@ public class ScreenshotLoader {
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
             loaded = true;
-            time = Config.time;
-            timeDelta = 1F / Config.fade;
+            time = Config.get().time;
+            timeDelta = 1F / Config.get().fade;
             replacebg = true;
         }
         catch (FileNotFoundException ignore){}
@@ -115,18 +119,18 @@ public class ScreenshotLoader {
     public static void renderAfterEffects(Screen screen, MatrixStack stack, float fadeValue){
         renderTint(screen, stack, fadeValue);
 
-        if(Config.enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
-            renderBlur(screen, stack, Config.screenshotBlurStrength * fadeValue, Config.screenshotBlurQuality);
+        if(Config.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
+            renderBlur(screen, stack, Config.get().screenshotBlurStrength * fadeValue, Config.get().screenshotBlurQuality);
         }
     }
 
-    public static void renderTint(Screen screen, MatrixStack stack, float fadeValue){
-        Color color = hex2Rgb(Config.tintColor);
+    public static void renderTint(Screen screen, MatrixStack context, float fadeValue){
+        Color color = Config.get().tintColor;
 
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
-        int alpha = Math.round(255 * (Config.tintStrength * fadeValue));
+        int alpha = Math.round(255 * (Config.get().tintStrength * fadeValue));
 
         int argb_color = getArgb(alpha, red, green, blue);
 
@@ -135,13 +139,6 @@ public class ScreenshotLoader {
 
     public static int getArgb(int alpha, int red, int green, int blue) {
         return alpha << 24 | red << 16 | green << 8 | blue;
-    }
-
-    public static Color hex2Rgb(String colorStr) {
-        try {
-            return Color.decode("#" + colorStr.replace("#", ""));
-        } catch (Exception ignored) {}
-        return Color.BLACK;
     }
 
     //-----

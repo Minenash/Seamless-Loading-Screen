@@ -45,8 +45,8 @@ public class OnLeaveHelper {
         old_FrameBufferWidth = window.getFramebufferWidth();
         old_FrameBufferHeight = window.getFramebufferHeight();
 
-        window.setFramebufferWidth(Config.resolution.width);
-        window.setFramebufferHeight(Config.resolution.height);
+        window.setFramebufferWidth(Config.get().resolution.width);
+        window.setFramebufferHeight(Config.get().resolution.height);
 
         MinecraftClient.getInstance().onResolutionChanged();
     }
@@ -68,7 +68,7 @@ public class OnLeaveHelper {
 
             nativeImage.writeTo(new File(name));
 
-            if (Config.archiveScreenshots) {
+            if (Config.get().archiveScreenshots) {
                 String fileName = "screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length() - 4) + "_" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png";
 
                 File archiveFile = new File(fileName);
@@ -82,7 +82,7 @@ public class OnLeaveHelper {
             LOGGER.error(e.toString());
         }
 
-        if (Config.updateWorldIcon && client.isInSingleplayer()) updateIcon(client.getServer().getIconFile().get().toFile(), nativeImage);
+        if (Config.get().updateWorldIcon && client.isInSingleplayer()) updateIcon(client.getServer().getIconFile().get().toFile(), nativeImage);
 
         attemptScreenShot = false;
 

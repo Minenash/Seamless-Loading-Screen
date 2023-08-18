@@ -64,6 +64,9 @@ dependencies {
 //    modLocalRuntime ("maven.modrinth:bedrockify:1.9+mc1.20")
 //    modLocalRuntime ("me.shedaniel.cloth:cloth-config-fabric:11.0.98", { exclude group: "net.fabricmc.fabric-api" })
 
+    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:${rootProject.yacl_version}"
+    include "dev.isxander.yacl:yet-another-config-lib-fabric:${rootProject.yacl_version}"
+
     //modLocalRuntime ("maven.modrinth:fastload:3.4.0")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

@@ -1,7 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.Config;
-import com.minenash.seamless_loading_screen.config.MidnightConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ public class SeamlessLoadingScreen {
     public static ScreenshotLoader.BlurHelper BLUR_PROGRAM;
 
     public static void onInitializeClient() {
-        MidnightConfig.init(MODID, Config.class);
+        Config.load();
 
         SeamlessLoadingScreen.BLUR_PROGRAM = new ScreenshotLoader.BlurHelper();
 
@@ -37,6 +36,6 @@ public class SeamlessLoadingScreen {
     }
 
     public static void openSettingsScreen(MinecraftClient client){
-        client.setScreen(Config.getScreen(client.currentScreen, MODID));
+        client.setScreen(Config.getInstance().generateScreen(client.currentScreen));
     }
 }
