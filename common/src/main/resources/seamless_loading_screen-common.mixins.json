@@ -6,20 +6,20 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
+    "CreateWorldScreenMixin",
+    "DownloadingTerrainScreenMixin",
     "GameMenuScreenMixin",
     "GameRendererMixin",
+    "QuickPlayMixin",
     "LevelLoadingScreenMixin",
-    "LevelStorageMixin",
     "MinecraftClientMixin",
     "MouseMixin",
+    "ScreenMixin",
     "WorldListWidgetMixin",
     "custom_screenshots.AddServerScreenMixin",
     "custom_screenshots.MultiplayerScreenMixin",
     "custom_screenshots.ServerInfoMixin",
-    "realm.RealmsMainScreenMixin",
-    "ScreenMixin",
-    "DownloadingTerrainScreenMixin",
-    "CreateWorldScreenMixin"
+    "realm.RealmsMainScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
