@@ -13,7 +13,7 @@ public class MouseMixin {
 
     @Inject(method = "onCursorPos", at = @At("HEAD"), cancellable = true)
     private void pauseMouseMovement(CallbackInfo info) {
-        if (Config.disableCamera && ScreenshotLoader.inFade) info.cancel();
+        if (Config.get().disableCamera && ScreenshotLoader.inFade) info.cancel();
     }
 
 }

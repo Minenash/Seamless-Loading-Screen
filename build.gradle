@@ -43,6 +43,7 @@ allprojects {
 			url "https://api.modrinth.com/maven"
 			content { includeGroup "maven.modrinth" }
 		}
+		maven { url 'https://maven.isxander.dev/releases' }
 	}
 
 	tasks.withType(JavaCompile) {

@@ -49,15 +49,15 @@ public class FadeScreen extends Screen {
 
     @Override
     protected void init() {
-        if(Config.playSoundEffect) {
-            var id = Identifier.tryParse(Config.soundEffect);
+        if(Config.get().playSoundEffect) {
+            var id = Identifier.tryParse(Config.get().soundEffect);
 
             if(id != null) {
                 SoundEvent soundEvent = Registries.SOUND_EVENT.getOrEmpty(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
 
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, Config.soundPitch, Config.soundVolume));
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, Config.get().soundPitch, Config.get().soundVolume));
             } else {
-                LOGGER.error("[SeamlessLoadingScreen]: Unable to parse the above SoundEffect due to it not being a valid Identifier. [Value: {}]", Config.soundEffect);
+                LOGGER.error("[SeamlessLoadingScreen]: Unable to parse the above SoundEffect due to it not being a valid Identifier. [Value: {}]", Config.get().soundEffect);
             }
         }
     }
