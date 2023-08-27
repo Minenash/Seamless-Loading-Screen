@@ -31,6 +31,8 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
     //modLocalRuntime ("maven.modrinth:fastload:mc1.20.1-3.4.0")
+    //modLocalRuntime ("maven.modrinth:rubidium:0.6.4")
+    //modCompileOnly ("maven.modrinth:rubidium:0.6.4")
 
     modImplementation "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"
     include "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"

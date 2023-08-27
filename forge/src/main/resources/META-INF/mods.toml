@@ -13,6 +13,9 @@ Takes a screenshot of the game when you leave a world or server, and displays it
 '''
 logoFile = "icon.png"
 
+[mods."sodium:options"]
+"mixin.features.gui.fast_loading_screen" = false
+
 [[dependencies.seamless_loading_screen]]
 modId = "forge"
 mandatory = true
