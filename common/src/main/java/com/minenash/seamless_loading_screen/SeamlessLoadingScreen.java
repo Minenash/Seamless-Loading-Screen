@@ -18,12 +18,10 @@ public class SeamlessLoadingScreen {
 
     public static boolean changeWorldJoinScreen = false;
 
-    public static ScreenshotLoader.BlurHelper BLUR_PROGRAM;
+    public static ScreenshotLoader.BlurHelper BLUR_PROGRAM = new ScreenshotLoader.BlurHelper();
 
     public static void onInitializeClient() {
         MidnightConfig.init(MODID, Config.class);
-
-        SeamlessLoadingScreen.BLUR_PROGRAM = new ScreenshotLoader.BlurHelper();
 
         try {
             Path path = PlatformFunctions.getGameDir().resolve("screenshots/worlds");
