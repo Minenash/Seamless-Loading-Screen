@@ -56,8 +56,11 @@ public abstract class MinecraftClientMixin {
 
 	@Inject(method = "setScreen", at = @At("HEAD"))
 	private void failSafe(Screen screen, CallbackInfo ci){
-		if(terrainScreenReplaced && !(screen instanceof FadeScreen)){
+		//Failsafe injection to prevent mouse lockup or background issues due to other mod injection stuff
+		if((terrainScreenReplaced && !(screen instanceof FadeScreen)) || (screen == null && (ScreenshotLoader.inFade || ScreenshotLoader.replacebg))){
 			ScreenshotLoader.inFade = false;
+			ScreenshotLoader.replacebg = false;
+
 			this.terrainScreenReplaced = false;
 		}
 	}
