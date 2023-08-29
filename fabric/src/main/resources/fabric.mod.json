@@ -28,7 +28,7 @@
 
   "custom": {
     "sodium:options": {
-      "mixin.features.gui.fast_loading_screen": false
+      "mixin.features.gui.screen": false
     }
   },
 

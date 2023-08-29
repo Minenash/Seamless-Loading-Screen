@@ -15,6 +15,7 @@ logoFile = "icon.png"
 
 [mods."sodium:options"]
 "mixin.features.gui.fast_loading_screen" = false
+"features.gui.screen" = false
 
 [[dependencies.seamless_loading_screen]]
 modId = "forge"
