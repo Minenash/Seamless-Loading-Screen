@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MinecraftClient.class)
+@Mixin(value = MinecraftClient.class, priority = 900)
 public abstract class MinecraftClientMixin {
 
 	@Shadow static MinecraftClient instance;
@@ -34,14 +34,18 @@ public abstract class MinecraftClientMixin {
 		if (SeamlessLoadingScreen.changeWorldJoinScreen) {
 			SeamlessLoadingScreen.changeWorldJoinScreen = false;
 			ScreenshotLoader.inFade = true;
+
+			this.terrainScreenReplaced = false;
 		}
 	}
 
-	@Unique private boolean firstOccurrence = true;
+	@Unique private boolean terrainScreenReplaced = false;
 
 	@ModifyVariable(method = "setScreen", at = @At(value = "HEAD"), argsOnly = true, index = 1)
 	private Screen fadeScreen(Screen screen) {
 		if(currentScreen instanceof DownloadingTerrainScreen && screen == null && world != null && ScreenshotLoader.loaded) {
+			this.terrainScreenReplaced = true;
+
 			return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
 				if(!forced) setScreen(null);
 				ScreenshotLoader.inFade = false;
@@ -49,6 +53,16 @@ public abstract class MinecraftClientMixin {
 		}
 		return screen;
 	}
+
+	@Inject(method = "setScreen", at = @At("HEAD"))
+	private void failSafe(Screen screen, CallbackInfo ci){
+		if(terrainScreenReplaced && !(screen instanceof FadeScreen)){
+			ScreenshotLoader.inFade = false;
+			this.terrainScreenReplaced = false;
+		}
+	}
+
+	@Unique private boolean firstOccurrence = true;
 
 	@Inject(method = "scheduleStop", at = @At("HEAD"), cancellable = true)
 	private void onWindowClose(CallbackInfo info) {
