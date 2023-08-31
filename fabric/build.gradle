@@ -68,6 +68,11 @@ dependencies {
 
     //modLocalRuntime ("maven.modrinth:fastload:3.4.0")
 
+//    modLocalRuntime ("com.github.quiqueck:BCLib:3.0.13")
+//    modLocalRuntime ("maven.modrinth:betterend:4.0.10")
+
+    //modImplementation ("com.github.apace100:origins-fabric:v1.10.0")
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,6 +30,8 @@ public abstract class MinecraftClientMixin {
 
 	@Shadow public abstract void setScreen(@Nullable Screen screen);
 
+	@Shadow @Final private static Logger LOGGER;
+
 	@Inject(method = "joinWorld", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/MinecraftClient;reset(Lnet/minecraft/client/gui/screen/Screen;)V"))
 	private void changeScreen(ClientWorld world, CallbackInfo ci) {
 		if (SeamlessLoadingScreen.changeWorldJoinScreen) {
@@ -43,13 +46,20 @@ public abstract class MinecraftClientMixin {
 
 	@ModifyVariable(method = "setScreen", at = @At(value = "HEAD"), argsOnly = true, index = 1)
 	private Screen fadeScreen(Screen screen) {
-		if(currentScreen instanceof DownloadingTerrainScreen && screen == null && world != null && ScreenshotLoader.loaded) {
-			this.terrainScreenReplaced = true;
+		if(currentScreen instanceof DownloadingTerrainScreen && world != null && ScreenshotLoader.loaded) {
+			if(screen == null) {
+				this.terrainScreenReplaced = true;
 
-			return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
-				if(!forced) setScreen(null);
+				return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
+					if (!forced) setScreen(null);
+					ScreenshotLoader.inFade = false;
+				});
+			} else {
+				LOGGER.warn("[SeamlessLoadingScreen] Fade screen has been skipped due to someone replacing the screen before we could add our own after DownloadingTerrainScreen");
+
 				ScreenshotLoader.inFade = false;
-			});
+				ScreenshotLoader.replacebg = false;
+			}
 		}
 		return screen;
 	}
