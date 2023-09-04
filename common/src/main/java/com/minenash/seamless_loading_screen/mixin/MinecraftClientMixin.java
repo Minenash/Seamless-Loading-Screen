@@ -58,8 +58,9 @@ public abstract class MinecraftClientMixin {
 				LOGGER.warn("[SeamlessLoadingScreen] Fade screen has been skipped due to someone replacing the screen before we could add our own after DownloadingTerrainScreen");
 
 				ScreenshotLoader.inFade = false;
-				ScreenshotLoader.replacebg = false;
 			}
+
+			ScreenshotLoader.replacebg = false;
 		}
 		return screen;
 	}
