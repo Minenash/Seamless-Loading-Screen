@@ -43,7 +43,15 @@ public class OnLeaveHelper {
         attemptScreenShot = true;
         onceFinished = runnable;
 
-        MinecraftClient.getInstance().options.setPerspective(Perspective.FIRST_PERSON);
+        var options = MinecraftClient.getInstance().options;
+
+        //Change First Person before screenshot
+        options.setPerspective(Perspective.FIRST_PERSON);
+
+        //Disable F3 menu due to profiler crashing
+        options.debugEnabled = false;
+        options.debugProfilerEnabled = false;
+        options.debugTpsEnabled = false;
 
         var window = MinecraftClient.getInstance().getWindow();
 
