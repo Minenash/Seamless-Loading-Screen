@@ -6,22 +6,24 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.ConfigEntry;
 import dev.isxander.yacl3.config.GsonConfigInstance;
-import dev.isxander.yacl3.gui.controllers.ColorController;
-import dev.isxander.yacl3.impl.controller.IntegerSliderControllerBuilderImpl;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class Config {
     private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
-            .overrideGsonBuilder(new GsonBuilder()
-                    .setPrettyPrinting()
-                    .disableHtmlEscaping()
-                    .create())
+            .overrideGsonBuilder(
+                    new GsonBuilder()
+                            .setPrettyPrinting()
+                            .disableHtmlEscaping()
+                            .serializeNulls()
+                            .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
+                            .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
+                            .registerTypeHierarchyAdapter(Color.class, new GsonConfigInstance.ColorTypeAdapter())
+            )
             .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
             .build();
 
@@ -185,34 +187,23 @@ public class Config {
                 });
     }
 
-    @ConfigEntry
-    public int time = 80;
-    @ConfigEntry
-    public int fade = 20;
+    @ConfigEntry public int time = 80;
+    @ConfigEntry public int fade = 20;
 
-    @ConfigEntry
-    public Color tintColor = new Color(0x212121);
-    public float tintStrength = 0.3f;
+    @ConfigEntry public Color tintColor = new Color(0x212121);
+    @ConfigEntry public float tintStrength = 0.3f;
 
-    @ConfigEntry
-    public boolean enableScreenshotBlur = false;
-//    @Entry(min = 1f, max = 16f, isSlider = true)
-    @ConfigEntry
-    public float screenshotBlurStrength = 1f;
-//    @Entry(min = 1f, max = 16f, isSlider = true)
-    @ConfigEntry
-    public float screenshotBlurQuality = 5f;
+    @ConfigEntry public boolean enableScreenshotBlur = false;
 
-    @ConfigEntry
-    public boolean playSoundEffect = false;
-    @ConfigEntry
-    public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
-//    @Entry(min = 0f, max = 10f, isSlider = true)
-    @ConfigEntry
-    public float soundPitch = 1f;
-    @ConfigEntry
-//    @Entry(min = 0f, max = 10f, isSlider = true)
-    public float soundVolume = 1f;
+    @ConfigEntry public float screenshotBlurStrength = 1f; //min = 1f, max = 16f
+    @ConfigEntry public float screenshotBlurQuality = 5f; //min = 1f, max = 16f
+
+    @ConfigEntry public boolean playSoundEffect = false;
+
+    @ConfigEntry public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
+
+    @ConfigEntry public float soundPitch = 1f; //min = 0f, max = 10f
+    @ConfigEntry public float soundVolume = 1f; //min = 0f, max = 10f
 
     @ConfigEntry public ScreenshotResolution resolution = ScreenshotResolution.Normal;
     @ConfigEntry public boolean disableCamera = true;
