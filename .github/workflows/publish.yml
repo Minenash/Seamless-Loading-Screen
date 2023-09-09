@@ -1,0 +1,64 @@
+name: Distribute to publishers
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload_asset:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - uses: burrunan/gradle-cache-action@v1
+        with:
+          gradle-distribution-sha-256-sum-warning: false
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          cache: gradle
+          java-version: 17
+      - run: chmod +x gradlew
+      - name: Build
+        run: ./gradlew build
+      - name: Get Tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          separator: "+"
+          msg: ${{steps.tag.outputs.tag}}
+      - name: Publish Forge
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: "[Forge] Seamless Loading Screen ${{steps.tag.outputs.tag}}"
+          files: forge/build/libs/!(*-@(dev\|sources\|javadoc)).jar
+          loaders: |
+            forge
+          game-versions: |
+            ${{steps.split.outputs._1}}
+          dependencies: |
+            yacl(embedded)
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          github-token: ${{ secrets.CLASSIC_GITHUB_TOKEN }}
+      - name: Publish Fabric
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: "[Fabric] Seamless Loading Screen ${{steps.tag.outputs.tag}}"
+          files: fabric/build/libs/!(*-@(dev\|sources\|javadoc)).jar
+          loaders: |
+            fabric
+          game-versions: |
+            ${{steps.split.outputs._1}}
+          modrinth-id: ${{ vars.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ vars.CURSEFORGE_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          github-token: ${{ secrets.CLASSIC_GITHUB_TOKEN }}
