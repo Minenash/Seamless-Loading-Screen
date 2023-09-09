@@ -166,6 +166,14 @@ public class Config {
                             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
                             .build();
 
+                    var blacklistedAddressOpt = ListOption.<String>createBuilder()
+                            .name(getName("blacklistedAddresses"))
+                            .description(OptionDescription.createBuilder().text(getDesc("blacklistedAddresses")).build())
+                            .binding(defaults.blacklistedAddresses, () -> config.blacklistedAddresses, val -> config.blacklistedAddresses = val)
+                            .controller(StringControllerBuilder::create)
+                            .initial("")
+                            .build();
+
                     return builder
                             .title(getName("title"))
                             .category(ConfigCategory.createBuilder()
@@ -183,6 +191,11 @@ public class Config {
                                     .name(getName("capturing"))
                                     .tooltip(getDesc("capturing"))
                                     .options(List.of(archiveScreenshotsOpt, resolutionOpt, updateWorldIconOpt))
+                                    .build())
+                            .category(ConfigCategory.createBuilder()
+                                    .name(getName("server_settings"))
+                                    .tooltip(getDesc("server_settings"))
+                                    .group(blacklistedAddressOpt)
                                     .build());
                 });
     }
@@ -209,6 +222,8 @@ public class Config {
     @ConfigEntry public boolean disableCamera = true;
     @ConfigEntry public boolean archiveScreenshots = false;
     @ConfigEntry public boolean updateWorldIcon = false;
+
+    @ConfigEntry public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
 
     public enum ScreenshotResolution {
         Native(0,0),

@@ -1,6 +1,7 @@
 package com.minenash.seamless_loading_screen.mixin;
 
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
+import com.minenash.seamless_loading_screen.ServerInfoExtension;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.network.ServerAddress;
@@ -17,6 +18,8 @@ public class ConnectScreenMixin {
 
 	@Inject(method = "connect(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ServerAddress;Lnet/minecraft/client/network/ServerInfo;)V", at = @At("HEAD"))
 	public void getImage(MinecraftClient client, ServerAddress address, ServerInfo info, CallbackInfo ci) {
+		ScreenshotLoader.displayMode = ((ServerInfoExtension) info).getDisplayMode();
+
 		ScreenshotLoader.setScreenshot(address.getAddress(), address.getPort());
 	}
 }
