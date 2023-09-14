@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen.config;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
@@ -14,6 +15,8 @@ import java.awt.*;
 import java.util.List;
 
 public class Config {
+    private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
+
     private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
             .overrideGsonBuilder(
                     new GsonBuilder()
@@ -22,10 +25,14 @@ public class Config {
                             .serializeNulls()
                             .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
                             .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
-                            .registerTypeHierarchyAdapter(Color.class, new GsonConfigInstance.ColorTypeAdapter())
+                            .registerTypeHierarchyAdapter(Color.class, colorAdapter)
             )
             .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
             .build();
+
+    private static Config getDefaults(){
+        return GSON.getDefaults();
+    }
 
     public static Config get() {
         return GSON.getConfig();
@@ -33,6 +40,9 @@ public class Config {
 
     public static void load() {
         GSON.load();
+
+        //Check if color is broken within config to save over such i.e tintColor
+        if(colorAdapter.errored()) GSON.save();
     }
 
     public static void save() {
