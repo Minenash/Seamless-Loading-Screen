@@ -1,9 +1,6 @@
 package com.minenash.seamless_loading_screen.config;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import com.mojang.logging.LogUtils;
 import dev.isxander.yacl3.config.GsonConfigInstance;
 import org.slf4j.Logger;
@@ -35,14 +32,24 @@ public class SafeColorTypeAdapter extends GsonConfigInstance.ColorTypeAdapter {
     @Override
     public Color deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         try {
-            return super.deserialize(jsonElement, type, jsonDeserializationContext);
-        } catch (UnsupportedOperationException e){
-            LOGGER.error("Unable to parse a given color form the config file, such will be set to default! [Value: {}]", jsonElement);
+            if(jsonElement instanceof JsonPrimitive primitive) {
+                if (primitive.isNumber()) {
+                    return super.deserialize(jsonElement, type, jsonDeserializationContext);
+                } else if (primitive.getAsString().contains("#")){
+                    errored = true;
 
-            errored = true;
-
-            return supplier.get();
+                    return new Color(Integer.parseInt(primitive.getAsString().replace("#", ""), 16), false);
+                }
+            }
+        } catch (UnsupportedOperationException | NumberFormatException e){
+            LOGGER.warn("Exception thrown during Color Deserialization", e);
         }
+
+        errored = true;
+
+        LOGGER.warn("Unable to parse a given color form the config file, such will be set to default! [Value: {}]", jsonElement);
+
+        return supplier.get();
     }
 
     @Override
