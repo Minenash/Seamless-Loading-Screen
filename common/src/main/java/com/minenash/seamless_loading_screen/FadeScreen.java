@@ -103,19 +103,19 @@ public class FadeScreen extends Screen {
             int x = width / 2 - w / 2;
             int y = 0;
 
-            loadQuad(context, color, x, y, x+w, y+h).draw();
+            loadQuad(context, color, x, y, x + w, y + h);
 
             if(w < width) {
                 RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
                 // 0.25f is from Screen.renderBackgroundTexture vertex colors
                 color.set(0.25f, 0.25f, 0.25f, alpha);
-                loadQuad(context, color, 0, 0, x, height, 0, 0, x/32f, height/32f).draw();
-                loadQuad(context, color, x+w, 0, width, height, (x+w)/32f, 0, width/32f, height/32f).draw();
+                loadQuad(context, color, 0, 0, x, height, 0, 0, x / 32f, height / 32f);
+                loadQuad(context, color, x + w, 0, width, height, (x + w) / 32f, 0, width / 32f, height / 32f);
             }
         } else {
             RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
             color.set(0.25f, 0.25f, 0.25f, alpha);
-            loadQuad(context, color, 0, 0, width, height, 0, 0, width/32f, height/32f).draw();
+            loadQuad(context, color, 0, 0, width, height, 0, 0, width / 32f, height / 32f);
         }
 
         ScreenshotLoader.renderAfterEffects(this, context, alpha);
@@ -133,11 +133,11 @@ public class FadeScreen extends Screen {
         if(frames == 0) markDone(false);
     }
 
-    private Tessellator loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1) {
-        return loadQuad(context, color, x0, y0, x1, y1, 0, 0, 1, 1);
+    private void loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1) {
+        loadQuad(context, color, x0, y0, x1, y1, 0, 0, 1, 1);
     }
 
-    private Tessellator loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
+    private void loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1, float u0, float v0, float u1, float v1) {
         MatrixStack stack = context.getMatrices();
 
         Tessellator tessellator = Tessellator.getInstance();
@@ -148,6 +148,6 @@ public class FadeScreen extends Screen {
         bufferBuilder.vertex(modelMat, x1, y1, 0).texture(u1, v1).color(color.x(), color.y(), color.z(), color.w()).next();
         bufferBuilder.vertex(modelMat, x1, y0, 0).texture(u1, v0).color(color.x(), color.y(), color.z(), color.w()).next();
         bufferBuilder.vertex(modelMat, x0, y0, 0).texture(u0, v0).color(color.x(), color.y(), color.z(), color.w()).next();
-        return tessellator;
+        tessellator.draw();
     }
 }
