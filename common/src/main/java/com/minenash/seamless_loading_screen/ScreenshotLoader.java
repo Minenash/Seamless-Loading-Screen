@@ -16,6 +16,7 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.DynamicSerializableUuid;
 import org.lwjgl.opengl.GL30;
 import org.slf4j.Logger;
 
@@ -58,7 +59,22 @@ public class ScreenshotLoader {
     }
 
     private static void setFileName(String newFileName){
-        fileName = newFileName;
+        var session = MinecraftClient.getInstance().getSession();
+
+        var offlineUUID = DynamicSerializableUuid.getOfflinePlayerUuid(session.getUsername());
+        var sessionUUID = session.getUuidOrNull();
+
+        var baseFileDir = "screenshots/worlds/";
+
+        if(Config.saveScreenshotsByUsername) {
+            var userDir = (sessionUUID != null && !sessionUUID.equals(offlineUUID))
+                    ? cleanFileName(session.getUsername())
+                    : "offline";
+
+            baseFileDir = "screenshots/" + userDir + "/worlds/";
+        }
+
+        fileName = baseFileDir + newFileName;
         setScreenshot();
     }
 

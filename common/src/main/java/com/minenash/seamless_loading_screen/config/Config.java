@@ -1,7 +1,6 @@
 package com.minenash.seamless_loading_screen.config;
 
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
+import com.minenash.seamless_loading_screen.DisplayMode;
 
 public class Config extends MidnightConfig {
 
@@ -37,6 +36,10 @@ public class Config extends MidnightConfig {
     @Entry public static boolean disableCamera = true;
     @Entry public static boolean archiveScreenshots = false;
     @Entry public static boolean updateWorldIcon = false;
+
+    @Entry public static boolean saveScreenshotsByUsername = false;
+
+    @Entry public static DisplayMode defaultServerMode = DisplayMode.DISABLED;
 
     public enum ScreenshotResolution {
         Native(0,0),

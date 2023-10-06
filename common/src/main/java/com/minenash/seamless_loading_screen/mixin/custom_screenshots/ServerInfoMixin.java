@@ -2,6 +2,7 @@ package com.minenash.seamless_loading_screen.mixin.custom_screenshots;
 
 import com.minenash.seamless_loading_screen.DisplayMode;
 import com.minenash.seamless_loading_screen.ServerInfoExtension;
+import com.minenash.seamless_loading_screen.config.Config;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ServerInfoMixin implements ServerInfoExtension {
 
     @Unique
-    private DisplayMode displayMode = DisplayMode.ENABLED;
+    private DisplayMode displayMode = Config.defaultServerMode;
 
     @Inject(method = "toNbt", at = @At("RETURN"))
     private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
