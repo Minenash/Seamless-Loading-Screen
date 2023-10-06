@@ -18,7 +18,7 @@ public class ServerInfoMixin implements ServerInfoExtension {
 
     @Shadow public String address;
     @Unique
-    private DisplayMode displayMode = DisplayMode.ENABLED;
+    private DisplayMode displayMode = Config.get().defaultServerMode;
 
     @Inject(method = "toNbt", at = @At("RETURN"))
     private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
