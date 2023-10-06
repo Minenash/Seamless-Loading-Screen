@@ -65,7 +65,7 @@ dependencies {
         exclude module: "fabric-api"
     }
 
-    modLocalRuntime ("maven.modrinth:auth-me:4.2.0")
+    //modLocalRuntime ("maven.modrinth:auth-me:4.2.0")
 
     //modLocalRuntime ("maven.modrinth:bedrockify:1.9+mc1.20")
     //modLocalRuntime ("me.shedaniel.cloth:cloth-config-fabric:11.0.98", { exclude group: "net.fabricmc.fabric-api" })
@@ -77,7 +77,7 @@ dependencies {
 
     //modImplementation ("com.github.apace100:origins-fabric:v1.10.0")
 
-    //modLocalRuntime ("me.shedaniel.cloth:cloth-config-fabric:8.3.103", { exclude group: "net.fabricmc.fabric-api" })
+    //modLocalRuntime ("maven.modrinth:cloth-config:8.2.88+fabric", { exclude group: "net.fabricmc.fabric-api" })
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

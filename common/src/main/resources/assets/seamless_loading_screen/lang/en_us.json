@@ -5,6 +5,7 @@
   "seamless_loading_screen.midnightconfig.time": "Delay for Loading Chunks (In Ticks)",
   "seamless_loading_screen.midnightconfig.fade": "Fade Duration (In Ticks)",
   "seamless_loading_screen.midnightconfig.disableCamera": "Disable Camera Movement until the Fade is Done",
+  "seamless_loading_screen.midnightconfig.saveScreenshotsByUsername": "Save Screenshots By User",
   "seamless_loading_screen.midnightconfig.archiveScreenshots": "Archive Screenshots",
   "seamless_loading_screen.midnightconfig.updateWorldIcon": "Update World Icon",
   "seamless_loading_screen.midnightconfig.boolean.true": "True",
@@ -27,7 +28,8 @@
   "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r4K": "4K",
   "seamless_loading_screen.midnightconfig.enum.ScreenshotResolution.r8K": "8K",
   "seamless_loading_screen.server.displayMode": "Seamless Screen",
-  "seamless_loading_screen.server.displayMode.ENABLED": "Enabled",
-  "seamless_loading_screen.server.displayMode.FREEZE": "Custom / Freeze",
-  "seamless_loading_screen.server.displayMode.DISABLED": "Disabled"
+  "seamless_loading_screen.midnightconfig.defaultServerMode": "Server's Default Display Mode",
+  "seamless_loading_screen.midnightconfig.enum.DisplayMode.ENABLED": "Enabled",
+  "seamless_loading_screen.midnightconfig.enum.DisplayMode.FREEZE": "Custom / Freeze",
+  "seamless_loading_screen.midnightconfig.enum.DisplayMode.DISABLED": "Disabled"
 }
