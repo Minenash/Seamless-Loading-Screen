@@ -21,16 +21,6 @@ public class SeamlessLoadingScreen {
 
     public static void onInitializeClient() {
         Config.load();
-
-        try {
-            Path path = PlatformFunctions.getGameDir().resolve("screenshots/worlds");
-            Files.createDirectories(path.resolve("singleplayer"));
-            Files.createDirectories(path.resolve("servers"));
-            Files.createDirectories(path.resolve("realms"));
-            Files.createDirectories(path.resolve("archive"));
-        } catch (IOException e) {
-            LOGGER.error("[SeamlessLoadingScreen] A problem when creating the various needed Directories, there might be problems!", e);
-        }
     }
 
     public static void openSettingsScreen(MinecraftClient client){

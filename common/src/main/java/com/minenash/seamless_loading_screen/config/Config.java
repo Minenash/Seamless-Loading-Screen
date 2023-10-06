@@ -2,6 +2,7 @@ package com.minenash.seamless_loading_screen.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.minenash.seamless_loading_screen.DisplayMode;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
@@ -11,7 +12,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 
 public class Config {
@@ -176,6 +177,13 @@ public class Config {
                             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
                             .build();
 
+                    var saveScreenshotsByUsernameOpt = Option.<Boolean>createBuilder()
+                            .name(getName("saveScreenshotsByUser"))
+                            .description(OptionDescription.createBuilder().text(getDesc("saveScreenshotsByUser")).build())
+                            .binding(defaults.saveScreenshotsByUsername, () -> config.saveScreenshotsByUsername, (val) -> config.saveScreenshotsByUsername = val)
+                            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
+                            .build();
+
                     var blacklistedAddressOpt = ListOption.<String>createBuilder()
                             .name(getName("blacklistedAddresses"))
                             .description(OptionDescription.createBuilder().text(getDesc("blacklistedAddresses")).build())
@@ -183,6 +191,15 @@ public class Config {
                             .controller(StringControllerBuilder::create)
                             .initial("")
                             .build();
+
+                    var defaultServerModeOpt = Option.<DisplayMode>createBuilder()
+                            .name(getName("serverDisplayMode"))
+                            .description(OptionDescription.createBuilder().text(getDesc("serverDisplayMode")).build())
+                            .binding(defaults.defaultServerMode, () -> config.defaultServerMode, (val) -> config.defaultServerMode = val)
+                            .controller(opt -> EnumControllerBuilder.create(opt)
+                                    .enumClass(DisplayMode.class)
+                                    .valueFormatter(val -> Text.translatable("seamless_loading_screen.config.displayMode." + val.name().toLowerCase()))
+                            ).build();
 
                     return builder
                             .title(getName("title"))
@@ -200,11 +217,12 @@ public class Config {
                             .category(ConfigCategory.createBuilder()
                                     .name(getName("capturing"))
                                     .tooltip(getDesc("capturing"))
-                                    .options(List.of(archiveScreenshotsOpt, resolutionOpt, updateWorldIconOpt))
+                                    .options(List.of(saveScreenshotsByUsernameOpt, archiveScreenshotsOpt, resolutionOpt, updateWorldIconOpt))
                                     .build())
                             .category(ConfigCategory.createBuilder()
                                     .name(getName("server_settings"))
                                     .tooltip(getDesc("server_settings"))
+                                    .options(List.of(defaultServerModeOpt))
                                     .group(blacklistedAddressOpt)
                                     .build());
                 });
@@ -234,6 +252,10 @@ public class Config {
     @ConfigEntry public boolean updateWorldIcon = false;
 
     @ConfigEntry public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
+
+    @ConfigEntry public boolean saveScreenshotsByUsername = false;
+
+    @ConfigEntry public DisplayMode defaultServerMode = DisplayMode.DISABLED;
 
     public enum ScreenshotResolution {
         Native(0,0),
