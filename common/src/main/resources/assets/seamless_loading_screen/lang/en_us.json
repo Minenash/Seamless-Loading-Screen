@@ -22,6 +22,9 @@
   "seamless_loading_screen.config.updateWorldIcon": "Update World Icon",
   "seamless_loading_screen.config.updateWorldIcon.description": "Should the world icon be updated when you leave a singleplayer world?",
 
+  "seamless_loading_screen.config.saveScreenshotsByUser": "Save Screenshots By User",
+  "seamless_loading_screen.config.saveScreenshotsByUser.description": "Will attempt to use the username (if valid) to save the screenshots to prevent multi-user issues",
+
   "seamless_loading_screen.config.soundEffects": "Sound Effects",
   "seamless_loading_screen.config.soundEffect": "Sound Effect",
   "seamless_loading_screen.config.soundEffect.description": "The identifier of the sound effect to be played when the fade-in process begins.",
@@ -57,9 +60,13 @@
   "seamless_loading_screen.config.resolution.r8k": "8K",
 
   "seamless_loading_screen.server.displayMode": "Seamless Screen",
-  "seamless_loading_screen.server.displayMode.ENABLED": "Enabled",
-  "seamless_loading_screen.server.displayMode.FREEZE": "Custom / Freeze",
-  "seamless_loading_screen.server.displayMode.DISABLED": "Disabled",
+
+  "seamless_loading_screen.config.serverDisplayMode": "Server's Default Display Mode",
+  "seamless_loading_screen.config.serverDisplayMode.description": "Changes the default mode selected for whether or not to display a ScreenShot",
+
+  "seamless_loading_screen.config.displayMode.enabled": "Enabled",
+  "seamless_loading_screen.config.displayMode.freeze": "Custom / Freeze",
+  "seamless_loading_screen.config.displayMode.disabled": "Disabled",
 
   "seamless_loading_screen.config.server_settings": "Server Specific Settings",
 
