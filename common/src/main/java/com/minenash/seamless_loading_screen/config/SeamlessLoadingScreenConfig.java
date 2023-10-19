@@ -95,6 +95,9 @@ public class SeamlessLoadingScreenConfig {
     private static Text getDesc(String id) {
         return Text.translatable("seamless_loading_screen.config." + id + ".description");
     }
+    private static Identifier getImg(String id) {
+        return new Identifier("seamless_loading_screen", "textures/config/" + id + ".webp");
+    }
 
     public static YetAnotherConfigLib getInstance() {
         return YetAnotherConfigLib.create(CONFIG_CLASS_HANDLER,
@@ -102,14 +105,19 @@ public class SeamlessLoadingScreenConfig {
 
                     var timeOpt = Option.<Integer>createBuilder()
                             .name(getName("time"))
-                            .description(OptionDescription.createBuilder().text(getDesc("time")).build())
+                            .description(OptionDescription.createBuilder()
+                                    .text(getDesc("time"))
+//                                    .webpImage(getImg(""))
+                                    .build())
                             .binding(defaults.time, () -> config.time, (val) -> config.time = val)
                             .controller(opt -> IntegerFieldControllerBuilder.create(opt).min(0))
                             .build();
 
                     var fadeOpt = Option.<Integer>createBuilder()
                             .name(getName("fade"))
-                            .description(OptionDescription.createBuilder().text(getDesc("fade")).build())
+                            .description(OptionDescription.createBuilder()
+                                    .text(getDesc("fade"))
+                                    .build())
                             .binding(defaults.fade, () -> config.fade, (val) -> config.fade = val)
                             .controller(opt -> IntegerFieldControllerBuilder.create(opt).min(0))
                             .build();
