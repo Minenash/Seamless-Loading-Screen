@@ -36,6 +36,8 @@ allprojects {
 
     repositories {
         maven { url "https://maven.terraformersmc.com/releases/" }
+        maven { url "https://maven.quiltmc.org/repository/release" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven {
             name = "Modrinth"
             url "https://api.modrinth.com/maven"

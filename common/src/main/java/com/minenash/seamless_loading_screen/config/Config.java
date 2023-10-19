@@ -15,9 +15,11 @@ import java.util.List;
 
 public class Config {
     @ConfigEntry
-    public int fade = 20;    private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
+    public int fade = 20;
+    private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
     @ConfigEntry
-    public int time = 80;    private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
+    public int time = 80;
+    private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
             .overrideGsonBuilder(
                     new GsonBuilder()
                             .setPrettyPrinting()
