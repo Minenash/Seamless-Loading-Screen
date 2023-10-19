@@ -1,6 +1,5 @@
 package com.minenash.seamless_loading_screen.config;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
@@ -16,7 +15,6 @@ import java.util.List;
 
 public class Config {
     private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
-
     private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
             .overrideGsonBuilder(
                     new GsonBuilder()
@@ -30,7 +28,44 @@ public class Config {
             .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
             .build();
 
-    private static Config getDefaults(){
+    //=====================
+
+    @ConfigEntry
+    public int fade = 20;
+    @ConfigEntry
+    public int time = 80;
+    @ConfigEntry
+    public Color tintColor = new Color(0x212121);
+    @ConfigEntry
+    public float tintStrength = 0.3f;
+    @ConfigEntry
+    public boolean enableScreenshotBlur = false;
+    @ConfigEntry
+    public float screenshotBlurStrength = 1f; //min = 1f, max = 16f
+    @ConfigEntry
+    public float screenshotBlurQuality = 5f; //min = 1f, max = 16f
+    @ConfigEntry
+    public boolean playSoundEffect = false;
+    @ConfigEntry
+    public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
+    @ConfigEntry
+    public float soundPitch = 1f; //min = 0f, max = 10f
+    @ConfigEntry
+    public float soundVolume = 1f; //min = 0f, max = 10f
+    @ConfigEntry
+    public ScreenshotResolution resolution = ScreenshotResolution.Normal;
+    @ConfigEntry
+    public boolean disableCamera = true;
+    @ConfigEntry
+    public boolean archiveScreenshots = false;
+    @ConfigEntry
+    public boolean updateWorldIcon = false;
+    @ConfigEntry
+    public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
+
+    //=====================
+
+    private static Config getDefaults() {
         return GSON.getDefaults();
     }
 
@@ -42,7 +77,7 @@ public class Config {
         GSON.load();
 
         //Check if color is broken within config to save over such i.e tintColor
-        if(colorAdapter.errored()) GSON.save();
+        if (colorAdapter.errored()) GSON.save();
     }
 
     public static void save() {
@@ -209,39 +244,14 @@ public class Config {
                                     .build());
                 });
     }
-
-    @ConfigEntry public int time = 80;
-    @ConfigEntry public int fade = 20;
-
-    @ConfigEntry public Color tintColor = new Color(0x212121);
-    @ConfigEntry public float tintStrength = 0.3f;
-
-    @ConfigEntry public boolean enableScreenshotBlur = false;
-
-    @ConfigEntry public float screenshotBlurStrength = 1f; //min = 1f, max = 16f
-    @ConfigEntry public float screenshotBlurQuality = 5f; //min = 1f, max = 16f
-
-    @ConfigEntry public boolean playSoundEffect = false;
-
-    @ConfigEntry public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
-
-    @ConfigEntry public float soundPitch = 1f; //min = 0f, max = 10f
-    @ConfigEntry public float soundVolume = 1f; //min = 0f, max = 10f
-
-    @ConfigEntry public ScreenshotResolution resolution = ScreenshotResolution.Normal;
-    @ConfigEntry public boolean disableCamera = true;
-    @ConfigEntry public boolean archiveScreenshots = false;
-    @ConfigEntry public boolean updateWorldIcon = false;
-
-    @ConfigEntry public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
-
     public enum ScreenshotResolution {
-        Native(0,0),
-        Normal(4000,1600),
+        Native(0, 0),
+        Normal(4000, 1600),
         r4K(4000, 2160),
-        r8K(7900,4320);
+        r8K(7900, 4320);
 
         public int width, height;
+
         ScreenshotResolution(int width_in, int height_in) {
             width = width_in;
             height = height_in;
