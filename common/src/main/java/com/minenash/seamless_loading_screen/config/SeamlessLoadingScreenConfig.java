@@ -1,5 +1,6 @@
 package com.minenash.seamless_loading_screen.config;
 
+import com.minenash.seamless_loading_screen.DisplayMode;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
@@ -65,6 +66,10 @@ public class SeamlessLoadingScreenConfig {
     public boolean updateWorldIcon = false;
     @ConfigEntry
     public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
+    @ConfigEntry
+    public boolean saveScreenshotsByUsername = false;
+    @ConfigEntry
+    public DisplayMode defaultServerMode = DisplayMode.DISABLED;
     //=====================
 
     private static SeamlessLoadingScreenConfig getDefaults() {
@@ -121,6 +126,15 @@ public class SeamlessLoadingScreenConfig {
                             .binding(defaults.fade, () -> config.fade, (val) -> config.fade = val)
                             .controller(opt -> IntegerFieldControllerBuilder.create(opt).min(0))
                             .build();
+
+                    var defaultServerModeOpt = Option.<com.minenash.seamless_loading_screen.DisplayMode>createBuilder()
+                            .name(getName("serverDisplayMode"))
+                            .description(OptionDescription.createBuilder().text(getDesc("serverDisplayMode")).build())
+                            .binding(defaults.defaultServerMode, () -> config.defaultServerMode, (val) -> config.defaultServerMode = val)
+                            .controller(opt -> EnumControllerBuilder.create(opt)
+                                    .enumClass(DisplayMode.class)
+                                    .valueFormatter(val -> Text.translatable("seamless_loading_screen.config.displayMode." + val.name().toLowerCase()))
+                            ).build();
 
                     var disableCameraOpt = Option.<Boolean>createBuilder()
                             .name(getName("disableCamera"))
@@ -231,6 +245,13 @@ public class SeamlessLoadingScreenConfig {
                             .initial("")
                             .build();
 
+                    var saveScreenshotsByUsernameOpt = Option.<Boolean>createBuilder()
+                            .name(getName("saveScreenshotsByUser"))
+                            .description(OptionDescription.createBuilder().text(getDesc("saveScreenshotsByUser")).build())
+                            .binding(defaults.saveScreenshotsByUsername, () -> config.saveScreenshotsByUsername, (val) -> config.saveScreenshotsByUsername = val)
+                            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
+                            .build();
+
                     return builder
                             .title(getName("title"))
                             .category(ConfigCategory.createBuilder()
@@ -247,11 +268,12 @@ public class SeamlessLoadingScreenConfig {
                             .category(ConfigCategory.createBuilder()
                                     .name(getName("capturing"))
                                     .tooltip(getDesc("capturing"))
-                                    .options(List.of(archiveScreenshotsOpt, resolutionOpt, updateWorldIconOpt))
+                                    .options(List.of(saveScreenshotsByUsernameOpt, archiveScreenshotsOpt, resolutionOpt, updateWorldIconOpt))
                                     .build())
                             .category(ConfigCategory.createBuilder()
                                     .name(getName("server_settings"))
                                     .tooltip(getDesc("server_settings"))
+                                    .options(List.of(defaultServerModeOpt))
                                     .group(blacklistedAddressOpt)
                                     .build());
                 });

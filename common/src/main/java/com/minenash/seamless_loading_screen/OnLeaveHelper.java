@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -78,9 +80,17 @@ public class OnLeaveHelper {
         try {
             File file = new File(name);
 
-            if (!file.exists()) file.createNewFile();
+            Path path = Path.of(file.getParent());
 
-            nativeImage.writeTo(new File(name));
+            if(!Files.exists(path)){
+                Files.createDirectories(path);
+            }
+
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+
+            nativeImage.writeTo(file);
 
             if (SeamlessLoadingScreenConfig.get().archiveScreenshots) {
                 String fileName = "screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length() - 4) + "_" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png";
