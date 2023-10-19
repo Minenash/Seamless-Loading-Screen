@@ -23,7 +23,7 @@ public abstract class AddServerScreenMixin extends Screen {
     private ServerInfo server;
 
     @Unique
-    private ButtonWidget buttonDisplayMode;
+    private ButtonWidget seamless_loading_screen$buttonDisplayMode;
 
     protected AddServerScreenMixin(Text title) {
         super(title);
@@ -52,9 +52,9 @@ public abstract class AddServerScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
-        buttonDisplayMode = addDrawableChild(ButtonWidget.builder(getText(), buttonWidget -> {
+        seamless_loading_screen$buttonDisplayMode = addDrawableChild(ButtonWidget.builder(getText(), buttonWidget -> {
             ((ServerInfoExtension) server).setDisplayMode(((ServerInfoExtension) server).getDisplayMode().next());
-            buttonDisplayMode.setMessage(getText());
+            seamless_loading_screen$buttonDisplayMode.setMessage(getText());
         }).dimensions(width / 2 - 100, height / 4 + 72 + 24, 200, 20).build());
     }
 

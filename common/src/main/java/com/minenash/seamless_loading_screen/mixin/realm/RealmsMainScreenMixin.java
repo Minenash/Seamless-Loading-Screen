@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RealmsMainScreenMixin {
 
     @Inject(method = "play", at = @At("HEAD"))
-    private void getRealmNameID(RealmsServer realmsServer, Screen parent, CallbackInfo info) {
+    private static void getRealmNameID(RealmsServer realmsServer, Screen parent, CallbackInfo info) {
         if (realmsServer != null) ScreenshotLoader.setRealmScreenshot(realmsServer.name);
     }
 

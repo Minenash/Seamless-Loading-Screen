@@ -16,12 +16,10 @@ public class GameMenuScreenMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;builder(Lnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0),
             index = 1)
     private ButtonWidget.PressAction adjust(ButtonWidget.PressAction onPress) {
-        return button -> {
-            OnLeaveHelper.beginScreenshotTask(() -> {
-                onPress.onPress(ButtonWidget.builder(Text.of(""), (b) -> {
-                }).build());
-            });
-        };
+        return button -> OnLeaveHelper.beginScreenshotTask(() -> {
+            onPress.onPress(ButtonWidget.builder(Text.of(""), (b) -> {
+            }).build());
+        });
     }
 
 }

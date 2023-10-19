@@ -8,7 +8,6 @@ import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkConstants;
 
 @Mod(SeamlessLoadingScreen.MODID)
 public class SeamlessLoadingScreenForge {
@@ -20,7 +19,7 @@ public class SeamlessLoadingScreenForge {
         ModLoadingContext.get()
                 .registerExtensionPoint(
                         IExtensionPoint.DisplayTest.class,
-                        () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (remote, server) -> true)
+                        () -> new IExtensionPoint.DisplayTest(() -> IExtensionPoint.DisplayTest.IGNORESERVERONLY, (remote, server) -> true)
                 );
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SeamlessLoadingScreen::onInitializeClient);

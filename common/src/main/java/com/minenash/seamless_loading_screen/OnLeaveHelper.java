@@ -44,15 +44,15 @@ public class OnLeaveHelper {
         attemptScreenShot = true;
         onceFinished = runnable;
 
-        var options = MinecraftClient.getInstance().options;
+        var client = MinecraftClient.getInstance();
 
         //Change First Person before screenshot
-        options.setPerspective(Perspective.FIRST_PERSON);
+        client.options.setPerspective(Perspective.FIRST_PERSON);
 
         //Disable F3 menu due to profiler crashing
-        options.debugEnabled = false;
-        options.debugProfilerEnabled = false;
-        options.debugTpsEnabled = false;
+        client.inGameHud.getDebugHud().showDebugHud = false;
+        client.inGameHud.getDebugHud().renderingAndTickChartsVisible = false;
+        client.inGameHud.getDebugHud().renderingChartVisible = false;
 
         var window = MinecraftClient.getInstance().getWindow();
 
@@ -62,7 +62,7 @@ public class OnLeaveHelper {
         window.setFramebufferWidth(Config.get().resolution.width);
         window.setFramebufferHeight(Config.get().resolution.height);
 
-        MinecraftClient.getInstance().onResolutionChanged();
+        client.onResolutionChanged();
     }
 
     /**

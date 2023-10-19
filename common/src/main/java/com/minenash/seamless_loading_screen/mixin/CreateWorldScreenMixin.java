@@ -15,7 +15,7 @@ public class CreateWorldScreenMixin {
 
     @Shadow
     @Final
-    private WorldCreator worldCreator;
+    WorldCreator worldCreator;
 
     @Inject(method = "createLevel", at = @At("HEAD"))
     private void setFilename(CallbackInfo ci) {

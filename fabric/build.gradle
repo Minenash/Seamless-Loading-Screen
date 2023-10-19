@@ -73,7 +73,7 @@ dependencies {
 
     //modImplementation ("com.github.apace100:origins-fabric:v1.10.0")
 
-    modRuntimeOnly("maven.modrinth:auth-me:7.0.2+1.20")
+//    modRuntimeOnly("maven.modrinth:auth-me:7.0.2+1.20")
 
     modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:11.1.106") {
         exclude module: 'modmenu'

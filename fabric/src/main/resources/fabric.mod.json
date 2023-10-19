@@ -34,7 +34,7 @@
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
-    "minecraft": "~1.20"
+    "minecraft": ">=1.20.2"
   },
   "conflicts": {
     "wynntils": "*"

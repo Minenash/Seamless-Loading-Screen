@@ -4,6 +4,7 @@
   "package": "com.minenash.seamless_loading_screen.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "ClientCommonNetworkHandlerMixin",
     "ClientPlayNetworkHandlerMixin",
     "ConnectScreenMixin",
     "CreateWorldScreenMixin",

@@ -37,9 +37,9 @@ public abstract class MinecraftClientMixin {
     @Nullable
     public ClientWorld world;
     @Unique
-    private boolean terrainScreenReplaced = false;
+    private boolean seamless_loading_screen$terrainScreenReplaced = false;
     @Unique
-    private boolean firstOccurrence = true;
+    private boolean seamless_loading_screen$firstOccurrence = true;
     @Shadow
     @Final
     private Window window;
@@ -56,7 +56,7 @@ public abstract class MinecraftClientMixin {
             SeamlessLoadingScreen.changeWorldJoinScreen = false;
             ScreenshotLoader.inFade = true;
 
-            this.terrainScreenReplaced = false;
+            this.seamless_loading_screen$terrainScreenReplaced = false;
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class MinecraftClientMixin {
     private Screen fadeScreen(Screen screen) {
         if (currentScreen instanceof DownloadingTerrainScreen && world != null && ScreenshotLoader.loaded && ScreenshotLoader.inFade) {
             if (screen == null) {
-                this.terrainScreenReplaced = true;
+                this.seamless_loading_screen$terrainScreenReplaced = true;
 
                 return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
                     if (!forced) setScreen(null);
@@ -84,11 +84,11 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "setScreen", at = @At("HEAD"))
     private void failSafe(Screen screen, CallbackInfo ci) {
         //Failsafe injection to prevent mouse lockup or background issues due to other mod injection stuff
-        if ((terrainScreenReplaced && !(screen instanceof FadeScreen)) || (screen == null && (ScreenshotLoader.inFade || ScreenshotLoader.replacebg))) {
+        if ((seamless_loading_screen$terrainScreenReplaced && !(screen instanceof FadeScreen)) || (screen == null && (ScreenshotLoader.inFade || ScreenshotLoader.replacebg))) {
             ScreenshotLoader.inFade = false;
             ScreenshotLoader.replacebg = false;
 
-            this.terrainScreenReplaced = false;
+            this.seamless_loading_screen$terrainScreenReplaced = false;
         }
     }
 
@@ -96,10 +96,10 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "scheduleStop", at = @At("HEAD"), cancellable = true)
     private void onWindowClose(CallbackInfo info) {
-        if (!firstOccurrence || instance.player == null) return;
+        if (!seamless_loading_screen$firstOccurrence || instance.player == null) return;
 
         OnLeaveHelper.beginScreenshotTask(() -> {
-            this.firstOccurrence = false;
+            this.seamless_loading_screen$firstOccurrence = false;
 
             this.scheduleStop();
         });

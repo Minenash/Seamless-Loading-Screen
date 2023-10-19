@@ -19,25 +19,25 @@ public class ServerInfoMixin implements ServerInfoExtension {
     @Shadow
     public String address;
     @Unique
-    private DisplayMode displayMode = DisplayMode.ENABLED;
+    private DisplayMode seamless_loading_screen$displayMode = DisplayMode.ENABLED;
 
     @Inject(method = "fromNbt", at = @At("RETURN"))
     private static void deserialize(NbtCompound tag, CallbackInfoReturnable<ServerInfo> callback) {
 //        System.out.println("READ: ");
         if (!tag.contains("screenshotDisplayMode", 8)) return;
 
-        ((ServerInfoMixin) (Object) callback.getReturnValue()).displayMode = Enum.valueOf(DisplayMode.class, tag.getString("screenshotDisplayMode"));
+        ((ServerInfoMixin) (Object) callback.getReturnValue()).seamless_loading_screen$displayMode = Enum.valueOf(DisplayMode.class, tag.getString("screenshotDisplayMode"));
     }
 
     @Inject(method = "toNbt", at = @At("RETURN"))
     private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
 //        System.out.println("SET: " + displayMode.toString());
-        callback.getReturnValue().putString("screenshotDisplayMode", displayMode.toString());
+        callback.getReturnValue().putString("screenshotDisplayMode", seamless_loading_screen$displayMode.toString());
     }
 
     @Inject(method = "copyFrom", at = @At("TAIL"))
     private void copyFrom(ServerInfo info, CallbackInfo callback) {
-        displayMode = ((ServerInfoMixin) (Object) info).displayMode;
+        seamless_loading_screen$displayMode = ((ServerInfoMixin) (Object) info).seamless_loading_screen$displayMode;
     }
 
     @Override
@@ -48,11 +48,11 @@ public class ServerInfoMixin implements ServerInfoExtension {
             }
         }
 
-        return displayMode;
+        return seamless_loading_screen$displayMode;
     }
 
     @Override
     public void setDisplayMode(DisplayMode mode) {
-        displayMode = mode;
+        seamless_loading_screen$displayMode = mode;
     }
 }

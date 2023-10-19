@@ -45,6 +45,6 @@
   "seamless_loading_screen.server.displayMode.FREEZE": "Custom / Freeze",
   "seamless_loading_screen.server.displayMode.DISABLED": "Disabled",
   "seamless_loading_screen.config.server_settings": "Server Specific Settings",
-  "seamless_loading_screen.config.blacklistedAddresses": "Blacklisted Server Addresses",
+  "seamless_loading_screen.config.blacklistedAddresses": "Blacklisted Servers",
   "seamless_loading_screen.config.blacklistedAddresses.description": "List of Addresses that Seamless will be disabled when connecting to the server."
 }
