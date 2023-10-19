@@ -49,10 +49,10 @@ public class FadeScreen extends Screen {
 
     @Override
     protected void init() {
-        if(Config.get().playSoundEffect) {
+        if (Config.get().playSoundEffect) {
             var id = Identifier.tryParse(Config.get().soundEffect);
 
-            if(id != null) {
+            if (id != null) {
                 SoundEvent soundEvent = Registries.SOUND_EVENT.getOrEmpty(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
 
                 MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, Config.get().soundPitch, Config.get().soundVolume));
@@ -63,14 +63,15 @@ public class FadeScreen extends Screen {
     }
 
     private void markDone(boolean forceClosed) {
-        if(this.done) return;
+        if (this.done) return;
 
         this.done = true;
 
         this.frames = 0;
 
-        if(this.callback != null) this.callback.accept(forceClosed);
-        if(this.callback == null && !forceClosed && this.client != null && this.client.currentScreen == this) this.client.setScreen(null);
+        if (this.callback != null) this.callback.accept(forceClosed);
+        if (this.callback == null && !forceClosed && this.client != null && this.client.currentScreen == this)
+            this.client.setScreen(null);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class FadeScreen extends Screen {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
-        if(ScreenshotLoader.loaded) {
+        if (ScreenshotLoader.loaded) {
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
             int w = (int) (ScreenshotLoader.imageRatio * height);
             int h = height;
@@ -105,7 +106,7 @@ public class FadeScreen extends Screen {
 
             loadQuad(context, color, x, y, x + w, y + h);
 
-            if(w < width) {
+            if (w < width) {
                 RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
                 // 0.25f is from Screen.renderBackgroundTexture vertex colors
                 color.set(0.25f, 0.25f, 0.25f, alpha);
@@ -130,7 +131,7 @@ public class FadeScreen extends Screen {
 
         frames--;
 
-        if(frames == 0) markDone(false);
+        if (frames == 0) markDone(false);
     }
 
     private void loadQuad(DrawContext context, Vector4f color, int x0, int y0, int x1, int y1) {

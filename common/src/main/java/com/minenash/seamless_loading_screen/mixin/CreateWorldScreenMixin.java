@@ -13,10 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CreateWorldScreen.class)
 public class CreateWorldScreenMixin {
 
-    @Shadow @Final private WorldCreator worldCreator;
+    @Shadow
+    @Final
+    private WorldCreator worldCreator;
 
     @Inject(method = "createLevel", at = @At("HEAD"))
-    private void setFilename(CallbackInfo ci){
+    private void setFilename(CallbackInfo ci) {
         ScreenshotLoader.setScreenshot(worldCreator.getWorldDirectoryName());
     }
 }

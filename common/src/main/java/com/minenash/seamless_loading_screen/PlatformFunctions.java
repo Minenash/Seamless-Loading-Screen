@@ -1,8 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
 
@@ -29,7 +27,7 @@ public class PlatformFunctions {
     }
 
     @ExpectPlatform
-    public static boolean isDevEnv(){
+    public static boolean isDevEnv() {
         throw new AssertionError();
     }
 }

@@ -14,7 +14,7 @@ public class MultiplayerScreenMixin {
 
     @Inject(method = "connect(Lnet/minecraft/client/network/ServerInfo;)V", at = @At("HEAD"))
     private void getAllowCustomScreenshot(ServerInfo info, CallbackInfo callback) {
-        ScreenshotLoader.displayMode = ((ServerInfoExtension)info).getDisplayMode();
+        ScreenshotLoader.displayMode = ((ServerInfoExtension) info).getDisplayMode();
     }
 
 }

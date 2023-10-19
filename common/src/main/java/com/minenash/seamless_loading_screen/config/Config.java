@@ -14,8 +14,10 @@ import java.awt.*;
 import java.util.List;
 
 public class Config {
-    private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
-    private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
+    @ConfigEntry
+    public int fade = 20;    private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
+    @ConfigEntry
+    public int time = 80;    private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
             .overrideGsonBuilder(
                     new GsonBuilder()
                             .setPrettyPrinting()
@@ -29,11 +31,6 @@ public class Config {
             .build();
 
     //=====================
-
-    @ConfigEntry
-    public int fade = 20;
-    @ConfigEntry
-    public int time = 80;
     @ConfigEntry
     public Color tintColor = new Color(0x212121);
     @ConfigEntry
@@ -63,8 +60,6 @@ public class Config {
     @ConfigEntry
     public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
 
-    //=====================
-
     private static Config getDefaults() {
         return GSON.getDefaults();
     }
@@ -72,6 +67,8 @@ public class Config {
     public static Config get() {
         return GSON.getConfig();
     }
+
+    //=====================
 
     public static void load() {
         GSON.load();
@@ -244,6 +241,7 @@ public class Config {
                                     .build());
                 });
     }
+
     public enum ScreenshotResolution {
         Native(0, 0),
         Normal(4000, 1600),
@@ -257,4 +255,8 @@ public class Config {
             height = height_in;
         }
     }
+
+
+
+
 }

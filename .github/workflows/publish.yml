@@ -2,7 +2,7 @@ name: Distribute to publishers
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   upload_asset:

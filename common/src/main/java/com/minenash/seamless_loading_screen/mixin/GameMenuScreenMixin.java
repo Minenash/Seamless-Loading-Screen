@@ -15,10 +15,11 @@ public class GameMenuScreenMixin {
     @ModifyArg(method = "initWidgets", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;isInSingleplayer()Z")),
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;builder(Lnet/minecraft/text/Text;Lnet/minecraft/client/gui/widget/ButtonWidget$PressAction;)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0),
             index = 1)
-    private ButtonWidget.PressAction adjust(ButtonWidget.PressAction onPress){
+    private ButtonWidget.PressAction adjust(ButtonWidget.PressAction onPress) {
         return button -> {
             OnLeaveHelper.beginScreenshotTask(() -> {
-                onPress.onPress(ButtonWidget.builder(Text.of(""), (b) -> {}).build());
+                onPress.onPress(ButtonWidget.builder(Text.of(""), (b) -> {
+                }).build());
             });
         };
     }

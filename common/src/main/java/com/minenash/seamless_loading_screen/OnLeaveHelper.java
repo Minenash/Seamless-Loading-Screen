@@ -24,7 +24,8 @@ public class OnLeaveHelper {
 
     public static boolean attemptScreenShot = false;
 
-    public static Runnable onceFinished = () -> {};
+    public static Runnable onceFinished = () -> {
+    };
 
     private static int old_FrameBufferWidth = 0;
     private static int old_FrameBufferHeight = 0;
@@ -34,7 +35,7 @@ public class OnLeaveHelper {
      *
      * @param runnable Tasks to be performed after taking the screenshot
      */
-    public static void beginScreenshotTask(Runnable runnable){
+    public static void beginScreenshotTask(Runnable runnable) {
         if (ScreenshotLoader.displayMode == DisplayMode.FREEZE) {
             runnable.run();
             return;
@@ -67,7 +68,7 @@ public class OnLeaveHelper {
     /**
      * Inject after World Rendering within {@link GameRenderer#render(float, long, boolean)} method before {@link MinecraftClient#getWindow()}
      */
-    public static void takeScreenShot(){
+    public static void takeScreenShot() {
         var client = MinecraftClient.getInstance();
 
         String name = ScreenshotLoader.getFileName();
@@ -77,7 +78,7 @@ public class OnLeaveHelper {
         try {
             File file = new File(name);
 
-            if(!file.exists()) file.createNewFile();
+            if (!file.exists()) file.createNewFile();
 
             nativeImage.writeTo(new File(name));
 
@@ -86,7 +87,7 @@ public class OnLeaveHelper {
 
                 File archiveFile = new File(fileName);
 
-               if(!archiveFile.exists()) archiveFile.createNewFile();
+                if (!archiveFile.exists()) archiveFile.createNewFile();
 
                 nativeImage.writeTo(archiveFile);
             }
@@ -95,7 +96,8 @@ public class OnLeaveHelper {
             LOGGER.error(e.toString());
         }
 
-        if (Config.get().updateWorldIcon && client.isInSingleplayer()) updateIcon(client.getServer().getIconFile().get().toFile(), nativeImage);
+        if (Config.get().updateWorldIcon && client.isInSingleplayer())
+            updateIcon(client.getServer().getIconFile().get().toFile(), nativeImage);
 
         attemptScreenShot = false;
 
@@ -112,7 +114,8 @@ public class OnLeaveHelper {
 
         onceFinished.run();
 
-        onceFinished = () -> {};
+        onceFinished = () -> {
+        };
     }
 
     private static void updateIcon(File iconFile, NativeImage nativeImage) {
@@ -129,7 +132,7 @@ public class OnLeaveHelper {
                 j = i;
             }
 
-            try(NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
+            try (NativeImage nativeImage2 = new NativeImage(64, 64, false)) {
                 nativeImage.resizeSubRectTo(k, l, i, j, nativeImage2);
                 nativeImage2.writeTo(iconFile);
             } catch (IOException e) {

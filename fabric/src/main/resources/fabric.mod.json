@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "seamless_loading_screen",
   "version": "${version}",
-
   "name": "Seamless Loading Screen",
   "description": "Takes a screenshot of the game when you leave a world or server, and displays it when you rejoin it",
   "authors": [
@@ -12,32 +11,31 @@
     "issues": "https://github.com/Minenash/Seamless-Loading-Screen/issues",
     "sources": "https://github.com/Minenash/Seamless-Loading-Screen"
   },
-
   "license": "MIT",
   "icon": "assets/seamless_loading_screen/icon.png",
-
   "environment": "client",
   "entrypoints": {
-    "client": [ "com.minenash.seamless_loading_screen.fabric.SeamlessLoadingScreenFabric" ],
-    "modmenu": [ "com.minenash.seamless_loading_screen.fabric.config.ModMenuEntryPoint" ]
+    "client": [
+      "com.minenash.seamless_loading_screen.fabric.SeamlessLoadingScreenFabric"
+    ],
+    "modmenu": [
+      "com.minenash.seamless_loading_screen.fabric.config.ModMenuEntryPoint"
+    ]
   },
   "mixins": [
     "seamless_loading_screen-common.mixins.json",
     "seamless_loading_screen-fabric.mixins.json"
   ],
-
   "custom": {
     "sodium:options": {
       "mixin.features.gui.screen": false
     }
   },
-
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
     "minecraft": "~1.20"
   },
-
   "conflicts": {
     "wynntils": "*"
   }

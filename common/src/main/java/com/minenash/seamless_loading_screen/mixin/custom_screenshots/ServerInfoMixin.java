@@ -16,15 +16,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerInfo.class)
 public class ServerInfoMixin implements ServerInfoExtension {
 
-    @Shadow public String address;
+    @Shadow
+    public String address;
     @Unique
     private DisplayMode displayMode = DisplayMode.ENABLED;
-
-    @Inject(method = "toNbt", at = @At("RETURN"))
-    private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
-//        System.out.println("SET: " + displayMode.toString());
-        callback.getReturnValue().putString("screenshotDisplayMode", displayMode.toString());
-    }
 
     @Inject(method = "fromNbt", at = @At("RETURN"))
     private static void deserialize(NbtCompound tag, CallbackInfoReturnable<ServerInfo> callback) {
@@ -34,24 +29,30 @@ public class ServerInfoMixin implements ServerInfoExtension {
         ((ServerInfoMixin) (Object) callback.getReturnValue()).displayMode = Enum.valueOf(DisplayMode.class, tag.getString("screenshotDisplayMode"));
     }
 
-    @Inject(method = "copyFrom", at = @At("TAIL"))
-    private void copyFrom(ServerInfo info, CallbackInfo callback) {
-        displayMode = ((ServerInfoMixin)(Object)info).displayMode;
+    @Inject(method = "toNbt", at = @At("RETURN"))
+    private void serialize(CallbackInfoReturnable<NbtCompound> callback) {
+//        System.out.println("SET: " + displayMode.toString());
+        callback.getReturnValue().putString("screenshotDisplayMode", displayMode.toString());
     }
 
-    @Override
-    public void setDisplayMode(DisplayMode mode) {
-        displayMode = mode;
+    @Inject(method = "copyFrom", at = @At("TAIL"))
+    private void copyFrom(ServerInfo info, CallbackInfo callback) {
+        displayMode = ((ServerInfoMixin) (Object) info).displayMode;
     }
 
     @Override
     public DisplayMode getDisplayMode() {
         for (String blacklistedAddress : Config.get().blacklistedAddresses) {
-            if(this.address.contains(blacklistedAddress)){
+            if (this.address.contains(blacklistedAddress)) {
                 return DisplayMode.DISABLED;
             }
         }
 
         return displayMode;
+    }
+
+    @Override
+    public void setDisplayMode(DisplayMode mode) {
+        displayMode = mode;
     }
 }

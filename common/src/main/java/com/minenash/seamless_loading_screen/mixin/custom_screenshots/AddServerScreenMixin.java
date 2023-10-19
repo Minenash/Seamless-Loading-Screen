@@ -18,37 +18,42 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AddServerScreen.class)
 public abstract class AddServerScreenMixin extends Screen {
 
-    @Shadow @Final private ServerInfo server;
+    @Shadow
+    @Final
+    private ServerInfo server;
 
-    @Unique private ButtonWidget buttonDisplayMode;
+    @Unique
+    private ButtonWidget buttonDisplayMode;
 
-    protected AddServerScreenMixin(Text title) { super(title); }
+    protected AddServerScreenMixin(Text title) {
+        super(title);
+    }
 
     @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 0)
-    private int adjust_addButton_x(int x){
+    private int adjust_addButton_x(int x) {
         return x + 103; // x + 103
     }
 
     @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 1)
-    private int adjust_addButton_y(int y){
+    private int adjust_addButton_y(int y) {
         return y + 24; // y + 24
     }
 
     @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 0), index = 2)
-    private int adjust_addButton_width(int width){
+    private int adjust_addButton_width(int width) {
         return width - 103; // width - 103
     }
-    
+
 
     @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;dimensions(IIII)Lnet/minecraft/client/gui/widget/ButtonWidget$Builder;", ordinal = 1), index = 2)
-    private int adjust_cancelButton_wdith(int width){
+    private int adjust_cancelButton_wdith(int width) {
         return width - 103; // width - 103
     }
 
     @Inject(method = "init", at = @At("HEAD"))
     private void buttonAllowCustomScreenshot(CallbackInfo info) {
         buttonDisplayMode = addDrawableChild(ButtonWidget.builder(getText(), buttonWidget -> {
-            ((ServerInfoExtension)server).setDisplayMode(((ServerInfoExtension)server).getDisplayMode().next());
+            ((ServerInfoExtension) server).setDisplayMode(((ServerInfoExtension) server).getDisplayMode().next());
             buttonDisplayMode.setMessage(getText());
         }).dimensions(width / 2 - 100, height / 4 + 72 + 24, 200, 20).build());
     }
@@ -59,7 +64,7 @@ public abstract class AddServerScreenMixin extends Screen {
                 .append(": ")
                 .append(Text.translatable(
                         "seamless_loading_screen.server.displayMode."
-                                + (((ServerInfoExtension)server).getDisplayMode().toString())));
+                                + (((ServerInfoExtension) server).getDisplayMode().toString())));
     }
 
 }

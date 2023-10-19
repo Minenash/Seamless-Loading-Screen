@@ -17,11 +17,11 @@ public class SafeColorTypeAdapter extends GsonConfigInstance.ColorTypeAdapter {
 
     public boolean errored = false;
 
-    public SafeColorTypeAdapter(Supplier<Color> supplier){
+    public SafeColorTypeAdapter(Supplier<Color> supplier) {
         this.supplier = supplier;
     }
 
-    public boolean errored(){
+    public boolean errored() {
         boolean errored = this.errored;
 
         this.errored = false;
@@ -32,16 +32,16 @@ public class SafeColorTypeAdapter extends GsonConfigInstance.ColorTypeAdapter {
     @Override
     public Color deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         try {
-            if(jsonElement instanceof JsonPrimitive primitive) {
+            if (jsonElement instanceof JsonPrimitive primitive) {
                 if (primitive.isNumber()) {
                     return super.deserialize(jsonElement, type, jsonDeserializationContext);
-                } else if (primitive.getAsString().contains("#")){
+                } else if (primitive.getAsString().contains("#")) {
                     errored = true;
 
                     return new Color(Integer.parseInt(primitive.getAsString().replace("#", ""), 16), false);
                 }
             }
-        } catch (UnsupportedOperationException | NumberFormatException e){
+        } catch (UnsupportedOperationException | NumberFormatException e) {
             LOGGER.warn("Exception thrown during Color Deserialization", e);
         }
 

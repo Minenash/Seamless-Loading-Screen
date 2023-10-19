@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DownloadingTerrainScreenMixin {
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/DownloadingTerrainScreen;close()V"))
-    private void stopBackgroundReplacement(CallbackInfo ci){
+    private void stopBackgroundReplacement(CallbackInfo ci) {
         ScreenshotLoader.replacebg = false;
     }
 }

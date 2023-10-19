@@ -57,11 +57,11 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-    modImplementation ("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
+    modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
         exclude module: "fabric-api"
     }
 
-    modCompileOnly ("maven.modrinth:bedrockify:${rootProject.bedrockify_version}")
+    modCompileOnly("maven.modrinth:bedrockify:${rootProject.bedrockify_version}")
 
     modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:${rootProject.yacl_version}"
     include "dev.isxander.yacl:yet-another-config-lib-fabric:${rootProject.yacl_version}"
@@ -73,9 +73,9 @@ dependencies {
 
     //modImplementation ("com.github.apace100:origins-fabric:v1.10.0")
 
-    modRuntimeOnly ("maven.modrinth:auth-me:7.0.2+1.20")
+    modRuntimeOnly("maven.modrinth:auth-me:7.0.2+1.20")
 
-    modRuntimeOnly ("me.shedaniel.cloth:cloth-config-fabric:11.1.106") {
+    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:11.1.106") {
         exclude module: 'modmenu'
         exclude module: 'fabric-api'
     }

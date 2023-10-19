@@ -10,9 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.BY, by = 2)) //
-    private void attemptToTakeScreenshot(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
-        if(OnLeaveHelper.attemptScreenShot) OnLeaveHelper.takeScreenShot();
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.BY, by = 2))
+    //
+    private void attemptToTakeScreenshot(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
+        if (OnLeaveHelper.attemptScreenShot) OnLeaveHelper.takeScreenShot();
     }
 
 }

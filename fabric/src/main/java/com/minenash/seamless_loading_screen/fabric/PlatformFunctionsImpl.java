@@ -25,7 +25,7 @@ public class PlatformFunctionsImpl {
         return FabricLoader.getInstance().getGameDir();
     }
 
-    public static boolean isDevEnv(){
+    public static boolean isDevEnv() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 }

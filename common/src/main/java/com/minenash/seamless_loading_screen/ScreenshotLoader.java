@@ -31,23 +31,27 @@ import java.util.regex.Pattern;
 public class ScreenshotLoader {
 
     private static final Logger LOGGER = LogUtils.getLogger();
-
+    private static final Pattern RESERVED_FILENAMES_PATTERN = Pattern.compile(".*\\.|(?:COM|CLOCK\\$|CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?", Pattern.CASE_INSENSITIVE);
     public static Identifier SCREENSHOT = new Identifier(SeamlessLoadingScreen.MODID, "screenshot");
     public static double imageRatio = 1;
     public static boolean loaded = false;
     public static DisplayMode displayMode = DisplayMode.ENABLED;
-
     public static boolean inFade = false;
     public static int time;
     public static float timeDelta;
-
+    public static boolean replacebg = false;
     private static String fileName = "";
 
     public static String getFileName() {
         return fileName;
     }
 
-	public static void setScreenshot(String address, int port) {
+    private static void setFileName(String newFileName) {
+        fileName = newFileName;
+        setScreenshot();
+    }
+
+    public static void setScreenshot(String address, int port) {
         setFileName("screenshots/worlds/servers/" + cleanFileName(address) + "_" + port + ".png");
     }
 
@@ -59,11 +63,6 @@ public class ScreenshotLoader {
         setFileName("screenshots/worlds/realms/" + cleanFileName(realmName) + ".png");
     }
 
-    private static void setFileName(String newFileName){
-        fileName = newFileName;
-        setScreenshot();
-    }
-
     private static void setScreenshot() {
         loaded = false;
 
@@ -71,7 +70,7 @@ public class ScreenshotLoader {
             return;
 
         try (InputStream in = new FileInputStream(ScreenshotLoader.fileName)) {
-            if(PlatformFunctions.isDevEnv()){
+            if (PlatformFunctions.isDevEnv()) {
                 LOGGER.info("Name: " + ScreenshotLoader.fileName);
             }
 
@@ -82,15 +81,13 @@ public class ScreenshotLoader {
             time = Config.get().time;
             timeDelta = 1F / Config.get().fade;
             replacebg = true;
-        }
-        catch (FileNotFoundException ignore){}
-        catch (IOException e) {
+        } catch (FileNotFoundException ignore) {
+        } catch (IOException e) {
             LOGGER.error("[SeamlessLoadingScreen]: An Issue has occurred when attempting to set a Screenshot: [name: {}]", ScreenshotLoader.fileName);
             LOGGER.error(String.valueOf(e));
         }
     }
 
-    private static final Pattern RESERVED_FILENAMES_PATTERN = Pattern.compile(".*\\.|(?:COM|CLOCK\\$|CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?", Pattern.CASE_INSENSITIVE);
     private static String cleanFileName(String fileName) {
         for (char c : SharedConstants.INVALID_CHARS_LEVEL_NAME) fileName = fileName.replace(c, '_');
 
@@ -100,8 +97,6 @@ public class ScreenshotLoader {
 
         return fileName;
     }
-
-    public static boolean replacebg = false;
 
     public static void render(Screen screen, DrawContext context) {
         RenderSystem.enableBlend();
@@ -113,15 +108,15 @@ public class ScreenshotLoader {
         RenderSystem.disableBlend();
     }
 
-    public static void renderAfterEffects(Screen screen, DrawContext context, float fadeValue){
+    public static void renderAfterEffects(Screen screen, DrawContext context, float fadeValue) {
         renderTint(screen, context, fadeValue);
 
-        if(Config.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
+        if (Config.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
             renderBlur(screen, context, Config.get().screenshotBlurStrength * fadeValue, Config.get().screenshotBlurQuality);
         }
     }
 
-    public static void renderTint(Screen screen, DrawContext context, float fadeValue){
+    public static void renderTint(Screen screen, DrawContext context, float fadeValue) {
         Color color = Config.get().tintColor;
 
         int red = color.getRed();
@@ -131,7 +126,7 @@ public class ScreenshotLoader {
 
         int argb_color = getArgb(alpha, red, green, blue);
 
-        context.fill(0,0, screen.width, screen.height, argb_color);
+        context.fill(0, 0, screen.width, screen.height, argb_color);
     }
 
     public static int getArgb(int alpha, int red, int green, int blue) {
@@ -140,7 +135,7 @@ public class ScreenshotLoader {
 
     //-----
 
-    public static void renderBlur(Screen screen, DrawContext context, float size, float quality){
+    public static void renderBlur(Screen screen, DrawContext context, float size, float quality) {
         var buffer = Tessellator.getInstance().getBuffer();
         var matrix = context.getMatrices().peek().getPositionMatrix();
 
@@ -162,22 +157,20 @@ public class ScreenshotLoader {
      * Altered for use with Multi loader
      */
     public static class BlurHelper {
+        public boolean loaded = false;
         private GlUniform inputResolution;
         private GlUniform directions;
         private GlUniform quality;
         private GlUniform size;
         private Framebuffer input;
-
         private ShaderProgram backingProgram;
 
-        public boolean loaded = false;
-
-        public void onWindowResize(MinecraftClient client, Window window){
+        public void onWindowResize(MinecraftClient client, Window window) {
             if (this.input == null) return;
             this.input.resize(window.getFramebufferWidth(), window.getFramebufferHeight(), MinecraftClient.IS_SYSTEM_MAC);
         }
 
-        public void load(ShaderProgram backingProgram){
+        public void load(ShaderProgram backingProgram) {
             this.backingProgram = backingProgram;
             this.setup();
 
@@ -214,7 +207,7 @@ public class ScreenshotLoader {
             this.input = new SimpleFramebuffer(window.getFramebufferWidth(), window.getFramebufferHeight(), false, MinecraftClient.IS_SYSTEM_MAC);
         }
 
-        private GlUniform findUniform(String key){
+        private GlUniform findUniform(String key) {
             return backingProgram.getUniform(key);
         }
     }

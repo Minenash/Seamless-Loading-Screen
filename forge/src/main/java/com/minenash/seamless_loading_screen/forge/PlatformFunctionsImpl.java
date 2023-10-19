@@ -1,7 +1,6 @@
 package com.minenash.seamless_loading_screen.forge;
 
 import com.minenash.seamless_loading_screen.PlatformFunctions;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -26,7 +25,7 @@ public class PlatformFunctionsImpl {
         return FMLLoader.getGamePath();
     }
 
-    public static boolean isDevEnv(){
+    public static boolean isDevEnv() {
         return !FMLLoader.isProduction();
     }
 }

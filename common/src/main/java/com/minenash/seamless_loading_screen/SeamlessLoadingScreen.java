@@ -33,7 +33,7 @@ public class SeamlessLoadingScreen {
         }
     }
 
-    public static void openSettingsScreen(MinecraftClient client){
+    public static void openSettingsScreen(MinecraftClient client) {
         client.setScreen(Config.getInstance().generateScreen(client.currentScreen));
     }
 }

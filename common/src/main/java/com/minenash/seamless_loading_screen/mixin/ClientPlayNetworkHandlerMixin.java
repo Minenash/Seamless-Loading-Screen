@@ -16,14 +16,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 
-    @Shadow public abstract void onDisconnected(Text reason);
+    @Unique
+    private boolean haltDisconnect = true;
+
+    @Shadow
+    public abstract void onDisconnected(Text reason);
 
     @Inject(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;joinWorld(Lnet/minecraft/client/world/ClientWorld;)V"))
     private void setChangeWorldJoinScreen(GameJoinS2CPacket packet, CallbackInfo ci) {
         if (ScreenshotLoader.loaded) SeamlessLoadingScreen.changeWorldJoinScreen = true;
     }
-
-    @Unique private boolean haltDisconnect = true;
 
     @Inject(method = "onDisconnected", at = @At("HEAD"), cancellable = true)
     private void onServerOrderedDisconnect(Text reason, CallbackInfo info) {
