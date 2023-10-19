@@ -26,12 +26,15 @@ jobs:
         run: ./gradlew build
       - name: Get Tag
         id: tag
-        uses: dawidd6/action-get-tag@v1
+        uses: christian-draeger/read-properties@1.1.1
+        with:
+            path: './gradle.properties'
+            properties: 'mod_version'
       - uses: jungwinter/split@v2
         id: split
         with:
           separator: "+"
-          msg: ${{steps.tag.outputs.tag}}
+          msg: ${{steps.tag.outputs.mod_version}}
       - name: Publish Forge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
@@ -41,8 +44,6 @@ jobs:
             forge
           game-versions: |
             ${{steps.split.outputs._1}}
-          dependencies: |
-            yacl(embedded)
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
