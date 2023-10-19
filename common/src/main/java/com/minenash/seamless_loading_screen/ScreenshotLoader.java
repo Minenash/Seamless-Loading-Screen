@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.SharedConstants;
@@ -78,8 +78,8 @@ public class ScreenshotLoader {
             MinecraftClient.getInstance().getTextureManager().registerTexture(SCREENSHOT, image);
             imageRatio = image.getImage().getWidth() / (double) image.getImage().getHeight();
             loaded = true;
-            time = Config.get().time;
-            timeDelta = 1F / Config.get().fade;
+            time = SeamlessLoadingScreenConfig.get().time;
+            timeDelta = 1F / SeamlessLoadingScreenConfig.get().fade;
             replacebg = true;
         } catch (FileNotFoundException ignore) {
         } catch (IOException e) {
@@ -111,18 +111,18 @@ public class ScreenshotLoader {
     public static void renderAfterEffects(Screen screen, DrawContext context, float fadeValue) {
         renderTint(screen, context, fadeValue);
 
-        if (Config.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
-            renderBlur(screen, context, Config.get().screenshotBlurStrength * fadeValue, Config.get().screenshotBlurQuality);
+        if (SeamlessLoadingScreenConfig.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
+            renderBlur(screen, context, SeamlessLoadingScreenConfig.get().screenshotBlurStrength * fadeValue, SeamlessLoadingScreenConfig.get().screenshotBlurQuality);
         }
     }
 
     public static void renderTint(Screen screen, DrawContext context, float fadeValue) {
-        Color color = Config.get().tintColor;
+        Color color = SeamlessLoadingScreenConfig.get().tintColor;
 
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
-        int alpha = Math.round(255 * (Config.get().tintStrength * fadeValue));
+        int alpha = Math.round(255 * (SeamlessLoadingScreenConfig.get().tintStrength * fadeValue));
 
         int argb_color = getArgb(alpha, red, green, blue);
 

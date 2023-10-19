@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class SeamlessLoadingScreen {
     public static ScreenshotLoader.BlurHelper BLUR_PROGRAM = new ScreenshotLoader.BlurHelper();
 
     public static void onInitializeClient() {
-        Config.load();
+        SeamlessLoadingScreenConfig.load();
 
         try {
             Path path = PlatformFunctions.getGameDir().resolve("screenshots/worlds");
@@ -34,6 +34,6 @@ public class SeamlessLoadingScreen {
     }
 
     public static void openSettingsScreen(MinecraftClient client) {
-        client.setScreen(Config.getInstance().generateScreen(client.currentScreen));
+        client.setScreen(SeamlessLoadingScreenConfig.getInstance().generateScreen(client.currentScreen));
     }
 }

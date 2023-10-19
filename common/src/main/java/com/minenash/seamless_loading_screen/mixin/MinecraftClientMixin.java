@@ -4,7 +4,7 @@ import com.minenash.seamless_loading_screen.FadeScreen;
 import com.minenash.seamless_loading_screen.OnLeaveHelper;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -66,7 +66,7 @@ public abstract class MinecraftClientMixin {
             if (screen == null) {
                 this.seamless_loading_screen$terrainScreenReplaced = true;
 
-                return new FadeScreen(Config.get().time, Config.get().fade).then((forced) -> {
+                return new FadeScreen(SeamlessLoadingScreenConfig.get().time, SeamlessLoadingScreenConfig.get().fade).then((forced) -> {
                     if (!forced) setScreen(null);
                     ScreenshotLoader.inFade = false;
                 });

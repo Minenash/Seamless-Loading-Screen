@@ -1,37 +1,41 @@
 package com.minenash.seamless_loading_screen.config;
 
-import com.google.gson.GsonBuilder;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.ConfigEntry;
-import dev.isxander.yacl3.config.GsonConfigInstance;
+import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.List;
 
-public class Config {
-    @ConfigEntry
-    public int fade = 20;
+public class SeamlessLoadingScreenConfig {
     private static final SafeColorTypeAdapter colorAdapter = new SafeColorTypeAdapter(() -> getDefaults().tintColor);
-    @ConfigEntry
-    public int time = 80;
-    private static final GsonConfigInstance<Config> GSON = GsonConfigInstance.createBuilder(Config.class)
-            .overrideGsonBuilder(
-                    new GsonBuilder()
-                            .setPrettyPrinting()
+    private static final ConfigClassHandler<SeamlessLoadingScreenConfig> CONFIG_CLASS_HANDLER = ConfigClassHandler
+            .createBuilder(SeamlessLoadingScreenConfig.class)
+            .id(new Identifier("seamless_loading_screen", "config"))
+            .serializer(config -> GsonConfigSerializerBuilder.create(config)
+                    .appendGsonBuilder(builder -> builder.setPrettyPrinting()
                             .disableHtmlEscaping()
                             .serializeNulls()
                             .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
                             .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
-                            .registerTypeHierarchyAdapter(Color.class, colorAdapter)
+                            .registerTypeHierarchyAdapter(Color.class, colorAdapter))
+                    .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
+                    .build()
             )
-            .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
             .build();
 
+    //=====================
+    @ConfigEntry
+    public int fade = 20;
+    @ConfigEntry
+    public int time = 80;
     //=====================
     @ConfigEntry
     public Color tintColor = new Color(0x212121);
@@ -61,26 +65,27 @@ public class Config {
     public boolean updateWorldIcon = false;
     @ConfigEntry
     public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
+    //=====================
 
-    private static Config getDefaults() {
-        return GSON.getDefaults();
+    private static SeamlessLoadingScreenConfig getDefaults() {
+        return CONFIG_CLASS_HANDLER.defaults();
     }
 
-    public static Config get() {
-        return GSON.getConfig();
+    public static SeamlessLoadingScreenConfig get() {
+        return CONFIG_CLASS_HANDLER.instance();
     }
 
     //=====================
 
     public static void load() {
-        GSON.load();
+        CONFIG_CLASS_HANDLER.load();
 
         //Check if color is broken within config to save over such i.e tintColor
-        if (colorAdapter.errored()) GSON.save();
+        if (colorAdapter.errored()) CONFIG_CLASS_HANDLER.save();
     }
 
     public static void save() {
-        GSON.save();
+        CONFIG_CLASS_HANDLER.save();
     }
 
     private static Text getName(String id) {
@@ -92,7 +97,7 @@ public class Config {
     }
 
     public static YetAnotherConfigLib getInstance() {
-        return YetAnotherConfigLib.create(GSON,
+        return YetAnotherConfigLib.create(CONFIG_CLASS_HANDLER,
                 (defaults, config, builder) -> {
 
                     var timeOpt = Option.<Integer>createBuilder()
@@ -257,8 +262,6 @@ public class Config {
             height = height_in;
         }
     }
-
-
 
 
 }

@@ -2,7 +2,7 @@ package com.minenash.seamless_loading_screen.mixin.custom_screenshots;
 
 import com.minenash.seamless_loading_screen.DisplayMode;
 import com.minenash.seamless_loading_screen.ServerInfoExtension;
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,7 +42,7 @@ public class ServerInfoMixin implements ServerInfoExtension {
 
     @Override
     public DisplayMode getDisplayMode() {
-        for (String blacklistedAddress : Config.get().blacklistedAddresses) {
+        for (String blacklistedAddress : SeamlessLoadingScreenConfig.get().blacklistedAddresses) {
             if (this.address.contains(blacklistedAddress)) {
                 return DisplayMode.DISABLED;
             }

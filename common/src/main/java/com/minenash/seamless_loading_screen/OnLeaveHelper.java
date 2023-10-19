@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
@@ -59,8 +59,8 @@ public class OnLeaveHelper {
         old_FrameBufferWidth = window.getFramebufferWidth();
         old_FrameBufferHeight = window.getFramebufferHeight();
 
-        window.setFramebufferWidth(Config.get().resolution.width);
-        window.setFramebufferHeight(Config.get().resolution.height);
+        window.setFramebufferWidth(SeamlessLoadingScreenConfig.get().resolution.width);
+        window.setFramebufferHeight(SeamlessLoadingScreenConfig.get().resolution.height);
 
         client.onResolutionChanged();
     }
@@ -82,7 +82,7 @@ public class OnLeaveHelper {
 
             nativeImage.writeTo(new File(name));
 
-            if (Config.get().archiveScreenshots) {
+            if (SeamlessLoadingScreenConfig.get().archiveScreenshots) {
                 String fileName = "screenshots/worlds/archive/" + name.substring(name.lastIndexOf("/"), name.length() - 4) + "_" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".png";
 
                 File archiveFile = new File(fileName);
@@ -96,7 +96,7 @@ public class OnLeaveHelper {
             LOGGER.error(e.toString());
         }
 
-        if (Config.get().updateWorldIcon && client.isInSingleplayer())
+        if (SeamlessLoadingScreenConfig.get().updateWorldIcon && client.isInSingleplayer())
             updateIcon(client.getServer().getIconFile().get().toFile(), nativeImage);
 
         attemptScreenShot = false;

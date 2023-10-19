@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen;
 
-import com.minenash.seamless_loading_screen.config.Config;
+import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
@@ -49,15 +49,15 @@ public class FadeScreen extends Screen {
 
     @Override
     protected void init() {
-        if (Config.get().playSoundEffect) {
-            var id = Identifier.tryParse(Config.get().soundEffect);
+        if (SeamlessLoadingScreenConfig.get().playSoundEffect) {
+            var id = Identifier.tryParse(SeamlessLoadingScreenConfig.get().soundEffect);
 
             if (id != null) {
                 SoundEvent soundEvent = Registries.SOUND_EVENT.getOrEmpty(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
 
-                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, Config.get().soundPitch, Config.get().soundVolume));
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, SeamlessLoadingScreenConfig.get().soundPitch, SeamlessLoadingScreenConfig.get().soundVolume));
             } else {
-                LOGGER.error("[SeamlessLoadingScreen]: Unable to parse the above SoundEffect due to it not being a valid Identifier. [Value: {}]", Config.get().soundEffect);
+                LOGGER.error("[SeamlessLoadingScreen]: Unable to parse the above SoundEffect due to it not being a valid Identifier. [Value: {}]", SeamlessLoadingScreenConfig.get().soundEffect);
             }
         }
     }
