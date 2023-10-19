@@ -21,24 +21,27 @@ jobs:
           distribution: temurin
           cache: gradle
           java-version: 17
-      - run: chmod +x gradlew
-      - name: Build
-        run: ./gradlew build
       - name: Get Tag
         id: tag
         uses: christian-draeger/read-properties@1.1.1
         with:
-            path: './gradle.properties'
-            properties: 'mod_version'
+          path: './gradle.properties'
+          properties: 'mod_version'
       - uses: winterjung/split@v2
         id: split
         with:
           separator: "+"
           msg: ${{steps.tag.outputs.mod_version}}
+      - run: |
+          echo ${{steps.split.outputs._0}}
+          echo ${{steps.split.outputs._1}}
+      - run: chmod +x gradlew
+      - name: Build
+        run: ./gradlew build
       - name: Publish Forge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          name: "[Forge] Seamless Loading Screen ${{steps.tag.outputs._0}}"
+          name: "[Forge] Seamless Loading Screen ${{steps.split.outputs._0}}"
           files: forge/build/libs/!(*-@(dev\|sources\|javadoc)).jar
           loaders: |
             forge
