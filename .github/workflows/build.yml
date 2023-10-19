@@ -12,14 +12,10 @@ jobs:
       matrix:
         distribution: [
           temurin,
-          zulu
         ]
-        # Use these Java versions
         java: [
-          17  # Minimum supported by Minecraft
         ]
-        # and run on both Linux and Windows
-        os: [ ubuntu-20.04, windows-latest ]
+        os: [ ubuntu-20.04 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
