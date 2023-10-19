@@ -30,7 +30,7 @@ jobs:
         with:
             path: './gradle.properties'
             properties: 'mod_version'
-      - uses: jungwinter/split@v2
+      - uses: winterjung/split@v2
         id: split
         with:
           separator: "+"
@@ -38,7 +38,7 @@ jobs:
       - name: Publish Forge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          name: "[Forge] Seamless Loading Screen ${{steps.tag.outputs.tag}}"
+          name: "[Forge] Seamless Loading Screen ${{steps.tag.outputs._0}}"
           files: forge/build/libs/!(*-@(dev\|sources\|javadoc)).jar
           loaders: |
             forge
@@ -52,7 +52,7 @@ jobs:
       - name: Publish Fabric
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          name: "[Fabric] Seamless Loading Screen ${{steps.tag.outputs.tag}}"
+          name: "[Fabric] Seamless Loading Screen ${{steps.split.outputs._0}}"
           files: fabric/build/libs/!(*-@(dev\|sources\|javadoc)).jar
           loaders: |
             fabric
