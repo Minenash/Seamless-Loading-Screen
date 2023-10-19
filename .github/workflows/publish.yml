@@ -43,10 +43,6 @@ jobs:
         with:
           name: "[Forge] Seamless Loading Screen ${{steps.split.outputs._0}}"
           files: forge/build/libs/!(*-@(dev\|sources\|javadoc)).jar
-          loaders: |
-            forge
-          game-versions: |
-            ${{steps.split.outputs._1}}
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
@@ -57,10 +53,6 @@ jobs:
         with:
           name: "[Fabric] Seamless Loading Screen ${{steps.split.outputs._0}}"
           files: fabric/build/libs/!(*-@(dev\|sources\|javadoc)).jar
-          loaders: |
-            fabric
-          game-versions: |
-            ${{steps.split.outputs._1}}
           modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: ${{ vars.CURSEFORGE_ID }}
