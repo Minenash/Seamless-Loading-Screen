@@ -56,13 +56,17 @@ public class OnLeaveHelper {
         client.inGameHud.getDebugHud().renderingAndTickChartsVisible = false;
         client.inGameHud.getDebugHud().renderingChartVisible = false;
 
+        var resolution = SeamlessLoadingScreenConfig.get().resolution;
+
+        if(resolution == SeamlessLoadingScreenConfig.ScreenshotResolution.Native) return;
+
         var window = MinecraftClient.getInstance().getWindow();
 
         old_FrameBufferWidth = window.getFramebufferWidth();
         old_FrameBufferHeight = window.getFramebufferHeight();
 
-        window.setFramebufferWidth(SeamlessLoadingScreenConfig.get().resolution.width);
-        window.setFramebufferHeight(SeamlessLoadingScreenConfig.get().resolution.height);
+        window.setFramebufferWidth(resolution.width);
+        window.setFramebufferHeight(resolution.height);
 
         client.onResolutionChanged();
     }
@@ -113,12 +117,16 @@ public class OnLeaveHelper {
 
         //--
 
-        var window = MinecraftClient.getInstance().getWindow();
+        var resolution = SeamlessLoadingScreenConfig.get().resolution;
 
-        window.setFramebufferWidth(old_FrameBufferWidth);
-        window.setFramebufferHeight(old_FrameBufferHeight);
+        if(resolution != SeamlessLoadingScreenConfig.ScreenshotResolution.Native) {
+            var window = MinecraftClient.getInstance().getWindow();
 
-        client.onResolutionChanged();
+            window.setFramebufferWidth(old_FrameBufferWidth);
+            window.setFramebufferHeight(old_FrameBufferHeight);
+
+            client.onResolutionChanged();
+        }
 
         //--
 

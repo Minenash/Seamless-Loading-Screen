@@ -6,6 +6,7 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.ConfigEntry;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
@@ -33,42 +34,42 @@ public class SeamlessLoadingScreenConfig {
             .build();
 
     //=====================
-    @ConfigEntry
+    @SerialEntry
     public int fade = 20;
-    @ConfigEntry
+    @SerialEntry
     public int time = 80;
     //=====================
-    @ConfigEntry
+    @SerialEntry
     public Color tintColor = new Color(0x212121);
-    @ConfigEntry
+    @SerialEntry
     public float tintStrength = 0.3f;
-    @ConfigEntry
+    @SerialEntry
     public boolean enableScreenshotBlur = false;
-    @ConfigEntry
+    @SerialEntry
     public float screenshotBlurStrength = 1f; //min = 1f, max = 16f
-    @ConfigEntry
+    @SerialEntry
     public float screenshotBlurQuality = 5f; //min = 1f, max = 16f
-    @ConfigEntry
+    @SerialEntry
     public boolean playSoundEffect = false;
-    @ConfigEntry
+    @SerialEntry
     public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
-    @ConfigEntry
+    @SerialEntry
     public float soundPitch = 1f; //min = 0f, max = 10f
-    @ConfigEntry
+    @SerialEntry
     public float soundVolume = 1f; //min = 0f, max = 10f
-    @ConfigEntry
+    @SerialEntry
     public ScreenshotResolution resolution = ScreenshotResolution.Normal;
-    @ConfigEntry
+    @SerialEntry
     public boolean disableCamera = true;
-    @ConfigEntry
+    @SerialEntry
     public boolean archiveScreenshots = false;
-    @ConfigEntry
+    @SerialEntry
     public boolean updateWorldIcon = false;
-    @ConfigEntry
+    @SerialEntry
     public List<String> blacklistedAddresses = List.of("play.wynncraft.com");
-    @ConfigEntry
+    @SerialEntry
     public boolean saveScreenshotsByUsername = false;
-    @ConfigEntry
+    @SerialEntry
     public DisplayMode defaultServerMode = DisplayMode.DISABLED;
     //=====================
 
