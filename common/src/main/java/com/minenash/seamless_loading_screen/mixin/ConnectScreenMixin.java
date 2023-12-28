@@ -3,7 +3,7 @@ package com.minenash.seamless_loading_screen.mixin;
 import com.minenash.seamless_loading_screen.ScreenshotLoader;
 import com.minenash.seamless_loading_screen.ServerInfoExtension;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConnectScreen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import org.spongepowered.asm.mixin.Mixin;

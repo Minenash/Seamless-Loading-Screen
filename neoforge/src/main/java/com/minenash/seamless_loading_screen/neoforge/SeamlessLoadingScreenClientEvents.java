@@ -2,12 +2,12 @@ package com.minenash.seamless_loading_screen.neoforge;
 
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.ConfigScreenHandler;
 
 @Mod.EventBusSubscriber(modid = SeamlessLoadingScreen.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class SeamlessLoadingScreenClientEvents {

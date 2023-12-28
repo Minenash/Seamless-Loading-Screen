@@ -1,8 +1,8 @@
 package com.minenash.seamless_loading_screen.neoforge;
 
 import com.minenash.seamless_loading_screen.PlatformFunctions;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 

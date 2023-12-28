@@ -2,20 +2,24 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+repositories {
+    maven { url = 'https://maven.neoforged.net/releases/' }
+}
+
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-
-        mixinConfig "seamless_loading_screen-common.mixins.json"
-        mixinConfig "seamless_loading_screen-forge.mixins.json"
+    neoForge {
+//        convertAccessWideners = true
+//        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+//
+//        mixinConfig "seamless_loading_screen-common.mixins.json"
+//        mixinConfig "seamless_loading_screen-neoForge.mixins.json"
     }
 }
 
@@ -24,21 +28,23 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     //modLocalRuntime ("maven.modrinth:fastload:mc1.20.1-3.4.0")
     //modLocalRuntime ("maven.modrinth:rubidium:0.7.0a")
     //modCompileOnly ("maven.modrinth:rubidium:0.7.0a")
 
-    modImplementation "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"
-    //include "dev.isxander.yacl:yet-another-config-lib-forge:${rootProject.yacl_version}"
+    modImplementation("dev.isxander.yacl:yet-another-config-lib-neoforge:${rootProject.yacl_version}"){
+        transitive = false
+    }
+    //include "dev.isxander.yacl:yet-another-config-lib-neoforge:${rootProject.yacl_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 }
 
 processResources {
@@ -60,7 +66,9 @@ shadowJar {
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier.set "forge"
+    archiveClassifier.set "neoforge"
+
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)//atAccessWideners.add('my_mod.accesswidener')
 }
 
 jar {

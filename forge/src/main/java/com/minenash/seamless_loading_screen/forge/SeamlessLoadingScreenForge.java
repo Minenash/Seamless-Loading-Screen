@@ -1,4 +1,4 @@
-package com.minenash.seamless_loading_screen.forge;
+package com.minenash.seamless_loading_screen.neoforge;
 
 import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.minecraftforge.api.distmarker.Dist;

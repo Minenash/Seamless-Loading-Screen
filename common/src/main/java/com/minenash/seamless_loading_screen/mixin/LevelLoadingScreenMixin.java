@@ -1,6 +1,6 @@
 package com.minenash.seamless_loading_screen.mixin;
 
-import net.minecraft.client.gui.screen.LevelLoadingScreen;
+import net.minecraft.client.gui.screen.world.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

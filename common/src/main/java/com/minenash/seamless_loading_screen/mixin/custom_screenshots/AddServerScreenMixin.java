@@ -1,7 +1,7 @@
 package com.minenash.seamless_loading_screen.mixin.custom_screenshots;
 
 import com.minenash.seamless_loading_screen.ServerInfoExtension;
-import net.minecraft.client.gui.screen.AddServerScreen;
+import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerInfo;

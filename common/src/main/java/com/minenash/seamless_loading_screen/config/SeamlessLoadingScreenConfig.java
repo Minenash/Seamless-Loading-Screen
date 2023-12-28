@@ -25,8 +25,6 @@ public class SeamlessLoadingScreenConfig {
                     .appendGsonBuilder(builder -> builder.setPrettyPrinting()
                             .disableHtmlEscaping()
                             .serializeNulls()
-                            .registerTypeHierarchyAdapter(Text.class, new Text.Serializer())
-                            .registerTypeHierarchyAdapter(Style.class, new Style.Serializer())
                             .registerTypeHierarchyAdapter(Color.class, colorAdapter))
                     .setPath(PlatformFunctions.getConfigDirectory().resolve("seamless_loading_screen.json"))
                     .build()
