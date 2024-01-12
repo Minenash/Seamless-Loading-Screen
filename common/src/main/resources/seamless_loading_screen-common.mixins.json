@@ -20,7 +20,8 @@
     "custom_screenshots.AddServerScreenMixin",
     "custom_screenshots.MultiplayerScreenMixin",
     "custom_screenshots.ServerInfoMixin",
-    "realm.RealmsMainScreenMixin"
+    "realm.RealmsMainScreenMixin",
+    "DebugHudAccesor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -15,8 +15,10 @@ public class SeamlessLoadingScreenClientEvents {
     @SubscribeEvent
     public static void onPostInit(FMLClientSetupEvent event) {
         ModList.get().getModContainerById(SeamlessLoadingScreen.MODID).ifPresent(modContainer -> {
-            modContainer.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                    new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> SeamlessLoadingScreenConfig.getInstance().generateScreen(parent)));
+            modContainer.registerExtensionPoint(
+                    ConfigScreenHandler.ConfigScreenFactory.class,
+                    () -> new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> SeamlessLoadingScreenConfig.getInstance().generateScreen(parent))
+            );
         });
     }
 }

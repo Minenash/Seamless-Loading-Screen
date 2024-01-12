@@ -1,6 +1,7 @@
 package com.minenash.seamless_loading_screen;
 
 import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
+import com.minenash.seamless_loading_screen.mixin.DebugHudAccesor;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.Perspective;
@@ -51,10 +52,12 @@ public class OnLeaveHelper {
         //Change First Person before screenshot
         client.options.setPerspective(Perspective.FIRST_PERSON);
 
+        var debugHudAccess = (DebugHudAccesor) client.inGameHud.getDebugHud();
+
         //Disable F3 menu due to profiler crashing
-        client.inGameHud.getDebugHud().showDebugHud = false;
-        client.inGameHud.getDebugHud().renderingAndTickChartsVisible = false;
-        client.inGameHud.getDebugHud().renderingChartVisible = false;
+        debugHudAccess.seamless$showDebugHud(false);
+        debugHudAccess.seamless$renderingAndTickChartsVisible(false);
+        debugHudAccess.seamless$renderingChartVisible(false);
 
         var resolution = SeamlessLoadingScreenConfig.get().resolution;
 

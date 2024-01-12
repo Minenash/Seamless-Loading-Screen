@@ -17,6 +17,9 @@ config = 'seamless_loading_screen-common.mixins.json'
 [[mixins]]
 config = 'seamless_loading_screen-neoForge.mixins.json'
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [mods."sodium:options"]
 "mixin.features.gui.fast_loading_screen" = false
 "features.gui.screen" = false
