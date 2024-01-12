@@ -39,9 +39,9 @@ jobs:
         with:
           name: Artifacts-Fabric
           path: fabric/build/libs/
-      - name: capture forge build artifacts
+      - name: capture neoforge build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
         uses: actions/upload-artifact@v2
         with:
-          name: Artifacts-Forge
-          path: forge/build/libs/
+          name: Artifacts-NeoForge
+          path: neoforge/build/libs/
