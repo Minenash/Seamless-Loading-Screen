@@ -1,5 +1,6 @@
 {
   "seamless_loading_screen.screen.loading_chunks": "Generating Chunks",
+  "seamless_loading_screen.screen.loading_lods": "Loading LODs",
   "seamless_loading_screen.config.title": "Seamless Loading Screen Options",
   "seamless_loading_screen.config.display": "Display Options",
   "seamless_loading_screen.config.display.description": "Options relating to how screenshots are rendered during the loading screen.",
@@ -50,5 +51,7 @@
   "seamless_loading_screen.config.blacklistedAddresses": "Blacklisted Servers",
   "seamless_loading_screen.config.blacklistedAddresses.description": "List of server addresses that Seamless Loading Screen will disable itself for when connecting to the config.",
   "seamless_loading_screen.config.saveScreenshotsByUser": "Save Screenshots By User",
-  "seamless_loading_screen.config.saveScreenshotsByUser.description": "Will attempt to use the username (if valid) to save the screenshots to prevent multi-user issues"
+  "seamless_loading_screen.config.saveScreenshotsByUser.description": "Will attempt to use the username (if valid) to save the screenshots to prevent multi-user issues",
+  "seamless_loading_screen.config.distantHorizonsCompat": "Distant Horizons Compatibility",
+  "seamless_loading_screen.config.distantHorizonsCompat.description": "Adds an extra loading screen that waits for LOD loading to complete."
 }

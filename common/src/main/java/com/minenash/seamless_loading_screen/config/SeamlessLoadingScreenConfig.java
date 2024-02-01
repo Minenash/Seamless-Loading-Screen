@@ -4,12 +4,10 @@ import com.minenash.seamless_loading_screen.DisplayMode;
 import com.minenash.seamless_loading_screen.PlatformFunctions;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
-import dev.isxander.yacl3.config.ConfigEntry;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -69,6 +67,8 @@ public class SeamlessLoadingScreenConfig {
     public boolean saveScreenshotsByUsername = false;
     @SerialEntry
     public DisplayMode defaultServerMode = DisplayMode.DISABLED;
+    @SerialEntry
+    public boolean distantHorizonsCompat = false;
     //=====================
 
     private static SeamlessLoadingScreenConfig getDefaults() {
@@ -251,12 +251,19 @@ public class SeamlessLoadingScreenConfig {
                             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
                             .build();
 
+                    var distantHorizonsCompatOpt = Option.<Boolean>createBuilder()
+                            .name(getName("distantHorizonsCompat"))
+                            .description(OptionDescription.createBuilder().text(getDesc("distantHorizonsCompat")).build())
+                            .binding(defaults.distantHorizonsCompat, () -> config.distantHorizonsCompat, (val) -> config.distantHorizonsCompat = val)
+                            .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
+                            .build();
+
                     return builder
                             .title(getName("title"))
                             .category(ConfigCategory.createBuilder()
                                     .name(getName("display"))
                                     .tooltip(getDesc("display"))
-                                    .options(List.of(timeOpt, fadeOpt, disableCameraOpt))
+                                    .options(List.of(timeOpt, fadeOpt, disableCameraOpt, distantHorizonsCompatOpt))
                                     .group(OptionGroup.createBuilder().name(getName("soundEffects"))
                                             .options(List.of(playSoundEffectOpt, soundOpt, soundVolumeOpt, soundPitchOpt)).build())
                                     .group(OptionGroup.createBuilder().name(getName("screenshotBlur"))
