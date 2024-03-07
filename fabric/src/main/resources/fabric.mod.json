@@ -23,8 +23,7 @@
     ]
   },
   "mixins": [
-    "seamless_loading_screen-common.mixins.json",
-    "seamless_loading_screen-fabric.mixins.json"
+    "seamless_loading_screen-common.mixins.json"
   ],
   "custom": {
     "sodium:options": {
