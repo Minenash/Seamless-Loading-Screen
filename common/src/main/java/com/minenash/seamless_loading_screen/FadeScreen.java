@@ -4,6 +4,7 @@ import com.minenash.seamless_loading_screen.config.SeamlessLoadingScreenConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
@@ -53,7 +54,7 @@ public class FadeScreen extends Screen {
             var id = Identifier.tryParse(SeamlessLoadingScreenConfig.get().soundEffect);
 
             if (id != null) {
-                SoundEvent soundEvent = Registries.SOUND_EVENT.getOrEmpty(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
+                SoundEvent soundEvent = Registries.SOUND_EVENT.getOptionalValue(id).orElse(SoundEvents.ENTITY_ENDER_DRAGON_GROWL);
 
                 MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(soundEvent, SeamlessLoadingScreenConfig.get().soundPitch, SeamlessLoadingScreenConfig.get().soundVolume));
             } else {
@@ -96,7 +97,7 @@ public class FadeScreen extends Screen {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
         if (ScreenshotLoader.loaded) {
             RenderSystem.setShaderTexture(0, ScreenshotLoader.SCREENSHOT);
             int w = (int) (ScreenshotLoader.imageRatio * height);

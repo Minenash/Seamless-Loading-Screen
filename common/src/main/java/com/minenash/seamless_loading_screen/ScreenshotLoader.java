@@ -5,10 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.gl.GlUniform;
-import net.minecraft.client.gl.ShaderProgram;
-import net.minecraft.client.gl.SimpleFramebuffer;
+import net.minecraft.client.gl.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
@@ -26,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Pattern;
+
+import static net.minecraft.client.render.DefaultFramebufferSet.MAIN_ONLY;
 
 public class ScreenshotLoader {
 
@@ -123,7 +122,7 @@ public class ScreenshotLoader {
         RenderSystem.enableBlend();
 
         int w = (int) (imageRatio * screen.height);
-        context.drawTexture(SCREENSHOT, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
+        context.drawTexture(RenderLayer::getGuiTextured, SCREENSHOT, screen.width / 2 - w / 2, 0, 0.0F, 0.0F, w, screen.height, w, screen.height);
 
         renderAfterEffects(screen, context, 1f);
         RenderSystem.disableBlend();
@@ -132,8 +131,8 @@ public class ScreenshotLoader {
     public static void renderAfterEffects(Screen screen, DrawContext context, float fadeValue) {
         renderTint(screen, context, fadeValue);
 
-        if (SeamlessLoadingScreenConfig.get().enableScreenshotBlur && SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
-            renderBlur(screen, context, SeamlessLoadingScreenConfig.get().screenshotBlurStrength * fadeValue, SeamlessLoadingScreenConfig.get().screenshotBlurQuality);
+        if (SeamlessLoadingScreenConfig.get().enableScreenshotBlur) {
+            renderBlur(SeamlessLoadingScreenConfig.get().screenshotBlurQuality);
         }
     }
 
@@ -156,80 +155,12 @@ public class ScreenshotLoader {
 
     //-----
 
-    public static void renderBlur(Screen screen, DrawContext context, float size, float quality) {
-        Tessellator tessellator = Tessellator.getInstance();
-        var matrix = context.getMatrices().peek().getPositionMatrix();
-
-        BufferBuilder builder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-        builder.vertex(matrix, 0, 0, 0);
-        builder.vertex(matrix, 0, screen.height, 0);
-        builder.vertex(matrix, screen.width, screen.height, 0);
-        builder.vertex(matrix, screen.width, 0, 0);
-
-        SeamlessLoadingScreen.BLUR_PROGRAM.setParameters(16, quality, size);
-        SeamlessLoadingScreen.BLUR_PROGRAM.use();
-
-        BufferRenderer.drawWithGlobalProgram(builder.end());
-    }
-
-    /**
-     * Credit to glisco for <a href="https://github.com/wisp-forest/owo-lib/blob/1.20/src/main/java/io/wispforest/owo/shader/BlurProgram.java">BlurProgram</a>
-     * <p>
-     * Altered for use with Multi loader
-     */
-    public static class BlurHelper {
-        public boolean loaded = false;
-        private GlUniform inputResolution;
-        private GlUniform directions;
-        private GlUniform quality;
-        private GlUniform size;
-        private Framebuffer input;
-        private ShaderProgram backingProgram;
-
-        public void onWindowResize(MinecraftClient client, Window window) {
-            if (this.input == null) return;
-            this.input.resize(window.getFramebufferWidth(), window.getFramebufferHeight(), MinecraftClient.IS_SYSTEM_MAC);
-        }
-
-        public void load(ShaderProgram backingProgram) {
-            this.backingProgram = backingProgram;
-            this.setup();
-
-            this.loaded = true;
-        }
-
-        public void setParameters(int directions, float quality, float size) {
-            this.directions.set((float) directions);
-            this.size.set(size);
-            this.quality.set(quality);
-        }
-
-        public void use() {
-            Framebuffer buffer = MinecraftClient.getInstance().getFramebuffer();
-
-            this.input.beginWrite(false);
-            GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, buffer.fbo);
-            GL30.glBlitFramebuffer(0, 0, buffer.textureWidth, buffer.textureHeight, 0, 0, buffer.textureWidth, buffer.textureHeight, GL30.GL_COLOR_BUFFER_BIT, GL30.GL_LINEAR);
-            buffer.beginWrite(false);
-
-            this.inputResolution.set((float) buffer.textureWidth, (float) buffer.textureHeight);
-            this.backingProgram.addSampler("InputSampler", this.input.getColorAttachment());
-
-            RenderSystem.setShader(() -> this.backingProgram);
-        }
-
-        protected void setup() {
-            this.inputResolution = this.findUniform("InputResolution");
-            this.directions = this.findUniform("Directions");
-            this.quality = this.findUniform("Quality");
-            this.size = this.findUniform("Size");
-
-            Window window = MinecraftClient.getInstance().getWindow();
-            this.input = new SimpleFramebuffer(window.getFramebufferWidth(), window.getFramebufferHeight(), false, MinecraftClient.IS_SYSTEM_MAC);
-        }
-
-        private GlUniform findUniform(String key) {
-            return backingProgram.getUniform(key);
+    public static void renderBlur(float quality) {
+        var client = MinecraftClient.getInstance();
+        PostEffectProcessor postEffectProcessor = client.getShaderLoader().loadPostEffect(Identifier.ofVanilla("blur"), MAIN_ONLY);
+        if (postEffectProcessor != null) {
+            postEffectProcessor.setUniforms("Radius", quality);
+            postEffectProcessor.render(client.getFramebuffer(), client.gameRenderer.pool);
         }
     }
 }

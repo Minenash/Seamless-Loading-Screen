@@ -4,7 +4,7 @@ import com.minenash.seamless_loading_screen.SeamlessLoadingScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback;
+//import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.InputUtil;
@@ -25,11 +25,5 @@ public class SeamlessLoadingScreenFabric implements ClientModInitializer {
         });
 
         SeamlessLoadingScreen.onInitializeClient();
-
-        CoreShaderRegistrationCallback.EVENT.register(context -> {
-            context.register(Identifier.of(SeamlessLoadingScreen.MODID, "blur"), VertexFormats.POSITION, shaderProgram -> {
-                SeamlessLoadingScreen.BLUR_PROGRAM.load(shaderProgram);
-            });
-        });
     }
 }

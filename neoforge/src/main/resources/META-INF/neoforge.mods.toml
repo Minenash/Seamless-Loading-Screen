@@ -41,6 +41,6 @@ side = "BOTH"
 [[dependencies.seamless_loading_screen]]
 modId = "minecraft"
 required = true
-versionRange = "[1.21,)"
+versionRange = "[1.21.2,)"
 ordering = "NONE"
 side = "BOTH"

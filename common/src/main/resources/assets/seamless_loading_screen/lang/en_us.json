@@ -23,8 +23,6 @@
   "seamless_loading_screen.config.soundPitch": "Sound Pitch",
   "seamless_loading_screen.config.soundVolume": "Sound Volume",
   "seamless_loading_screen.config.screenshotBlur": "Screenshot Blur",
-  "seamless_loading_screen.config.screenshotBlurStrength": "Background Blur Strength",
-  "seamless_loading_screen.config.screenshotBlurStrength.description": "How strong should the blur effect be? A higher strength means the screenshot will be less recognizable.",
   "seamless_loading_screen.config.screenshotBlurQuality": "Background Blur Quality",
   "seamless_loading_screen.config.screenshotBlurQuality.description": "What level of quality should the blur be? A lower quality causes more recognizable blur patterns but is more peformance friendly.",
   "seamless_loading_screen.config.enableScreenshotBlur": "Enable Background Blur",

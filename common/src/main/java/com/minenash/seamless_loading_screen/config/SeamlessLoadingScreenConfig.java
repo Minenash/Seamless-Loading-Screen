@@ -44,13 +44,11 @@ public class SeamlessLoadingScreenConfig {
     @SerialEntry
     public boolean enableScreenshotBlur = false;
     @SerialEntry
-    public float screenshotBlurStrength = 1f; //min = 1f, max = 16f
-    @SerialEntry
     public float screenshotBlurQuality = 5f; //min = 1f, max = 16f
     @SerialEntry
     public boolean playSoundEffect = false;
     @SerialEntry
-    public String soundEffect = SoundEvents.UI_TOAST_OUT.getId().toString();
+    public String soundEffect = SoundEvents.UI_TOAST_OUT.id().toString();
     @SerialEntry
     public float soundPitch = 1f; //min = 0f, max = 10f
     @SerialEntry
@@ -174,13 +172,6 @@ public class SeamlessLoadingScreenConfig {
                             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
                             .build();
 
-                    var screenshotBlurStrengthOpt = Option.<Float>createBuilder()
-                            .name(getName("screenshotBlurStrength"))
-                            .description(OptionDescription.createBuilder().text(getDesc("screenshotBlurStrength")).build())
-                            .binding(defaults.screenshotBlurStrength, () -> config.screenshotBlurStrength, (val) -> config.screenshotBlurStrength = val)
-                            .controller(opt -> FloatSliderControllerBuilder.create(opt).range(1f, 16f).step(0.1f))
-                            .build();
-
                     var screenshotBlurQualityOpt = Option.<Float>createBuilder()
                             .name(getName("screenshotBlurQuality"))
                             .description(OptionDescription.createBuilder().text(getDesc("screenshotBlurQuality")).build())
@@ -194,7 +185,6 @@ public class SeamlessLoadingScreenConfig {
                             .binding(defaults.enableScreenshotBlur, () -> config.enableScreenshotBlur, (val) -> config.enableScreenshotBlur = val)
                             .listener((opt, val) -> {
                                 screenshotBlurQualityOpt.setAvailable(val);
-                                screenshotBlurStrengthOpt.setAvailable(val);
                             })
                             .controller(opt -> BooleanControllerBuilder.create(opt).yesNoFormatter())
                             .build();
@@ -260,7 +250,7 @@ public class SeamlessLoadingScreenConfig {
                                     .group(OptionGroup.createBuilder().name(getName("soundEffects"))
                                             .options(List.of(playSoundEffectOpt, soundOpt, soundVolumeOpt, soundPitchOpt)).build())
                                     .group(OptionGroup.createBuilder().name(getName("screenshotBlur"))
-                                            .options(List.of(enableScreenshotBlurOpt, screenshotBlurQualityOpt, screenshotBlurStrengthOpt)).build())
+                                            .options(List.of(enableScreenshotBlurOpt, screenshotBlurQualityOpt)).build())
                                     .group(OptionGroup.createBuilder().name(getName("tint"))
                                             .options(List.of(tintColorOpt, tintStrengthOpt)).build())
                                     .build())
