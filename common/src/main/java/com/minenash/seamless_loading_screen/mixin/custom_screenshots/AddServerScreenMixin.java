@@ -60,11 +60,11 @@ public abstract class AddServerScreenMixin extends Screen {
 
     @Unique
     private Text getText() {
-        return (Text.translatable("seamless_loading_screen.server.displayMode"))
+        return (Text.translatable("seamless_loading_screen.config.serverDisplayMode"))
                 .append(": ")
                 .append(Text.translatable(
                         "seamless_loading_screen.config.displayMode."
-                                + (((ServerInfoExtension) server).getDisplayMode().toString())));
+                                + (((ServerInfoExtension) server).getDisplayMode().toString().toLowerCase())));
     }
 
 }

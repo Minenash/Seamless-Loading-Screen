@@ -130,7 +130,8 @@ public class SeamlessLoadingScreenConfig {
                             .name(getName("serverDisplayMode"))
                             .description(OptionDescription.createBuilder().text(getDesc("serverDisplayMode")).build())
                             .binding(defaults.defaultServerMode, () -> config.defaultServerMode, (val) -> config.defaultServerMode = val)
-                            .controller(opt -> EnumControllerBuilder.create(opt)
+                            .controller(opt ->
+                                    EnumControllerBuilder.create(opt)
                                     .enumClass(DisplayMode.class)
                                     .valueFormatter(val -> Text.translatable("seamless_loading_screen.config.displayMode." + val.name().toLowerCase()))
                             ).build();
