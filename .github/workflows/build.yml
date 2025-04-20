@@ -36,7 +36,7 @@ jobs:
           name: Artifacts-Fabric
           path: fabric/build/libs/
       - name: capture neoforge build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts-NeoForge
           path: neoforge/build/libs/
