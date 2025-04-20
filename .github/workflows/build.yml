@@ -10,12 +10,8 @@ jobs:
   build:
     strategy:
       matrix:
-        distribution: [
-          temurin,
-        ]
-        java: [
-            21
-        ]
+        distribution: [ temurin, ]
+        java: [ 21 ]
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -34,13 +30,12 @@ jobs:
       - name: build
         run: ./gradlew build
       - name: capture fabric build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
-        uses: actions/upload-artifact@v3
+        if: ${{ runner.os == 'Linux' && matrix.java == '21' }} # Only upload artifacts built from LTS java on one OS
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts-Fabric
           path: fabric/build/libs/
       - name: capture neoforge build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts-NeoForge
