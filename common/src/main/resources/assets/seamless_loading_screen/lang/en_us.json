@@ -50,5 +50,6 @@
   "seamless_loading_screen.config.blacklistedAddresses": "Blacklisted Servers",
   "seamless_loading_screen.config.blacklistedAddresses.description": "List of server addresses that Seamless Loading Screen will disable itself for when connecting to the config.",
   "seamless_loading_screen.config.saveScreenshotsByUser": "Save Screenshots By User",
-  "seamless_loading_screen.config.saveScreenshotsByUser.description": "Will attempt to use the username (if valid) to save the screenshots to prevent multi-user issues"
+  "seamless_loading_screen.config.saveScreenshotsByUser.description": "Will attempt to use the username (if valid) to save the screenshots to prevent multi-user issues",
+  "seamless_loading_screen.keybind.config": "Seamless Loading Screen config"
 }
