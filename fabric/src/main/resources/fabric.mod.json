@@ -34,7 +34,7 @@
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
-    "minecraft": ">=1.21",
+    "minecraft": ">=1.21.2",
     "yet_another_config_lib_v3": "*"
   },
   "conflicts": {

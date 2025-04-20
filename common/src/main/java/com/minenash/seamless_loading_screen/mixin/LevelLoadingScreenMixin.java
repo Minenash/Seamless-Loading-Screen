@@ -14,7 +14,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         super(title);
     }
 
-    @ModifyArg(method = "method_51767", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"), index = 4)
+    @ModifyArg(method = "drawChunkMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"), index = 4)
     private static int changeBackgroundColor(int color) {
         return color == 0xFF000000 ? 0xAA000000 : color;
     }

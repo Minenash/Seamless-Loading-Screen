@@ -110,12 +110,4 @@ public abstract class MinecraftClientMixin {
 
         info.cancel();
     }
-
-    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
-    private void captureResize(CallbackInfo ci) {
-        if (SeamlessLoadingScreen.BLUR_PROGRAM.loaded) {
-            SeamlessLoadingScreen.BLUR_PROGRAM.onWindowResize((MinecraftClient) (Object) this, window);
-        }
-    }
-
 }

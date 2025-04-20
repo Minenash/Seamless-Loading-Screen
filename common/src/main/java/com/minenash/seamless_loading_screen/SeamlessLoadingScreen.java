@@ -17,7 +17,6 @@ public class SeamlessLoadingScreen {
 
     public static boolean changeWorldJoinScreen = false;
 
-    public static ScreenshotLoader.BlurHelper BLUR_PROGRAM = new ScreenshotLoader.BlurHelper();
 
     public static void onInitializeClient() {
         SeamlessLoadingScreenConfig.load();
